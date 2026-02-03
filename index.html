@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theoretical Works | sKiDa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --parchment: #f4f1e8;
+            --ink: #2a2520;
+            --accent: #8b6f47;
+            --gold: #c9a961;
+            --shadow: rgba(42, 37, 32, 0.1);
+            --glow: rgba(201, 169, 97, 0.15);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: linear-gradient(135deg, #f8f5ed 0%, var(--parchment) 100%);
+            color: var(--ink);
+            line-height: 1.8;
+            font-size: 18px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, var(--glow) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, var(--glow) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 40px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 80px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+        
+        .main-title {
+            font-family: 'Cinzel', serif;
+            font-size: 4em;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: var(--ink);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 4px var(--shadow);
+        }
+        
+        .subtitle {
+            font-size: 1.4em;
+            color: var(--accent);
+            font-style: italic;
+            letter-spacing: 0.02em;
+            margin-bottom: 20px;
+        }
+        
+        .author {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+            letter-spacing: 0.15em;
+            color: var(--gold);
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            display: inline-block;
+            padding: 10px 40px;
+        }
+        
+        .divider {
+            text-align: center;
+            margin: 60px 0;
+            color: var(--gold);
+            font-size: 1.5em;
+        }
+        
+        .intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 80px;
+            font-size: 1.2em;
+            color: var(--accent);
+            animation: fadeIn 1.5s ease-out 0.3s both;
+        }
+        
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .book-card {
+            background: rgba(255, 255, 255, 0.4);
+            border: 2px solid var(--accent);
+            border-radius: 4px;
+            padding: 40px;
+            box-shadow: 0 10px 40px var(--shadow);
+            transition: all 0.4s ease;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        
+        .book-card:nth-child(1) {
+            animation-delay: 0.4s;
+        }
+        
+        .book-card:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px var(--shadow);
+            border-color: var(--gold);
+        }
+        
+        .book-number {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9em;
+            color: var(--gold);
+            letter-spacing: 0.1em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+        
+        .book-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            color: var(--ink);
+            margin-bottom: 20px;
+            letter-spacing: 0.03em;
+        }
+        
+        .book-subtitle {
+            font-size: 1.1em;
+            color: var(--accent);
+            font-style: italic;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .book-description {
+            color: var(--ink);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        
+        .book-link {
+            display: inline-block;
+            font-family: 'Cinzel', serif;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: var(--parchment);
+            text-decoration: none;
+            border-radius: 2px;
+            letter-spacing: 0.05em;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px var(--shadow);
+        }
+        
+        .book-link:hover {
+            background: var(--gold);
+            color: var(--ink);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 100px;
+            padding: 40px 0;
+            color: var(--accent);
+            font-style: italic;
+            border-top: 1px solid rgba(139, 111, 71, 0.3);
+            animation: fadeIn 2s ease-out 1s both;
+        }
+        
+        footer p {
+            margin: 10px 0;
+        }
+        
+        @media (max-width: 900px) {
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .main-title {
+                font-size: 2.8em;
+            }
+            
+            .container {
+                padding: 60px 30px;
+            }
+            
+            .book-card {
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .main-title {
+                font-size: 2em;
+            }
+            
+            .subtitle {
+                font-size: 1.1em;
+            }
+            
+            .book-title {
+                font-size: 1.8em;
+            }
+            
+            .container {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="main-title">Theoretical Works</h1>
+            <p class="subtitle">Field Mechanics, Consciousness, and the Architecture of Coherence</p>
+            <p class="author">sKiDa</p>
+        </header>
+        
+        <div class="intro">
+            <p>A collection of interdisciplinary frameworks bridging physics, psychology, consciousness studies, and ancient wisdom. These works explore the fundamental structures underlying reality, trauma, healing, and human experience through the lens of field theory and resonance.</p>
+        </div>
+        
+        <div class="divider">✦</div>
+        
+        <div class="books-grid">
+            <div class="book-card">
+                <div class="book-number">Book One</div>
+                <h2 class="book-title">The Carriers Trilogy</h2>
+                <p class="book-subtitle">The Lineage, the Lost Physics, and the Return of the Field Mystic</p>
+                <p class="book-description">
+                    An exploration of how ancient wisdom traditions, suppressed scientific lineages, and field-based consciousness have persisted through history. This trilogy traces the carriers of resonant physics—from mystics to mavericks—and examines how consciousness shapes reality through coherence and intention.
+                </p>
+                <a href="./books/Carriers/index.html" class="book-link">Read The Carriers ⟶</a>
+            </div>
+            
+            <div class="book-card">
+                <div class="book-number">Book Two</div>
+                <h2 class="book-title">Trauma as Field Mechanics</h2>
+                <p class="book-subtitle">A Coherence-Based Diagnostic and Integration Framework</p>
+                <p class="book-description">
+                    A radical reconceptualization of trauma and healing through field physics. Introduces the Field Geometry Atlas, Resonance Profile Scan (RPS), and Field Integration Protocol-5 (FIP-5)—bridging neuroscience, somatic therapy, quantum mechanics, and thermodynamics into a unified therapeutic framework.
+                </p>
+                <a href="./books/Trauma%20as%20Field%20Mechanics/index.html" class="book-link">Read Field Mechanics ⟶</a>
+            </div>
+        </div>
+        
+        <div class="divider">✦</div>
+        
+        <footer>
+            <div class="divider">✦</div>
+            <p>The pattern persists. The field remembers. Coherence returns.</p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                These works are living documents—evolving frameworks for understanding consciousness, healing, and the architecture of reality.
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
