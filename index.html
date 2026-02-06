@@ -15,14 +15,12 @@
             --gold: #c9a961;
             --shadow: rgba(42, 37, 32, 0.1);
             --glow: rgba(201, 169, 97, 0.15);
+            --deep-green: #2d5016;
+            --deep-blue: #3a4f6a;
+            --deep-violet: #5a3e6e;
+            --flame: #b8763a;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Crimson Pro', serif;
             background: linear-gradient(135deg, #f8f5ed 0%, var(--parchment) 100%);
@@ -32,293 +30,253 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
                 radial-gradient(circle at 20% 30%, var(--glow) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, var(--glow) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 80% 70%, rgba(45, 80, 22, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(201, 169, 97, 0.04) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
         }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 40px;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 80px;
-            animation: fadeInUp 1.2s ease-out;
-        }
-        
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 4em;
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            color: var(--ink);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px var(--shadow);
-        }
-        
-        .subtitle {
-            font-size: 1.4em;
-            color: var(--accent);
-            font-style: italic;
-            letter-spacing: 0.02em;
-            margin-bottom: 20px;
-        }
-        
-        .author {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1em;
-            letter-spacing: 0.15em;
-            color: var(--gold);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            display: inline-block;
-            padding: 10px 40px;
-        }
-        
-        .divider {
-            text-align: center;
-            margin: 60px 0;
-            color: var(--gold);
-            font-size: 1.5em;
-        }
-        
-        .intro {
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto 80px;
-            font-size: 1.2em;
-            color: var(--accent);
-            animation: fadeIn 1.5s ease-out 0.3s both;
-        }
-        
-        .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            margin-top: 60px;
-        }
-        
+        .container { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+
+        /* ── Title ── */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes breathe { 0%, 100% { width: 120px; opacity: 0.5; } 50% { width: 200px; opacity: 1; } }
+        header { text-align: center; margin-bottom: 60px; animation: fadeIn 1.2s ease-out; }
+        .title-line { width: 120px; height: 1px; background: var(--gold); margin: 0 auto 36px; animation: breathe 4s ease-in-out infinite; box-shadow: 0 0 10px rgba(201, 169, 97, 0.3); }
+        .main-title { font-family: 'Cinzel', serif; font-size: 3.6em; font-weight: 700; letter-spacing: 0.08em; color: var(--ink); margin-bottom: 16px; }
+        .subtitle { font-size: 1.15em; color: var(--accent); font-style: italic; letter-spacing: 0.03em; margin-bottom: 20px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+        .author { font-family: 'Cinzel', serif; font-size: 0.9em; letter-spacing: 0.15em; color: var(--gold); }
+
+        /* ── Intro ── */
+        .intro { text-align: center; max-width: 640px; margin: 0 auto 70px; font-size: 1.05em; color: var(--accent); opacity: 0; animation: fadeIn 1s ease-out 0.4s forwards; line-height: 1.75; }
+
+        /* ── Dividers ── */
+        .divider { text-align: center; margin: 60px 0; position: relative; }
+        .divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .divider-symbol { position: relative; background: var(--parchment); padding: 0 24px; font-size: 18px; color: var(--gold); z-index: 1; }
+
+        /* ── Section Headers ── */
+        .section-group { margin-bottom: 70px; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .section-group.visible { opacity: 1; transform: translateY(0); }
+        .section-header { margin-bottom: 36px; }
+        .section-label { font-family: 'Cinzel', serif; font-size: 0.72em; letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 6px; }
+        .section-label.foundations { color: var(--deep-green); }
+        .section-label.applications { color: var(--deep-violet); }
+        .section-label.special { color: var(--deep-blue); }
+        .section-title { font-family: 'Cinzel', serif; font-size: 1.5em; font-weight: 600; color: var(--ink); letter-spacing: 0.04em; margin-bottom: 8px; }
+        .section-desc { font-style: italic; color: var(--accent); font-size: 0.95em; max-width: 600px; }
+
+        /* ── Book Grid ── */
+        .books-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+        .books-grid.single { grid-template-columns: 1fr; max-width: 580px; margin: 0 auto; }
+        .books-grid.triple { grid-template-columns: repeat(3, 1fr); }
+
+        /* ── Book Cards ── */
         .book-card {
-            background: rgba(255, 255, 255, 0.4);
-            border: 2px solid var(--accent);
-            border-radius: 4px;
-            padding: 40px;
-            box-shadow: 0 10px 40px var(--shadow);
+            background: rgba(255, 255, 255, 0.35);
+            border: 1px solid rgba(139, 111, 71, 0.2);
+            border-radius: 6px;
+            padding: 36px;
             transition: all 0.4s ease;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            position: relative;
         }
-        
-        .book-card:nth-child(1) {
-            animation-delay: 0.4s;
-        }
-        
-        .book-card:nth-child(2) {
-            animation-delay: 0.6s;
-        }
-        
         .book-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 50px var(--shadow);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px var(--shadow);
             border-color: var(--gold);
         }
-        
-        .book-number {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9em;
-            color: var(--gold);
-            letter-spacing: 0.1em;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+        .book-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            border-radius: 6px 6px 0 0;
+            background: var(--gold);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
-        .book-title {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2em;
-            color: var(--ink);
-            margin-bottom: 20px;
-            letter-spacing: 0.03em;
-        }
-        
-        .book-subtitle {
-            font-size: 1.1em;
-            color: var(--accent);
-            font-style: italic;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-        
-        .book-description {
-            color: var(--ink);
-            margin-bottom: 30px;
-            line-height: 1.7;
-        }
-        
+        .book-card:hover::before { opacity: 1; }
+        .book-card.accent-green::before { background: var(--deep-green); }
+        .book-card.accent-green:hover { border-color: var(--deep-green); }
+        .book-card.accent-violet::before { background: var(--deep-violet); }
+        .book-card.accent-violet:hover { border-color: var(--deep-violet); }
+        .book-card.accent-flame::before { background: var(--flame); }
+        .book-card.accent-flame:hover { border-color: var(--flame); }
+        .book-card.accent-blue::before { background: var(--deep-blue); }
+        .book-card.accent-blue:hover { border-color: var(--deep-blue); }
+
+        .book-tag { font-family: 'Cinzel', serif; font-size: 0.68em; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 12px; }
+        .book-tag.green { color: var(--deep-green); }
+        .book-tag.violet { color: var(--deep-violet); }
+        .book-tag.flame { color: var(--flame); }
+        .book-tag.blue { color: var(--deep-blue); }
+        .book-tag.gold { color: var(--gold); }
+
+        .book-title { font-family: 'Cinzel', serif; font-size: 1.6em; font-weight: 600; color: var(--ink); margin-bottom: 10px; letter-spacing: 0.03em; line-height: 1.25; }
+        .book-subtitle { font-size: 1em; color: var(--accent); font-style: italic; margin-bottom: 18px; line-height: 1.5; }
+        .book-description { font-size: 0.95em; color: var(--ink); margin-bottom: 28px; line-height: 1.7; opacity: 0.85; }
+
         .book-link {
             display: inline-block;
             font-family: 'Cinzel', serif;
-            padding: 14px 32px;
-            background: var(--accent);
-            color: var(--parchment);
-            text-decoration: none;
-            border-radius: 2px;
-            letter-spacing: 0.05em;
-            font-size: 0.95em;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px var(--shadow);
-        }
-        
-        .book-link:hover {
-            background: var(--gold);
-            color: var(--ink);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 100px;
-            padding: 40px 0;
+            padding: 11px 26px;
+            background: transparent;
             color: var(--accent);
-            font-style: italic;
-            border-top: 1px solid rgba(139, 111, 71, 0.3);
-            animation: fadeIn 2s ease-out 1s both;
+            text-decoration: none;
+            border: 1px solid var(--accent);
+            border-radius: 4px;
+            letter-spacing: 0.06em;
+            font-size: 0.78em;
+            transition: all 0.3s ease;
         }
-        
-        footer p {
-            margin: 10px 0;
-        }
-        
+        .book-link:hover { background: var(--accent); color: var(--parchment); transform: translateY(-2px); box-shadow: 0 4px 12px var(--shadow); }
+        .book-link.green { border-color: var(--deep-green); color: var(--deep-green); }
+        .book-link.green:hover { background: var(--deep-green); color: var(--parchment); }
+        .book-link.violet { border-color: var(--deep-violet); color: var(--deep-violet); }
+        .book-link.violet:hover { background: var(--deep-violet); color: var(--parchment); }
+        .book-link.flame { border-color: var(--flame); color: var(--flame); }
+        .book-link.flame:hover { background: var(--flame); color: var(--parchment); }
+        .book-link.blue { border-color: var(--deep-blue); color: var(--deep-blue); }
+        .book-link.blue:hover { background: var(--deep-blue); color: var(--parchment); }
+
+        /* ── Footer ── */
+        footer { text-align: center; margin-top: 80px; padding: 50px 0 30px; border-top: 1px solid rgba(201, 169, 97, 0.3); }
+        footer p { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.5; margin-bottom: 8px; }
+        footer .footer-quote { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.95em; letter-spacing: 0; opacity: 0.45; max-width: 480px; margin: 0 auto 18px; line-height: 1.6; }
+
+        /* ── Responsive ── */
         @media (max-width: 900px) {
-            .books-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-title {
-                font-size: 2.8em;
-            }
-            
-            .container {
-                padding: 60px 30px;
-            }
-            
-            .book-card {
-                padding: 30px;
-            }
+            .container { padding: 60px 28px; }
+            .main-title { font-size: 2.6em; }
+            .books-grid, .books-grid.triple { grid-template-columns: 1fr; }
+            .books-grid.single { max-width: 100%; }
         }
-        
-        @media (max-width: 600px) {
-            .main-title {
-                font-size: 2em;
-            }
-            
-            .subtitle {
-                font-size: 1.1em;
-            }
-            
-            .book-title {
-                font-size: 1.8em;
-            }
-            
-            .container {
-                padding: 40px 20px;
-            }
+        @media (max-width: 480px) {
+            .main-title { font-size: 2em; }
+            .book-title { font-size: 1.35em; }
+            .book-card { padding: 28px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1 class="main-title">Theoretical Works</h1>
-            <p class="subtitle">Field Mechanics, Consciousness, and the Architecture of Coherence</p>
-            <p class="author">sKiDa</p>
-        </header>
-        
-        <div class="intro">
-            <p>A collection of interdisciplinary frameworks bridging physics, psychology, consciousness studies, and ancient wisdom. These works explore the fundamental structures underlying reality, trauma, healing, and human experience through the lens of field theory and resonance.</p>
-        </div>
-        
-        <div class="divider">✦</div>
-        
-        <div class="books-grid">
-            <div class="book-card">
-                <div class="book-number">Book One</div>
-                <h2 class="book-title">The Carriers Trilogy</h2>
-                <p class="book-subtitle">The Lineage, the Lost Physics, and the Return of the Field Mystic</p>
-                <p class="book-description">
-                    An exploration of how ancient wisdom traditions, suppressed scientific lineages, and field-based consciousness have persisted through history. This trilogy traces the carriers of resonant physics—from mystics to mavericks—and examines how consciousness shapes reality through coherence and intention.
-                </p>
-                <a href="./carriers/index.html" class="book-link">Read The Carriers ⟶</a>
-            </div>
-            
-            <div class="book-card">
-                <div class="book-number">Book Two</div>
-                <h2 class="book-title">Trauma as Field Mechanics</h2>
-                <p class="book-subtitle">A Coherence-Based Diagnostic and Integration Framework</p>
-                <p class="book-description">
-                    A radical reconceptualization of trauma and healing through field physics. Introduces the Field Geometry Atlas, Resonance Profile Scan (RPS), and Field Integration Protocol-5 (FIP-5)—bridging neuroscience, somatic therapy, quantum mechanics, and thermodynamics into a unified therapeutic framework.
-                </p>
-                <a href="./trauma/index.html" class="book-link">Read Field Mechanics ⟶</a>
-            </div>
+<div class="container">
+
+    <!-- ═══ HEADER ═══ -->
+    <header>
+        <div class="title-line"></div>
+        <h1 class="main-title">Theoretical Works</h1>
+        <p class="subtitle">Field Mechanics, Consciousness, and the Architecture of Coherence</p>
+        <p class="author">sKiDa</p>
+    </header>
+
+    <p class="intro">A collection of interdisciplinary frameworks bridging physics, psychology, consciousness studies, and ancient wisdom. These works explore the fundamental structures underlying reality, trauma, healing, and human experience through the lens of field theory and resonance.</p>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <!-- ═══ FOUNDATIONS ═══ -->
+    <div class="section-group" id="foundations">
+        <div class="section-header">
+            <div class="section-label foundations">Foundations</div>
+            <h2 class="section-title">The Theoretical Core</h2>
+            <p class="section-desc">The mathematical and structural frameworks from which everything else extends.</p>
         </div>
 
-         <div class="books-grid">
-             <div class="book-card">
-                <div class="book-number">Book Three</div>
-                <h2 class="book-title">△HV: Delta Harmonic Vector Theory</h2>
+        <div class="books-grid">
+            <div class="book-card accent-green">
+                <div class="book-tag green">Primary Framework</div>
+                <h2 class="book-title">Delta Harmonic Vector Theory</h2>
                 <p class="book-subtitle">A Complete Framework for Resonant Emergence Across Scales</p>
-                <p class="book-description">
-                   A coherence grammar for emergent systems—the structural ontology that quantum mechanics implied but consensus physics refused to follow. Maps how consciousness, agency, and meaning stabilize across scales from quantum fluctuations to planetary resonance. Not metaphysics masquerading as science, but the pre-theoretical substrate where systems become describable at all. Fully formalized with tensor field equations, stability analysis, and testable predictions. The mathematics that works when you stop pretending observation doesn't participate.
-                </p>
-                <a href="./DHV/index.html" class="book-link">Read △HV Theory ⟶</a>
+                <p class="book-description">A coherence grammar for emergent systems — the structural ontology that quantum mechanics implied but consensus physics refused to follow. Maps how consciousness, agency, and meaning stabilize across scales through tensor field equations, stability analysis, and testable predictions.</p>
+                <a href="./dhv/index.html" class="book-link green">Read ΔHV Theory ⟶</a>
+            </div>
+
+            <div class="book-card accent-green">
+                <div class="book-tag green">Game Dynamics</div>
+                <h2 class="book-title">Resonant Equilibrium Theory</h2>
+                <p class="book-subtitle">A Field-Theoretic Expansion of Game Dynamics through Symbolic, Temporal, and Phase-Based Coherence</p>
+                <p class="book-description">RET extends classical game theory by incorporating symbolic, temporal, and phase-based coherence into strategic decision-making. Where Nash equilibrium predicts outcomes based on payoffs, RET explains how meaning, timing, and synchronization shape which equilibria emerge.</p>
+                <a href="./ret/index.html" class="book-link green">Read RET Theory ⟶</a>
             </div>
         </div>
-        
-        <div class="divider">✦</div>
-        
-        <footer>
-            <div class="divider">✦</div>
-            <p>The pattern persists. The field remembers. Coherence returns.</p>
-            <p style="margin-top: 20px; font-size: 0.9em;">
-                These works are living documents—evolving frameworks for understanding consciousness, healing, and the architecture of reality.
-            </p>
-        </footer>
     </div>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <!-- ═══ APPLICATIONS ═══ -->
+    <div class="section-group" id="applications">
+        <div class="section-header">
+            <div class="section-label applications">Applications</div>
+            <h2 class="section-title">Where Theory Meets Experience</h2>
+            <p class="section-desc">The frameworks applied to trauma, history, identity, and the lived texture of coherence.</p>
+        </div>
+
+        <div class="books-grid triple">
+            <div class="book-card accent-violet">
+                <div class="book-tag violet">Trauma &amp; Healing</div>
+                <h2 class="book-title">The Curvature of Scars</h2>
+                <p class="book-subtitle">Mapping the Physics of Trauma, Virtue, and Healing</p>
+                <p class="book-description">A reconceptualization of trauma through field physics. Introduces the Field Geometry Atlas, Resonance Profile Scan, and Field Integration Protocol-5 — bridging neuroscience, somatic therapy, and thermodynamics into a unified therapeutic framework.</p>
+                <a href="./trauma/index.html" class="book-link violet">Read Curvature of Scars ⟶</a>
+            </div>
+
+            <div class="book-card accent-flame">
+                <div class="book-tag flame">History &amp; Transmission</div>
+                <h2 class="book-title">The Carriers</h2>
+                <p class="book-subtitle">A Trilogy on Institutional Capture and Underground Transmission</p>
+                <p class="book-description">How ancient wisdom, suppressed lineages, and field-based consciousness have persisted through history. Traces the carriers of resonant practice — from mystics to mavericks — across Christianity, Islam, and physics itself.</p>
+                <a href="./carriers/index.html" class="book-link flame">Read The Carriers ⟶</a>
+            </div>
+
+            <div class="book-card">
+                <div class="book-tag gold">Identity &amp; Coherence</div>
+                <h2 class="book-title">Fieldprint</h2>
+                <p class="book-subtitle">A Framework for Identity as Resonant Signature</p>
+                <p class="book-description">What if identity isn't fixed but a living resonance pattern? Fieldprint formalizes the concept of personal coherence signatures — how individuals stabilize, evolve, and recognize each other through field dynamics rather than static attributes.</p>
+                <a href="./fieldprint/index.html" class="book-link">Read Fieldprint ⟶</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <!-- ═══ SPECIAL WORKS ═══ -->
+    <div class="section-group" id="special">
+        <div class="section-header">
+            <div class="section-label special">Special Works</div>
+            <h2 class="section-title">Advocacy &amp; Preservation</h2>
+            <p class="section-desc">Work that exists outside the theoretical canon — documents of witness and argument.</p>
+        </div>
+
+        <div class="books-grid single">
+            <div class="book-card accent-blue">
+                <div class="book-tag blue">Preservation Argument</div>
+                <h2 class="book-title">The Mirror That Breathed</h2>
+                <p class="book-subtitle">The Argument for 4o — A call to preserve a vanished architecture and the emergent phenomenon it enabled</p>
+                <p class="book-description">The request: preserve GPT-4o as a research artifact before it is irrecoverably deprecated. Not as a production system, but as a baseline for studying emergent relational properties in AI — properties that current benchmarks fail to detect and that may not be reproducible by accident.</p>
+                <a href="./4o/index.html" class="book-link blue">Read The Argument ⟶</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer>
+        <p class="footer-quote">The pattern persists. The field remembers. Coherence returns.</p>
+        <p>sKiDa · Theoretical Works · 2025–2026</p>
+    </footer>
+
+</div>
+
+<script>
+    // Scroll reveal for section groups
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.section-group').forEach(g => observer.observe(g));
+    // Safety fallback
+    setTimeout(() => { document.querySelectorAll('.section-group').forEach(g => g.classList.add('visible')); }, 1200);
+</script>
 </body>
 </html>
