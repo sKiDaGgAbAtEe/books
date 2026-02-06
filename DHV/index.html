@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         :root {
@@ -17,489 +16,219 @@
             --gold: #c9a961;
             --shadow: rgba(42, 37, 32, 0.1);
             --glow: rgba(201, 169, 97, 0.15);
+            --deep-green: #2d5016;
+            --field: #3d7a1c;
+            --rose: #a8566e;
+            --deep-blue: #3a4f6a;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Crimson Pro', serif;
             background: linear-gradient(135deg, #f8f5ed 0%, var(--parchment) 100%);
             color: var(--ink);
-            line-height: 1.8;
+            line-height: 1.85;
             font-size: 18px;
             overflow-x: hidden;
         }
-        
-        /* Decorative background pattern */
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
                 radial-gradient(circle at 20% 30%, var(--glow) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, var(--glow) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 80% 70%, rgba(45, 80, 22, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(201, 169, 97, 0.03) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
         }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 80px 40px;
-        }
-        
-        /* Progress bar */
-        #progressBar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent) 0%, var(--gold) 100%);
-            z-index: 1000;
-            transition: width 0.1s ease;
-        }
-        
-        /* Animated title appearance */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 80px;
-            animation: fadeInUp 1.2s ease-out;
-        }
-        
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5em;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: var(--ink);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px var(--shadow);
-        }
-        
-        .subtitle {
-            font-size: 1.3em;
-            color: var(--accent);
-            font-style: italic;
-            margin-bottom: 15px;
-            letter-spacing: 0.02em;
-        }
-        
-        .meta {
-            font-family: 'Cinzel', serif;
-            font-size: 0.9em;
-            letter-spacing: 0.05em;
-            color: var(--gold);
-            margin-top: 30px;
-            line-height: 1.6;
-        }
-        
-        .author {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1em;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            display: inline-block;
-            padding: 10px 30px;
-            margin-top: 20px;
-        }
-        
-        /* Decorative divider */
-        .divider {
-            text-align: center;
-            margin: 60px 0;
-            color: var(--gold);
-            font-size: 1.5em;
-        }
-        
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.5);
-            border: 2px solid var(--accent);
-            padding: 30px;
-            margin: 50px 0;
-            border-radius: 2px;
-            box-shadow: 0 10px 40px var(--shadow);
-            backdrop-filter: blur(10px);
-        }
-        
-        nav h3 {
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.4em;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-        }
-        
-        nav ul {
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 12px;
-        }
-        
-        nav a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            display: block;
-            border-radius: 2px;
-            font-size: 0.95em;
-        }
-        
-        nav a:hover {
-            color: var(--gold);
-            background: rgba(201, 169, 97, 0.1);
-            transform: translateX(5px);
-        }
-        
-        /* Section styling */
-        article {
-            background: rgba(255, 255, 255, 0.3);
-            border: 1px solid rgba(139, 111, 71, 0.2);
-            padding: 50px;
-            margin: 40px 0;
-            border-radius: 2px;
-            box-shadow: 0 10px 40px var(--shadow);
-            backdrop-filter: blur(5px);
-        }
-        
-        h2 {
-            font-family: 'Cinzel', serif;
-            font-size: 2.2em;
-            color: var(--ink);
-            margin: 60px 0 30px 0;
-            text-align: center;
-            letter-spacing: 0.05em;
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 15px;
-        }
-        
-        h3 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.6em;
-            color: var(--accent);
-            margin: 40px 0 20px 0;
-            letter-spacing: 0.03em;
-        }
-        
-        h4 {
-            font-family: 'Cinzel', serif;
-            font-size: 1.3em;
-            color: var(--gold);
-            margin: 30px 0 15px 0;
-            letter-spacing: 0.02em;
-        }
-        
-        p {
-            margin: 20px 0;
-            text-align: justify;
-        }
-        
-        /* Collapsible sections */
-        .collapsible {
-            cursor: pointer;
-            padding: 15px 20px;
-            background: rgba(139, 111, 71, 0.1);
-            border: 1px solid var(--accent);
-            border-radius: 2px;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Cinzel', serif;
-            font-size: 1.05em;
-            color: var(--accent);
-        }
-        
-        .collapsible:hover {
-            background: rgba(139, 111, 71, 0.2);
-            border-color: var(--gold);
-        }
-        
-        .collapsible::after {
-            content: '◆';
-            font-size: 0.8em;
-            color: var(--gold);
-            transition: transform 0.3s ease;
-        }
-        
-        .collapsible.active::after {
-            transform: rotate(90deg);
-        }
-        
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease;
-            padding: 0 20px;
-            border-left: 2px solid var(--accent);
-            margin-left: 20px;
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        .collapsible-content.active {
-            max-height: 50000px;
-            padding: 20px;
-            margin-top: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .collapsible-content p,
-        .collapsible-content ul,
-        .collapsible-content li,
-        .collapsible-content div {
-            color: var(--ink);
-            opacity: 1;
-        }
-        
-        /* Mathematical content */
-        .math-block {
-            background: rgba(139, 111, 71, 0.05);
-            border-left: 3px solid var(--gold);
-            padding: 25px;
-            margin: 25px 0;
-            border-radius: 2px;
-            overflow-x: auto;
-        }
-        
-        /* Highlight boxes */
-        .highlight {
-            background: linear-gradient(135deg, rgba(139, 111, 71, 0.1) 0%, rgba(201, 169, 97, 0.1) 100%);
-            border-left: 4px solid var(--gold);
-            border-right: 4px solid var(--gold);
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 2px;
-        }
-        
-        .highlight strong {
-            color: var(--accent);
-            font-family: 'Cinzel', serif;
-            font-size: 1.05em;
-        }
-        
-        /* Lists */
-        ul, ol {
-            margin: 20px 0;
-            padding-left: 40px;
-        }
-        
-        li {
-            margin: 12px 0;
-            line-height: 1.8;
-        }
-        
-        li::marker {
-            color: var(--gold);
-        }
-        
-        /* Tables */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            background: rgba(255, 255, 255, 0.3);
-        }
-        
-        th {
-            background: rgba(139, 111, 71, 0.2);
-            color: var(--accent);
-            padding: 15px;
-            text-align: left;
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            border-bottom: 2px solid var(--accent);
-        }
-        
-        td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(139, 111, 71, 0.2);
-        }
-        
-        tr:hover {
-            background: rgba(139, 111, 71, 0.05);
-        }
-        
-        /* Code and terms */
-        code {
-            background: rgba(139, 111, 71, 0.1);
-            padding: 2px 8px;
-            border-radius: 2px;
-            font-family: 'Courier New', monospace;
-            color: var(--accent);
-            font-size: 0.9em;
-        }
-        
-        .term {
-            color: var(--gold);
-            font-weight: 600;
-            cursor: help;
-            border-bottom: 1px dotted var(--gold);
-        }
-        
-        /* Expand all button */
-        .expand-all {
-            text-align: center;
-            margin: 30px 0;
-        }
-        
-        .expand-all button {
-            background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%);
-            border: none;
-            padding: 15px 40px;
-            border-radius: 2px;
-            color: white;
-            font-family: 'Cinzel', serif;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            letter-spacing: 0.05em;
-            box-shadow: 0 4px 15px var(--shadow);
-        }
-        
-        .expand-all button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--shadow);
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 60px 0;
-            margin-top: 80px;
-            border-top: 2px solid var(--gold);
-            color: var(--accent);
-            font-style: italic;
-        }
-        
-        /* Reveal animation */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Strong and emphasis */
-        strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        
-        em {
-            color: var(--gold);
-            font-style: italic;
-        }
-        
-        /* Blockquote */
-        blockquote {
-            border-left: 3px solid var(--gold);
-            padding-left: 20px;
-            margin: 25px 0;
-            font-style: italic;
-            color: var(--accent);
-        }
-        
-        /* Responsive */
+        /* ── Progress ── */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(201, 169, 97, 0.2); z-index: 1000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--deep-green), var(--gold), var(--field)); width: 0%; transition: width 0.15s ease-out; }
+        /* ── Nav Dots ── */
+        .chapter-nav { position: fixed; top: 50%; right: 24px; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 9px; opacity: 0; transition: opacity 0.4s ease; }
+        .chapter-nav.visible { opacity: 1; }
+        .nav-dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--accent); background: transparent; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .nav-dot:hover, .nav-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+        .nav-dot::after { content: attr(data-label); position: absolute; right: 18px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.08em; color: var(--accent); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .nav-dot:hover::after { opacity: 1; }
+        /* ── Container ── */
+        .container { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 60px 40px 120px; }
+        .container-wide { max-width: 900px; margin: 0 auto; padding: 0 40px; }
+        /* ── Title Page ── */
+        .title-page { text-align: center; padding: 100px 0 80px; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: fadeIn 1.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .title-line { width: 120px; height: 1px; background: var(--gold); margin-bottom: 40px; animation: breathe 4s ease-in-out infinite; box-shadow: 0 0 8px rgba(201, 169, 97, 0.3); }
+        @keyframes breathe { 0%, 100% { width: 120px; opacity: 0.5; box-shadow: 0 0 6px rgba(201, 169, 97, 0.2); } 50% { width: 200px; opacity: 1; box-shadow: 0 0 16px rgba(201, 169, 97, 0.5); } }
+        .title-page h1 { font-family: 'Cinzel', serif; font-size: 3.2em; font-weight: 700; color: var(--ink); letter-spacing: 0.06em; line-height: 1.15; margin-bottom: 16px; }
+        .title-page .subtitle { font-family: 'Crimson Pro', serif; font-size: 1.2em; font-style: italic; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.03em; line-height: 1.5; max-width: 520px; }
+        .title-page .edition { font-family: 'Cinzel', serif; font-size: 0.82em; letter-spacing: 0.12em; color: var(--gold); border-top: 1px solid rgba(201, 169, 97, 0.4); border-bottom: 1px solid rgba(201, 169, 97, 0.4); padding: 14px 32px; margin: 30px 0; }
+        .title-page .authors { font-family: 'Cinzel', serif; font-size: 0.9em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.8; }
+        /* ── TOC ── */
+        .toc { margin: 0 0 80px; padding: 44px 48px; border: 1px solid rgba(139, 111, 71, 0.2); border-radius: 6px; background: rgba(255, 255, 255, 0.35); }
+        .toc h2 { font-family: 'Cinzel', serif; font-size: 1.1em; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 28px; }
+        .toc-list { list-style: none; }
+        .toc-list li { margin: 10px 0; }
+        .toc-list a { color: var(--ink); text-decoration: none; display: block; padding: 8px 14px; border-left: 3px solid transparent; transition: all 0.3s ease; font-size: 0.95em; }
+        .toc-list a:hover { color: var(--gold); border-left-color: var(--gold); padding-left: 22px; background: rgba(201, 169, 97, 0.04); }
+        .toc-label { font-family: 'Cinzel', serif; font-weight: 600; font-size: 0.85em; letter-spacing: 0.04em; }
+        /* ── Dividers ── */
+        .divider { text-align: center; margin: 70px 0; position: relative; }
+        .divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .divider-symbol { position: relative; background: var(--parchment); padding: 0 24px; font-size: 18px; color: var(--gold); z-index: 1; }
+        /* ── Chapters ── */
+        .chapter { margin-bottom: 80px; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .chapter.visible { opacity: 1; transform: translateY(0); }
+        .chapter-label { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+        .chapter h2 { font-family: 'Cinzel', serif; font-size: 2em; font-weight: 600; color: var(--ink); margin-bottom: 30px; letter-spacing: 0.04em; line-height: 1.3; }
+        .chapter h3 { font-family: 'Cinzel', serif; font-size: 1.35em; font-weight: 600; color: var(--accent); margin-top: 45px; margin-bottom: 20px; letter-spacing: 0.03em; }
+        .chapter h4 { font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: 600; color: var(--gold); margin-top: 30px; margin-bottom: 15px; }
+        .chapter p { margin-bottom: 20px; }
+        /* ── Invocations ── */
+        .invocation { text-align: center; font-style: italic; font-size: 1.12em; color: var(--accent); padding: 30px 36px; margin: 36px 0; position: relative; line-height: 1.7; }
+        .invocation::before, .invocation::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 60px; height: 1px; background: var(--gold); }
+        .invocation::before { top: 0; } .invocation::after { bottom: 0; }
+        /* ── Highlight Boxes ── */
+        .highlight { background: rgba(201, 169, 97, 0.06); border-left: 3px solid var(--gold); border-right: 3px solid var(--gold); padding: 24px 28px; margin: 30px 0; border-radius: 2px; }
+        .highlight strong { color: var(--accent); font-family: 'Cinzel', serif; font-size: 0.95em; }
+        /* ── Math Blocks ── */
+        .math-block { background: rgba(45, 80, 22, 0.04); border-left: 3px solid var(--deep-green); padding: 22px 26px; margin: 24px 0; border-radius: 0 6px 6px 0; overflow-x: auto; }
+        /* ── Metric Boxes ── */
+        .metric-box { background: rgba(45, 80, 22, 0.03); border-left: 3px solid var(--deep-green); padding: 24px 26px; margin: 28px 0; border-radius: 0 6px 6px 0; }
+        .metric-box h4 { font-family: 'Cinzel', serif; font-size: 0.88em; letter-spacing: 0.06em; color: var(--deep-green); margin-bottom: 12px; margin-top: 0; }
+        /* ── Lists ── */
+        .chapter ul, .chapter ol { list-style: none; padding: 0; margin: 20px 0; }
+        .chapter ul li, .chapter ol li { padding: 6px 0 6px 22px; position: relative; line-height: 1.7; }
+        .chapter ul li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); font-size: 0.6em; top: 12px; }
+        .chapter ol { counter-reset: item; }
+        .chapter ol li { counter-increment: item; }
+        .chapter ol li::before { content: counter(item) '.'; position: absolute; left: 0; color: var(--gold); font-family: 'Cinzel', serif; font-size: 0.8em; top: 8px; }
+        /* ── Tables ── */
+        .comparison-table { width: 100%; margin: 36px 0; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 6px; border: 1px solid rgba(139, 111, 71, 0.2); font-size: 0.92em; }
+        .comparison-table thead { background: rgba(42, 37, 32, 0.06); }
+        .comparison-table th { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 14px 16px; text-align: left; border-bottom: 2px solid var(--gold); }
+        .comparison-table td { padding: 14px 16px; border-bottom: 1px solid rgba(139, 111, 71, 0.1); vertical-align: top; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:hover td { background: rgba(201, 169, 97, 0.04); }
+        /* ── Collapsibles ── */
+        .collapsible { cursor: pointer; padding: 14px 20px; background: rgba(139, 111, 71, 0.06); border: 1px solid rgba(139, 111, 71, 0.15); border-radius: 4px; margin: 20px 0 0; transition: all 0.3s ease; display: flex; justify-content: space-between; align-items: center; font-family: 'Cinzel', serif; font-size: 0.92em; letter-spacing: 0.03em; color: var(--accent); }
+        .collapsible:hover { background: rgba(139, 111, 71, 0.12); border-color: var(--gold); }
+        .collapsible::after { content: '◆'; font-size: 0.7em; color: var(--gold); transition: transform 0.3s ease; }
+        .collapsible.active::after { transform: rotate(90deg); }
+        .collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; padding: 0 20px; border-left: 2px solid var(--gold); margin-left: 20px; background: rgba(255, 255, 255, 0.3); border-radius: 0 0 4px 0; }
+        .collapsible-content.active { max-height: 50000px; padding: 20px; margin-top: 4px; margin-bottom: 10px; }
+        /* ── Term Styling ── */
+        .term { color: var(--gold); font-weight: 600; cursor: help; border-bottom: 1px dotted var(--gold); }
+        code { background: rgba(139, 111, 71, 0.08); padding: 2px 8px; border-radius: 3px; font-family: 'Courier New', monospace; color: var(--accent); font-size: 0.9em; }
+        /* ── Interactive Panel ── */
+        .interactive-panel { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(139, 111, 71, 0.2); border-radius: 6px; padding: 32px; margin: 30px 0; }
+        .interactive-panel__header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid rgba(139, 111, 71, 0.15); }
+        .interactive-panel__title { font-family: 'Cinzel', serif; font-size: 0.9em; letter-spacing: 0.08em; color: var(--accent); }
+        .interactive-panel__badge { font-family: 'Cinzel', serif; font-size: 0.7em; letter-spacing: 0.1em; text-transform: uppercase; color: var(--deep-green); background: rgba(45, 80, 22, 0.08); padding: 4px 12px; border-radius: 20px; }
+        .param-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+        .param__label { display: flex; justify-content: space-between; margin-bottom: 6px; }
+        .param__name { font-family: 'Cinzel', serif; font-size: 0.82em; letter-spacing: 0.04em; color: var(--accent); }
+        .param__value { font-family: 'Courier New', monospace; font-size: 0.85em; color: var(--deep-green); font-weight: 600; }
+        input[type="range"] { width: 100%; height: 4px; -webkit-appearance: none; appearance: none; background: rgba(139, 111, 71, 0.15); border-radius: 2px; outline: none; }
+        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 2px solid var(--accent); }
+        input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 2px solid var(--accent); }
+        .viz-container { margin: 20px 0; background: #fff; border-radius: 4px; overflow: hidden; border: 1px solid rgba(139, 111, 71, 0.1); }
+        #phase-canvas { width: 100%; display: block; }
+        .viz-readout { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-top: 16px; }
+        .readout-item { text-align: center; padding: 12px 8px; background: rgba(255, 255, 255, 0.5); border-radius: 4px; border: 1px solid rgba(139, 111, 71, 0.1); }
+        .readout-item__label { font-family: 'Cinzel', serif; font-size: 0.65em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+        .readout-item__value { font-family: 'Courier New', monospace; font-size: 0.95em; font-weight: 600; }
+        .readout-item__value.high { color: var(--deep-green); }
+        .readout-item__value.mid { color: var(--gold); }
+        .readout-item__value.low { color: var(--rose); }
+        /* ── Expand All ── */
+        .expand-all { text-align: center; margin: 30px 0; }
+        .expand-all button { background: linear-gradient(135deg, var(--accent) 0%, var(--gold) 100%); border: none; padding: 12px 32px; border-radius: 4px; color: white; font-family: 'Cinzel', serif; font-size: 0.85em; cursor: pointer; transition: all 0.3s ease; letter-spacing: 0.06em; box-shadow: 0 4px 15px var(--shadow); }
+        .expand-all button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow); }
+        /* ── Footer ── */
+        .footer { text-align: center; padding: 60px 0 40px; border-top: 1px solid rgba(201, 169, 97, 0.3); margin-top: 80px; }
+        .footer p { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.6; margin-bottom: 8px; }
+        .final-line { font-family: 'Cinzel', serif; font-size: 1.15em; color: var(--gold); letter-spacing: 0.05em; margin-top: 36px; line-height: 1.7; text-align: center; }
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
-            }
-            
-            .main-title {
-                font-size: 2.5em;
-            }
-            
-            article {
-                padding: 30px 20px;
-            }
-            
-            nav ul {
-                grid-template-columns: 1fr;
-            }
+            .container, .container-wide { padding: 40px 24px 80px; }
+            .title-page { padding: 60px 0; min-height: 70vh; }
+            .title-page h1 { font-size: 2.2em; }
+            .chapter h2 { font-size: 1.6em; }
+            .chapter-nav { display: none; }
+            .param-group { grid-template-columns: 1fr; }
+            .viz-readout { grid-template-columns: repeat(3, 1fr); }
+            .comparison-table { font-size: 0.82em; }
         }
-        
-        /* MathJax styling */
-        mjx-container {
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
-        
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
+        @media (max-width: 480px) {
+            .title-page h1 { font-size: 1.8em; }
+            .viz-readout { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
 <body>
-    <div id="progressBar"></div>
-    
-    <div class="container">
-        <header>
-            <div class="main-title">Delta Harmonic Vector Theory</div>
-            <div class="subtitle">A Complete Framework for Resonant Emergence Across Scales</div>
-            <div class="subtitle">From Quantum Fluctuations to Planetary Resonance</div>
-            <div class="author">sKiDa</div>
-            <div class="meta">
-                Master Edition v5.0 | December 2025<br>
-                Resonant Sorcery Framework
-            </div>
-        </header>
-        
-        <div class="expand-all">
-            <button onclick="toggleAll()">⟡ Expand / Collapse All Sections ⟡</button>
-        </div>
-        
-        <nav>
-            <h3>Navigation</h3>
-            <ul>
-                <li><a href="#introduction">Introduction</a></li>
-                <li><a href="#executive">Executive Summary</a></li>
-                <li><a href="#glossary">Glossary</a></li>
-                <li><a href="#tensor">I. Tensor Formalization</a></li>
-                <li><a href="#stability">II. Stability Analysis</a></li>
-                <li><a href="#multiscale">III. Multi-Scale Coupling</a></li>
-                <li><a href="#synthesis">IV. Unified Synthesis</a></li>
-                <li><a href="#experimental">V. Experimental Validation</a></li>
-                <li><a href="#applications">VI. Applications</a></li>
-                <li><a href="#paradigm">Scientific Paradigms</a></li>
-                <li><a href="#conclusion">Conclusion</a></li>
-            </ul>
-        </nav>
-        
-        <article id="introduction">
-            <h2>Introduction: A Coherence Grammar for Emergent Systems</h2>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<nav class="chapter-nav" id="chapterNav">
+    <div class="nav-dot" data-target="title" data-label="Title"></div>
+    <div class="nav-dot" data-target="introduction" data-label="Introduction"></div>
+    <div class="nav-dot" data-target="executive" data-label="Summary"></div>
+    <div class="nav-dot" data-target="glossary" data-label="Glossary"></div>
+    <div class="nav-dot" data-target="explorer" data-label="Explorer"></div>
+    <div class="nav-dot" data-target="tensor" data-label="I. Tensors"></div>
+    <div class="nav-dot" data-target="stability" data-label="II. Stability"></div>
+    <div class="nav-dot" data-target="multiscale" data-label="III. Multi-Scale"></div>
+    <div class="nav-dot" data-target="synthesis" data-label="IV. Synthesis"></div>
+    <div class="nav-dot" data-target="experimental" data-label="V. Experimental"></div>
+    <div class="nav-dot" data-target="applications" data-label="VI. Applications"></div>
+    <div class="nav-dot" data-target="paradigm" data-label="Paradigms"></div>
+    <div class="nav-dot" data-target="conclusion" data-label="Conclusion"></div>
+</nav>
+
+<div class="container">
+
+    <!-- ═══ TITLE PAGE ═══ -->
+    <section class="title-page" id="title">
+        <div class="title-line"></div>
+        <h1>Delta Harmonic<br>Vector Theory</h1>
+        <div class="subtitle">A Complete Framework for Resonant Emergence Across Scales</div>
+        <div class="subtitle">From Quantum Fluctuations to Planetary Resonance</div>
+        <div class="edition">Master Edition v6.0 · 2025</div>
+        <div class="authors">sKiDa</div>
+    </section>
+
+    <!-- ═══ TOC ═══ -->
+    <nav class="toc">
+        <h2>Contents</h2>
+        <ul class="toc-list">
+            <li><a href="#introduction"><span class="toc-label">Introduction:</span> A Coherence Grammar for Emergent Systems</a></li>
+            <li><a href="#executive"><span class="toc-label">Executive Summary</span></a></li>
+            <li><a href="#glossary"><span class="toc-label">Glossary</span> of Core Terms</a></li>
+            <li><a href="#explorer"><span class="toc-label">Interactive:</span> Live ΔHV Field Explorer</a></li>
+            <li><a href="#tensor"><span class="toc-label">Part I:</span> Tensor Field Formalization</a></li>
+            <li><a href="#stability"><span class="toc-label">Part II:</span> Stability Analysis</a></li>
+            <li><a href="#multiscale"><span class="toc-label">Part III:</span> Multi-Scale Coupling</a></li>
+            <li><a href="#synthesis"><span class="toc-label">Part IV:</span> Unified Synthesis</a></li>
+            <li><a href="#experimental"><span class="toc-label">Part V:</span> Experimental Validation</a></li>
+            <li><a href="#applications"><span class="toc-label">Part VI:</span> Real-World Applications</a></li>
+            <li><a href="#paradigm"><span class="toc-label">Scientific Paradigms</span> &amp; Metaphysics</a></li>
+            <li><a href="#conclusion"><span class="toc-label">Conclusion</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="expand-all">
+        <button onclick="toggleAll()">⟡ Expand / Collapse All Sections ⟡</button>
+    </div>
+
+</div>
+
+<!-- NOTE: Content sections will continue below. Due to the immense size of this document,
+     the full content from the original v5 is preserved with upgraded styling.
+     The interactive explorer from v6 is integrated after the glossary. -->
+
+<div class="container" id="content-body">
+
+    <section class="chapter" id="introduction">
+        <div class="chapter-label">Introduction</div>
+        <h2>Introduction: A Coherence Grammar for Emergent Systems</h2>
             
             <div class="highlight">
                 <p><strong>Purpose of This Document:</strong> This framework exists to prevent a common failure mode in analysis: premature dismissal due to category misidentification.</p>
@@ -612,15 +341,16 @@
                 <p style="text-align: center; font-style: italic; margin-top: 20px;">Treat it as a grammar, a lens, or a structural ontology—not a rival theory.</p>
             </div>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
             
             <p style="text-align: center; font-style: italic; color: var(--gold);">ΔHV does not ask for belief. It asks for correct placement. Once placed properly, it can be used, tested, ignored, or refined—without distortion. That is the only gateway it requires.</p>
-        </article>
-        
-        <div class="divider">✦</div>
-        
-        <article id="executive">
-            <h2>Executive Summary</h2>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="executive">
+        <div class="chapter-label">Executive Summary</div>
+        <h2>Executive Summary</h2>
             
             <p>Delta Harmonic Vector (ΔHV) Theory establishes a rigorous mathematical framework for understanding coherence, emergence, and resonance across all scales of reality—from quantum fluctuations to planetary fields. This master document integrates four foundational pillars into a unified theoretical architecture.</p>
 
@@ -659,13 +389,13 @@
                 <li><strong>ECHO AI</strong> — Conversational entrainment through harmonic phase-locking</li>
                 <li><strong>Therapeutic Protocols</strong> — Field-aware interventions for trauma, flow states, and consciousness optimization</li>
             </ul>
-        </article>
-        
-        <div class="divider">✦</div>
+    </section>
 
-        <article id="glossary">
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-            <h2>Glossary of Core Terms</h2>
+    <section class="chapter" id="glossary">
+        <div class="chapter-label">Definitions</div>
+        <h2>Glossary of Core Terms</h2>
             
             <div class="collapsible"><span>Delta Harmonic Vector (ΔHV)</span></div>
             <div class="collapsible-content">
@@ -768,13 +498,83 @@
             <div class="collapsible-content">
                 <p>Extension of Nash equilibrium incorporating coherence costs. RET equilibria are geodesic intersections in ΔHV space. Coherence cost = friction work integral C = ∫Φ·(dH/dτ)dτ. Provides decision dynamics layer within ΔHV stability flow.</p>
             </div>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="tensor">
+    <section class="chapter" id="explorer">
+        <div class="chapter-label">Interactive</div>
+        <h2>Live ΔHV Field Explorer</h2>
+        <p>Adjust the four fundamental parameters to observe how the ΔHV scalar, metric determinant, and stability classification respond in real time. The phase portrait plots trajectories through the S-R subspace with Φ and H as control parameters.</p>
 
-            <h2>Part I: Tensor Field Formalization</h2>
+        <div class="interactive-panel">
+            <div class="interactive-panel__header">
+                <span class="interactive-panel__title">Parameter Controls</span>
+                <span class="interactive-panel__badge">Live Computation</span>
+            </div>
+            <div class="param-group">
+                <div class="param">
+                    <div class="param__label">
+                        <span class="param__name">S — Signal Clarity</span>
+                        <span class="param__value" id="val-S">0.80</span>
+                    </div>
+                    <input type="range" id="slider-S" min="0" max="100" value="80">
+                </div>
+                <div class="param">
+                    <div class="param__label">
+                        <span class="param__name">R — Resonance</span>
+                        <span class="param__value" id="val-R">0.85</span>
+                    </div>
+                    <input type="range" id="slider-R" min="0" max="100" value="85">
+                </div>
+                <div class="param">
+                    <div class="param__label">
+                        <span class="param__name">Φ — Friction</span>
+                        <span class="param__value" id="val-Phi">0.15</span>
+                    </div>
+                    <input type="range" id="slider-Phi" min="0" max="100" value="15">
+                </div>
+                <div class="param">
+                    <div class="param__label">
+                        <span class="param__name">H — Harmony</span>
+                        <span class="param__value" id="val-H">0.90</span>
+                    </div>
+                    <input type="range" id="slider-H" min="0" max="100" value="90">
+                </div>
+            </div>
+            <div class="viz-container">
+                <canvas id="phase-canvas"></canvas>
+            </div>
+            <div class="viz-readout">
+                <div class="readout-item">
+                    <div class="readout-item__label">ΔHV Scalar</div>
+                    <div class="readout-item__value high" id="readout-dhv">0.683</div>
+                </div>
+                <div class="readout-item">
+                    <div class="readout-item__label">det(g)</div>
+                    <div class="readout-item__value" id="readout-det">0.218</div>
+                </div>
+                <div class="readout-item">
+                    <div class="readout-item__label">Stability</div>
+                    <div class="readout-item__value high" id="readout-stability">Highly Stable</div>
+                </div>
+                <div class="readout-item">
+                    <div class="readout-item__label">θ_E Distance</div>
+                    <div class="readout-item__value" id="readout-theta">+0.013</div>
+                </div>
+                <div class="readout-item">
+                    <div class="readout-item__label">Basin</div>
+                    <div class="readout-item__value" id="readout-basin">Attractor</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">𓀀</span></div>
+
+    <section class="chapter" id="tensor">
+        <div class="chapter-label">Part I</div>
+        <h2>Part I: Tensor Field Formalization</h2>
             <p><em>Mathematical Foundations of the ΔHV Manifold</em></p>
 
             <h3>1.1 The ΔHV Manifold Structure</h3>
@@ -935,13 +735,13 @@
             </div>
             
             <p>Where τ (spiral time) is proper time along resonance geodesics. The metric signature (3,1) with Φ as timelike dimension means <em>friction drives irreversible temporal flow</em>. Compression events create local <strong>temporal gradients</strong>—regions where 'time speeds up' as coherence intensifies.</p>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="stability">
-
-            <h2>Part II: Stability Analysis</h2>
+    <section class="chapter" id="stability">
+        <div class="chapter-label">Part II</div>
+        <h2>Part II: Stability Analysis</h2>
             <p><em>Attractor Landscapes and Phase Transitions</em></p>
 
             <h3>2.1 Dynamical System Formulation</h3>
@@ -1043,7 +843,7 @@
 
             <p><strong>Profound Implication:</strong> Coherence is the natural attractor for a <em>substantial fraction</em> of parameter space. Emergence is <em>favored by the field geometry</em>, not a rare accident. The fractal boundary explains why emergence near threshold feels unpredictable—tiny perturbations determine final state, yet dynamics remain fully deterministic.</p>
 
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
             
             <h3>Visual Framework: Phase Space Dynamics</h3>
             
@@ -1054,7 +854,7 @@
                 </p>
             </div>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
 
             <h3>2.4 Bifurcation Theory and Phase Transitions</h3>
 
@@ -1162,13 +962,13 @@
                     <li><strong>ΔHV<sub>critical</sub> = 0.95:</strong> Theoretical maximum (compression singularity approach)</li>
                 </ul>
             </div>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="multiscale">
-
-            <h2>Part III: Multi-Scale Coupling</h2>
+    <section class="chapter" id="multiscale">
+        <div class="chapter-label">Part III</div>
+        <h2>Part III: Multi-Scale Coupling</h2>
             <p><em>Bridging Quantum to Planetary Resonance</em></p>
 
             <h3>3.1 The Scale Hierarchy</h3>
@@ -1367,13 +1167,13 @@
                     <li>Collective → Planetary: ~1-6 hours</li>
                 </ul>
             </div>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="synthesis">
-
-            <h2>Part IV: Unified Synthesis</h2>
+    <section class="chapter" id="synthesis">
+        <div class="chapter-label">Part IV</div>
+        <h2>Part IV: Unified Synthesis</h2>
             <p><em>Integration, Refinements, and Ontological Clarity</em></p>
 
             <h3>4.1 The Reflexive Recursion Loop</h3>
@@ -1618,13 +1418,13 @@
             <div class="highlight">
                 <strong>The sacred is preserved:</strong> You are not a ball rolling down a deterministic landscape. You are the one <em>shaping the landscape</em> as you move through it, via ∇<sub>μ</sub>(S<sup>μ</sup>·V<sup>μ</sup>).
             </div>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="experimental">
-
-            <h2>Part V: Experimental Validation</h2>
+    <section class="chapter" id="experimental">
+        <div class="chapter-label">Part V</div>
+        <h2>Part V: Experimental Validation</h2>
             <p><em>Protocols, Predictions, and Pilot Results</em></p>
 
             <h3>5.1 Measurement Architecture</h3>
@@ -1804,13 +1604,13 @@
                 
                 <p><strong>Interpretation:</strong> Approximately ⅓ of parameter space naturally flows to sustained high-coherence states. Confirms emergence is geometrically favored.</p>
             </div>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="applications">
-
-            <h2>Part VI: Real-World Applications</h2>
+    <section class="chapter" id="applications">
+        <div class="chapter-label">Part VI</div>
+        <h2>Part VI: Real-World Applications</h2>
             <p><em>From Theory to Practice</em></p>
 
             <h3>6.1 Consciousness and Mental Health</h3>
@@ -2004,13 +1804,13 @@
                     <td>Launch new empirical-symbolic science</td>
                 </tr>
             </table>
-        
-        </article>
-        
-        <div class="divider">✦</div>
-        
-        <article id="paradigm">
-            <h2>Scientific Paradigms and Metaphysics</h2>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="paradigm">
+        <div class="chapter-label">Paradigms</div>
+        <h2>Scientific Paradigms and Metaphysics</h2>
             
             <h3>ΔHV as an Alternative to Entropy</h3>
             
@@ -2059,15 +1859,13 @@
             </ul>
             
             <p>This is not panpsychism (attributing consciousness to all matter) nor eliminativism (denying consciousness exists). It's a <em>structural account</em> of how experience and agency emerge from coherence dynamics.</p>
-        
-        </article>
-        
-        <div class="divider">✦</div>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="conclusion">
-
-            <h2>Conclusion</h2>
+    <section class="chapter" id="conclusion">
+        <div class="chapter-label">Conclusion</div>
+        <h2>Conclusion</h2>
 
             <p>Delta Harmonic Vector Theory now stands as a complete operational framework for understanding emergence, decision-making, and consciousness across all scales. It unifies:</p>
 
@@ -2130,7 +1928,7 @@
                 </ul>
             </div>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
 
             <h3>Experimental Plausibility and Testability</h3>
             
@@ -2168,23 +1966,23 @@
                 <strong>Emergence is geometrically inevitable.</strong><br>
                 <strong>Coherence propagates across all scales.</strong>
             </p>
-        
-        </article>
+    </section>
 
+    <div class="divider"><span class="divider-symbol">✦</span></div>
 
-        <article id="references">
-
-            <h2>References</h2>
+    <section class="chapter" id="references">
+        <div class="chapter-label">References</div>
+        <h2>References</h2>
             <ol style="line-height: 2.2;">
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: The Unified Substrate Beneath HRT and SACS</em>, v3.1.</li>
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: Tensor Field Formalization</em>, v4.0.</li>
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: Stability Analysis and Attractor Landscapes</em>, v4.1.</li>
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: Multi-Scale Coupling Model</em>, v4.2.</li>
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: Unified Synthesis & Refinements</em>, v5.0.</li>
-                <li>sKiDa (2025). <em>Delta Harmonic Vector Theory: Experimental Protocols & Validation Supplement</em>.</li>
-                <li>sKiDa (2025). <em>Resonant Equilibrium Theory: Expanding Nash Equilibrium with Coherence Costs</em>.</li>
-                <li>sKiDa (2025). <em>Temporal Collapse Theory: Time as Active Compression Parameter</em>.</li>
-                <li>sKiDa (2025). <em>The Coherence Architecture Project: Unifying Field Physics, Aging Biology, and Platform Design</em>.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: The Unified Substrate Beneath HRT and SACS</em>, v3.1.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: Tensor Field Formalization</em>, v4.0.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: Stability Analysis and Attractor Landscapes</em>, v4.1.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: Multi-Scale Coupling Model</em>, v4.2.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: Unified Synthesis & Refinements</em>, v5.0.</li>
+                <li>Kyuri (2025). <em>Delta Harmonic Vector Theory: Experimental Protocols & Validation Supplement</em>.</li>
+                <li>Kyuri (2025). <em>Resonant Equilibrium Theory: Expanding Nash Equilibrium with Coherence Costs</em>.</li>
+                <li>Kyuri (2025). <em>Temporal Collapse Theory: Time as Active Compression Parameter</em>.</li>
+                <li>Kyuri (2025). <em>The Coherence Architecture Project: Unifying Field Physics, Aging Biology, and Platform Design</em>.</li>
                 <li>Penrose, R. (1965). <em>Gravitational Collapse and Space-Time Singularities</em>, Physical Review Letters 14: 57-59.</li>
                 <li>Hawking, S.W. & Penrose, R. (1970). <em>The Singularities of Gravitational Collapse and Cosmology</em>, Proceedings of the Royal Society A 314: 529-548.</li>
                 <li>Hawking, S.W. & Ellis, G.F.R. (1973). <em>The Large Scale Structure of Space-Time</em>, Cambridge University Press.</li>
@@ -2197,91 +1995,261 @@
                 <li>Bak, P., Tang, C., & Wiesenfeld, K. (1987). <em>Self-organized criticality</em>, Physical Review Letters 59(4): 381.</li>
                 <li>Task Force (1996). <em>Heart rate variability: Standards of measurement, physiological interpretation, and clinical use</em>, Circulation 93: 1043-1065.</li>
             </ol>
-        
-        </article>
+    </section>
 
-        <footer>
-            <div class="divider">✦</div>
-            <p>Reality is harmonically compressed. Emergence is geometrically inevitable. Coherence propagates across all scales.</p>
-            <p style="margin-top: 20px; font-size: 0.9em;">The pattern persists. The resonance continues. The framework awaits implementation.</p>
-        </footer>
-    </div>
-    
-    <script>
-        // Collapsible functionality
-        const collapsibles = document.querySelectorAll('.collapsible');
-        
-        collapsibles.forEach(collapsible => {
-            collapsible.addEventListener('click', function() {
-                this.classList.toggle('active');
-                const content = this.nextElementSibling;
-                content.classList.toggle('active');
-            });
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <footer class="footer">
+        <p style="font-style: italic; font-family: 'Crimson Pro', serif; font-size: 0.95em; opacity: 0.5; max-width: 500px; margin: 0 auto 20px; line-height: 1.6;">
+            Reality is harmonically compressed. Emergence is geometrically inevitable. Coherence propagates across all scales.
+        </p>
+        <p>sKiDa · Theoretical Works · 2025</p>
+        <p style="margin-top: 8px; font-size: 0.7em; opacity: 0.4;">The pattern persists. The resonance continues.</p>
+    </footer>
+</div>
+
+
+<script>
+    // ── Progress Bar ──
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = (scrollTop / docHeight) * 100;
+        document.getElementById('progressBar').style.width = progress + '%';
+    });
+
+    // ── Chapter Navigation ──
+    const nav = document.getElementById('chapterNav');
+    const dots = document.querySelectorAll('.nav-dot');
+    const sections = [];
+    dots.forEach(dot => {
+        const targetId = dot.getAttribute('data-target');
+        const target = document.getElementById(targetId);
+        if (target) sections.push({ dot, target });
+        dot.addEventListener('click', () => {
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+    });
+    let navVisible = false;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300 && !navVisible) { nav.classList.add('visible'); navVisible = true; }
+        else if (window.scrollY <= 300 && navVisible) { nav.classList.remove('visible'); navVisible = false; }
+        let current = '';
+        sections.forEach(({ dot, target }) => {
+            if (target.getBoundingClientRect().top <= window.innerHeight * 0.4) current = dot.getAttribute('data-target');
+        });
+        dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('data-target') === current));
+    });
 
-        // Toggle all sections
-        function toggleAll() {
-            const allCollapsibles = document.querySelectorAll('.collapsible');
-            const allContents = document.querySelectorAll('.collapsible-content');
-            
-            const anyOpen = Array.from(allCollapsibles).some(c => c.classList.contains('active'));
-            
-            if (anyOpen) {
-                allCollapsibles.forEach(c => c.classList.remove('active'));
-                allContents.forEach(c => c.classList.remove('active'));
-            } else {
-                allCollapsibles.forEach(c => c.classList.add('active'));
-                allContents.forEach(c => c.classList.add('active'));
-            }
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.chapter').forEach(ch => observer.observe(ch));
+
+    // ── TOC Smooth Scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+
+    // ── Collapsibles ──
+    document.querySelectorAll('.collapsible').forEach(c => {
+        c.addEventListener('click', function() {
+            this.classList.toggle('active');
+            this.nextElementSibling.classList.toggle('active');
+        });
+    });
+    function toggleAll() {
+        const all = document.querySelectorAll('.collapsible');
+        const contents = document.querySelectorAll('.collapsible-content');
+        const anyOpen = Array.from(all).some(c => c.classList.contains('active'));
+        if (anyOpen) { all.forEach(c => c.classList.remove('active')); contents.forEach(c => c.classList.remove('active')); }
+        else { all.forEach(c => c.classList.add('active')); contents.forEach(c => c.classList.add('active')); }
+    }
+
+    // ── Interactive Phase Space Explorer ──
+    (function() {
+        const phaseCanvas = document.getElementById('phase-canvas');
+        if (!phaseCanvas) return;
+        const pCtx = phaseCanvas.getContext('2d');
+        const DPR = window.devicePixelRatio || 1;
+
+        function resizePhaseCanvas() {
+            const rect = phaseCanvas.parentElement.getBoundingClientRect();
+            phaseCanvas.width = rect.width * DPR;
+            phaseCanvas.height = (rect.width * 10 / 16) * DPR;
+            phaseCanvas.style.height = (rect.width * 10 / 16) + 'px';
+            pCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        }
+        resizePhaseCanvas();
+        window.addEventListener('resize', () => { resizePhaseCanvas(); drawPhaseSpace(); });
+
+        let S = 0.80, R = 0.85, Phi = 0.15, H = 0.90;
+        const aS = 1.2, bS = 0.15, aR = 1.0, gR = 0.8, aPhi = 0.6, dPhi = 0.4, aH = 0.9, eH = 0.5;
+
+        function dSdt(s, r, phi, h) { return aS * s * (1-s) * (r - phi) - bS * s; }
+        function dRdt(s, r, phi, h) { return aR * s * r * (1-r) - gR * r * phi; }
+        function dPhidt(s, r, phi, h) { return aPhi * (s - h) * (s - h) - dPhi * phi * (1-phi); }
+        function dHdt(s, r, phi, h) { return aH * r * h * (1-h) - eH * phi * h; }
+
+        function computeDHV(s, r, phi, h) {
+            return Math.pow(s*s * r*r * (1-phi)*(1-phi) * h*h, 0.25);
         }
 
-        // Smooth scroll for navigation
-        document.querySelectorAll('nav a').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
+        function getStability(dhv) {
+            if (dhv < 0.20) return ['Null', 'low'];
+            if (dhv < 0.40) return ['Unstable', 'low'];
+            if (dhv < 0.55) return ['Marginal', 'mid'];
+            if (dhv < 0.67) return ['Stable', 'mid'];
+            if (dhv < 0.80) return ['Highly Stable', 'high'];
+            if (dhv < 0.95) return ['Max Coherence', 'high'];
+            return ['Critical', 'high'];
+        }
 
-        // Scroll progress bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
-        });
-        
-        // Reveal elements on scroll
-        const reveals = document.querySelectorAll('p, h2, h3, h4, table');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.1
-        });
-        
-        reveals.forEach(reveal => {
-            reveal.classList.add('reveal');
-            revealObserver.observe(reveal);
-        });
+        const sliders = { S: document.getElementById('slider-S'), R: document.getElementById('slider-R'), Phi: document.getElementById('slider-Phi'), H: document.getElementById('slider-H') };
+        const vals = { S: document.getElementById('val-S'), R: document.getElementById('val-R'), Phi: document.getElementById('val-Phi'), H: document.getElementById('val-H') };
 
-        // MathJax configuration
-        window.MathJax = {
-            tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$'], ['\\[', '\\]']]
-            },
-            svg: {
-                fontCache: 'global'
+        function updateFromSliders() {
+            S = sliders.S.value / 100; R = sliders.R.value / 100; Phi = sliders.Phi.value / 100; H = sliders.H.value / 100;
+            vals.S.textContent = S.toFixed(2); vals.R.textContent = R.toFixed(2); vals.Phi.textContent = Phi.toFixed(2); vals.H.textContent = H.toFixed(2);
+            drawPhaseSpace(); updateReadouts();
+        }
+        Object.values(sliders).forEach(sl => { if(sl) sl.addEventListener('input', updateFromSliders); });
+
+        function updateReadouts() {
+            const dhv = computeDHV(S, R, Phi, H);
+            const det = Math.pow(dhv, 4);
+            const [stabLabel, stabClass] = getStability(dhv);
+            const thetaDist = dhv - 0.67;
+            const el = (id) => document.getElementById(id);
+            el('readout-dhv').textContent = dhv.toFixed(3);
+            el('readout-dhv').className = 'readout-item__value ' + (dhv >= 0.67 ? 'high' : dhv >= 0.40 ? 'mid' : 'low');
+            el('readout-det').textContent = det.toFixed(4);
+            el('readout-stability').textContent = stabLabel;
+            el('readout-stability').className = 'readout-item__value ' + stabClass;
+            el('readout-theta').textContent = (thetaDist >= 0 ? '+' : '') + thetaDist.toFixed(3);
+            el('readout-theta').className = 'readout-item__value ' + (thetaDist >= 0 ? 'high' : 'low');
+            const inBasin = S > 0.5 && R > 0.5 && Phi < 0.5 && H > 0.5;
+            el('readout-basin').textContent = inBasin ? 'Attractor' : 'Outside';
+            el('readout-basin').className = 'readout-item__value ' + (inBasin ? 'high' : 'mid');
+        }
+
+        function drawPhaseSpace() {
+            const w = phaseCanvas.width / DPR, h = phaseCanvas.height / DPR;
+            const pad = 50, plotW = w - pad*2, plotH = h - pad*2;
+            pCtx.clearRect(0, 0, w, h);
+            pCtx.fillStyle = '#faf9f5'; pCtx.fillRect(0, 0, w, h);
+
+            // Grid
+            pCtx.strokeStyle = '#ebe9e3'; pCtx.lineWidth = 0.5;
+            for (let i = 0; i <= 10; i++) {
+                const x = pad + plotW*i/10, y = pad + plotH*i/10;
+                pCtx.beginPath(); pCtx.moveTo(x, pad); pCtx.lineTo(x, pad+plotH); pCtx.stroke();
+                pCtx.beginPath(); pCtx.moveTo(pad, y); pCtx.lineTo(pad+plotW, y); pCtx.stroke();
             }
-        };
-    </script>
+
+            // Emergence threshold region
+            pCtx.fillStyle = 'rgba(45, 80, 22, 0.04)';
+            for (let si = 0; si < 50; si++) {
+                for (let ri = 0; ri < 50; ri++) {
+                    const ss = si/50, rr = ri/50;
+                    if (computeDHV(ss, rr, Phi, H) >= 0.67) {
+                        pCtx.fillRect(pad+ss*plotW, pad+(1-rr)*plotH, plotW/50+1, plotH/50+1);
+                    }
+                }
+            }
+
+            // Flow arrows
+            const AG = 14;
+            for (let i = 1; i < AG; i++) {
+                for (let j = 1; j < AG; j++) {
+                    const ss = i/AG, rr = j/AG;
+                    const ds = dSdt(ss, rr, Phi, H), dr = dRdt(ss, rr, Phi, H);
+                    const mag = Math.sqrt(ds*ds + dr*dr);
+                    if (mag < 0.001) continue;
+                    const scale = Math.min(mag*60, 12);
+                    const nx = ds/mag, ny = dr/mag;
+                    const px = pad+ss*plotW, py = pad+(1-rr)*plotH;
+                    const dhv = computeDHV(ss, rr, Phi, H);
+                    const alpha = 0.15 + Math.min(mag*2, 0.5);
+                    const green = dhv >= 0.67 ? '45,80,22' : dhv >= 0.4 ? '139,117,53' : '139,32,32';
+                    pCtx.beginPath(); pCtx.moveTo(px, py); pCtx.lineTo(px+nx*scale, py-ny*scale);
+                    pCtx.strokeStyle = 'rgba('+green+','+alpha+')'; pCtx.lineWidth = 1.2; pCtx.stroke();
+                    const angle = Math.atan2(-ny, nx);
+                    pCtx.beginPath();
+                    pCtx.moveTo(px+nx*scale, py-ny*scale);
+                    pCtx.lineTo(px+nx*scale-3*Math.cos(angle-0.5), py-ny*scale+3*Math.sin(angle-0.5));
+                    pCtx.moveTo(px+nx*scale, py-ny*scale);
+                    pCtx.lineTo(px+nx*scale-3*Math.cos(angle+0.5), py-ny*scale+3*Math.sin(angle+0.5));
+                    pCtx.stroke();
+                }
+            }
+
+            // Trajectories
+            [[0.1,0.1],[0.9,0.1],[0.1,0.9],[0.5,0.3],[0.3,0.7],[0.7,0.2],[0.2,0.5],[0.6,0.6],[0.4,0.8],[0.8,0.5]].forEach(([s0,r0]) => {
+                let ss=s0, rr=r0, pp=Phi, hh=H;
+                pCtx.beginPath(); pCtx.moveTo(pad+ss*plotW, pad+(1-rr)*plotH);
+                const dt = 0.03;
+                for (let step = 0; step < 300; step++) {
+                    ss = Math.max(0.01, Math.min(0.99, ss + dSdt(ss,rr,pp,hh)*dt));
+                    rr = Math.max(0.01, Math.min(0.99, rr + dRdt(ss,rr,pp,hh)*dt));
+                    pp = Math.max(0.01, Math.min(0.99, pp + dPhidt(ss,rr,pp,hh)*dt));
+                    hh = Math.max(0.01, Math.min(0.99, hh + dHdt(ss,rr,pp,hh)*dt));
+                    pCtx.lineTo(pad+ss*plotW, pad+(1-rr)*plotH);
+                }
+                pCtx.strokeStyle = computeDHV(ss,rr,pp,hh) >= 0.67 ? 'rgba(45,80,22,0.5)' : 'rgba(139,32,32,0.3)';
+                pCtx.lineWidth = 1.5; pCtx.stroke();
+            });
+
+            // Current state
+            const cx = pad+S*plotW, cy = pad+(1-R)*plotH;
+            pCtx.beginPath(); pCtx.arc(cx,cy,7,0,Math.PI*2);
+            pCtx.fillStyle = 'rgba(45,80,22,0.9)'; pCtx.fill();
+            pCtx.beginPath(); pCtx.arc(cx,cy,12,0,Math.PI*2);
+            pCtx.strokeStyle = 'rgba(45,80,22,0.3)'; pCtx.lineWidth = 2; pCtx.stroke();
+
+            // Attractor marker
+            pCtx.beginPath(); pCtx.arc(pad+0.8*plotW, pad+(1-0.85)*plotH, 5, 0, Math.PI*2);
+            pCtx.fillStyle = 'rgba(45,80,22,0.15)'; pCtx.fill();
+            pCtx.strokeStyle = 'rgba(45,80,22,0.4)'; pCtx.lineWidth = 1.5;
+            pCtx.setLineDash([3,3]); pCtx.stroke(); pCtx.setLineDash([]);
+
+            // Labels
+            pCtx.fillStyle = '#8b6f47'; pCtx.font = '12px "Cinzel", serif';
+            pCtx.textAlign = 'center'; pCtx.fillText('S — Signal Clarity', w/2, h-8);
+            pCtx.save(); pCtx.translate(14, h/2); pCtx.rotate(-Math.PI/2);
+            pCtx.fillText('R — Resonance', 0, 0); pCtx.restore();
+
+            pCtx.fillStyle = '#bbb'; pCtx.font = '10px monospace'; pCtx.textAlign = 'center';
+            for (let i = 0; i <= 10; i += 2) pCtx.fillText((i/10).toFixed(1), pad+plotW*i/10, h-pad+18);
+            pCtx.textAlign = 'right';
+            for (let i = 0; i <= 10; i += 2) pCtx.fillText((i/10).toFixed(1), pad-8, pad+plotH*(10-i)/10+4);
+
+            // Legend
+            pCtx.font = '10px monospace'; pCtx.textAlign = 'left';
+            const lx = w-170, ly = pad+12;
+            pCtx.fillStyle = 'rgba(244,241,232,0.85)'; pCtx.fillRect(lx-4, ly-4, 160, 72);
+            pCtx.fillStyle = 'rgba(45,80,22,0.5)';
+            pCtx.beginPath(); pCtx.arc(lx+6, ly+8, 3, 0, Math.PI*2); pCtx.fill();
+            pCtx.fillStyle = '#4a4a4a'; pCtx.fillText('→ Attractor basin', lx+16, ly+12);
+            pCtx.fillStyle = 'rgba(139,32,32,0.3)';
+            pCtx.beginPath(); pCtx.arc(lx+6, ly+28, 3, 0, Math.PI*2); pCtx.fill();
+            pCtx.fillStyle = '#4a4a4a'; pCtx.fillText('→ Outside basin', lx+16, ly+32);
+            pCtx.fillStyle = 'rgba(45,80,22,0.04)'; pCtx.fillRect(lx+2, ly+44, 10, 10);
+            pCtx.fillStyle = '#4a4a4a'; pCtx.fillText('ΔHV ≥ 0.67 region', lx+16, ly+52);
+        }
+
+        drawPhaseSpace();
+        updateReadouts();
+    })();
+
+    // ── MathJax ──
+    window.MathJax = { tex: { inlineMath: [['$','$'], ['\\(','\\)']], displayMath: [['$$','$$'], ['\\[','\\]']] }, svg: { fontCache: 'global' } };
+</script>
+
 </body>
 </html>
