@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trauma as Field Mechanics | sKiDa</title>
+    <title>The Curvature of Scars — Mapping the Physics of Trauma, Virtue, and Healing | sKiDa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -15,430 +15,198 @@
             --gold: #c9a961;
             --shadow: rgba(42, 37, 32, 0.1);
             --glow: rgba(201, 169, 97, 0.15);
+            --deep-violet: #5a3e6e;
+            --wound: #8b4049;
+            --heal: #4a7c5e;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Crimson Pro', serif;
             background: linear-gradient(135deg, #f8f5ed 0%, var(--parchment) 100%);
             color: var(--ink);
-            line-height: 1.8;
+            line-height: 1.85;
             font-size: 18px;
             overflow-x: hidden;
         }
-        
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
                 radial-gradient(circle at 20% 30%, var(--glow) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, var(--glow) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 80% 70%, rgba(90, 62, 110, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(139, 64, 73, 0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
         }
-        
-        .progress-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: rgba(201, 169, 97, 0.2);
-            z-index: 1000;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--gold), var(--accent));
-            width: 0%;
-            transition: width 0.1s ease;
-        }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 40px;
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 100px;
-            animation: fadeInUp 1.2s ease-out;
-        }
-        
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 3.5em;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: var(--ink);
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px var(--shadow);
-            line-height: 1.2;
-        }
-        
-        .subtitle {
-            font-size: 1.4em;
-            color: var(--accent);
-            font-style: italic;
-            margin-bottom: 30px;
-            letter-spacing: 0.02em;
-        }
-        
-        .author {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1em;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            display: inline-block;
-            padding: 10px 30px;
-        }
-        
-        .date {
-            font-size: 0.9em;
-            color: var(--accent);
-            margin-top: 20px;
-        }
-        
-        .divider {
-            text-align: center;
-            margin: 60px 0;
-            color: var(--gold);
-            font-size: 1.5em;
-        }
-        
-        .toc {
-            background: rgba(255, 255, 255, 0.4);
-            border: 2px solid var(--accent);
-            padding: 40px;
-            margin: 60px 0;
-            border-radius: 2px;
-            box-shadow: 0 10px 40px var(--shadow);
-        }
-        
-        .toc h2 {
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-        }
-        
-        .toc-list {
-            list-style: none;
-        }
-        
-        .toc-list li {
-            padding: 8px 0;
-            border-bottom: 1px dotted var(--accent);
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        .toc-list li:nth-child(1) { animation-delay: 0.1s; }
-        .toc-list li:nth-child(2) { animation-delay: 0.2s; }
-        .toc-list li:nth-child(3) { animation-delay: 0.3s; }
-        .toc-list li:nth-child(4) { animation-delay: 0.4s; }
-        .toc-list li:nth-child(5) { animation-delay: 0.5s; }
-        .toc-list li:nth-child(6) { animation-delay: 0.6s; }
-        .toc-list li:nth-child(7) { animation-delay: 0.7s; }
-        .toc-list li:nth-child(8) { animation-delay: 0.8s; }
-        
-        .toc-list a {
-            color: var(--ink);
-            text-decoration: none;
-            display: flex;
-            justify-content: space-between;
-            transition: all 0.3s ease;
-        }
-        
-        .toc-list a:hover {
-            color: var(--gold);
-            padding-left: 10px;
-        }
-        
-        article {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 60px;
-            border-radius: 2px;
-            box-shadow: 0 10px 60px var(--shadow);
-            margin-bottom: 80px;
-        }
-        
-        .abstract {
-            background: rgba(201, 169, 97, 0.1);
-            border-left: 4px solid var(--gold);
-            padding: 30px;
-            margin: 40px 0;
-            font-style: italic;
-        }
-        
-        .keywords {
-            margin-top: 20px;
-            font-size: 0.95em;
-        }
-        
-        .keywords strong {
-            color: var(--accent);
-        }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Cinzel', serif;
-            color: var(--accent);
-            margin-top: 50px;
-            margin-bottom: 25px;
-            letter-spacing: 0.03em;
-        }
-        
-        h1 {
-            font-size: 2.5em;
-            text-align: center;
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 20px;
-        }
-        
-        h2 {
-            font-size: 2em;
-            color: var(--ink);
-        }
-        
-        h3 {
-            font-size: 1.6em;
-        }
-        
-        h4 {
-            font-size: 1.3em;
-        }
-        
-        p {
-            margin-bottom: 20px;
-            text-align: justify;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        p.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        strong {
-            color: var(--accent);
-            font-weight: 600;
-        }
-        
-        em {
-            color: var(--gold);
-        }
-        
-        .blockquote {
-            font-size: 1.3em;
-            text-align: center;
-            font-style: italic;
-            color: var(--accent);
-            margin: 40px 0;
-            padding: 30px;
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            line-height: 1.6;
-        }
-        
-        .definition {
-            font-size: 1.2em;
-            text-align: center;
-            font-weight: 600;
-            color: var(--ink);
-            margin: 30px 0;
-            padding: 20px;
-            background: rgba(201, 169, 97, 0.15);
-            border-radius: 2px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 40px 0;
-            box-shadow: 0 4px 20px var(--shadow);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        table.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        thead {
-            background: var(--accent);
-            color: var(--parchment);
-        }
-        
-        th {
-            padding: 15px;
-            text-align: left;
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-        }
-        
-        td {
-            padding: 15px;
-            border-bottom: 1px solid rgba(139, 111, 71, 0.2);
-        }
-        
-        tbody tr:nth-child(even) {
-            background: rgba(255, 255, 255, 0.5);
-        }
-        
-        tbody tr:hover {
-            background: rgba(201, 169, 97, 0.1);
-            transition: background 0.3s ease;
-        }
-        
-        .case-study {
-            background: rgba(255, 255, 255, 0.5);
-            border-left: 4px solid var(--accent);
-            padding: 30px;
-            margin: 40px 0;
-        }
-        
-        .case-study h3 {
-            margin-top: 0;
-            color: var(--gold);
-        }
-        
-        ul, ol {
-            margin: 20px 0 20px 40px;
-        }
-        
-        li {
-            margin-bottom: 10px;
-        }
-        
-        .reference {
-            font-size: 0.95em;
-            line-height: 1.6;
-            margin-bottom: 15px;
-            padding-left: 20px;
-            text-indent: -20px;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px;
-            color: var(--accent);
-            font-style: italic;
-        }
-        
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
+        /* ── Progress ── */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(201, 169, 97, 0.2); z-index: 1000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--wound), var(--gold), var(--heal)); width: 0%; transition: width 0.15s ease-out; }
+        /* ── Nav Dots ── */
+        .chapter-nav { position: fixed; top: 50%; right: 24px; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.4s ease; }
+        .chapter-nav.visible { opacity: 1; }
+        .nav-dot { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--accent); background: transparent; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .nav-dot:hover, .nav-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+        .nav-dot::after { content: attr(data-label); position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.08em; color: var(--accent); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .nav-dot:hover::after { opacity: 1; }
+        /* ── Container ── */
+        .container { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 60px 40px 120px; }
+        /* ── Title Page ── */
+        .title-page { text-align: center; padding: 100px 0 80px; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: fadeIn 1.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .title-line { width: 120px; height: 1px; background: var(--gold); margin-bottom: 40px; animation: breathe 4s ease-in-out infinite; box-shadow: 0 0 8px rgba(201, 169, 97, 0.3); }
+        @keyframes breathe { 0%, 100% { width: 120px; opacity: 0.5; box-shadow: 0 0 6px rgba(201, 169, 97, 0.2); } 50% { width: 200px; opacity: 1; box-shadow: 0 0 16px rgba(201, 169, 97, 0.5); } }
+        .title-page h1 { font-family: 'Cinzel', serif; font-size: 3.2em; font-weight: 700; color: var(--ink); letter-spacing: 0.06em; line-height: 1.15; margin-bottom: 16px; }
+        .title-page .subtitle { font-family: 'Crimson Pro', serif; font-size: 1.2em; font-style: italic; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.03em; line-height: 1.5; max-width: 520px; }
+        .title-page .edition { font-family: 'Cinzel', serif; font-size: 0.82em; letter-spacing: 0.12em; color: var(--gold); border-top: 1px solid rgba(201, 169, 97, 0.4); border-bottom: 1px solid rgba(201, 169, 97, 0.4); padding: 14px 32px; margin: 30px 0; }
+        .title-page .authors { font-family: 'Cinzel', serif; font-size: 0.9em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.8; }
+        /* ── TOC ── */
+        .toc { margin: 0 0 80px; padding: 44px 48px; border: 1px solid rgba(139, 111, 71, 0.2); border-radius: 6px; background: rgba(255, 255, 255, 0.35); }
+        .toc h2 { font-family: 'Cinzel', serif; font-size: 1.1em; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 28px; }
+        .toc-list { list-style: none; }
+        .toc-list li { margin: 10px 0; }
+        .toc-list a { color: var(--ink); text-decoration: none; display: block; padding: 8px 14px; border-left: 3px solid transparent; transition: all 0.3s ease; font-size: 0.95em; }
+        .toc-list a:hover { color: var(--gold); border-left-color: var(--gold); padding-left: 22px; background: rgba(201, 169, 97, 0.04); }
+        .toc-label { font-family: 'Cinzel', serif; font-weight: 600; font-size: 0.85em; letter-spacing: 0.04em; }
+        /* ── Dividers ── */
+        .divider { text-align: center; margin: 70px 0; position: relative; }
+        .divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .divider-symbol { position: relative; background: var(--parchment); padding: 0 24px; font-size: 18px; color: var(--gold); z-index: 1; }
+        /* ── Chapters ── */
+        .chapter { margin-bottom: 80px; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .chapter.visible { opacity: 1; transform: translateY(0); }
+        .chapter-label { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+        .chapter h2 { font-family: 'Cinzel', serif; font-size: 2em; font-weight: 600; color: var(--ink); margin-bottom: 30px; letter-spacing: 0.04em; line-height: 1.3; }
+        .chapter h3 { font-family: 'Cinzel', serif; font-size: 1.3em; font-weight: 600; color: var(--accent); margin-top: 40px; margin-bottom: 18px; letter-spacing: 0.03em; }
+        .chapter p { margin-bottom: 20px; }
+        /* ── Invocations / Pull Quotes ── */
+        .invocation { text-align: center; font-style: italic; font-size: 1.12em; color: var(--accent); padding: 30px 36px; margin: 36px 0; position: relative; line-height: 1.7; }
+        .invocation::before, .invocation::after { content: ''; position: absolute; left: 50%; transform: translateX(-50%); width: 60px; height: 1px; background: var(--gold); }
+        .invocation::before { top: 0; } .invocation::after { bottom: 0; }
+        .blockquote { font-size: 1.12em; text-align: center; font-style: italic; color: var(--accent); margin: 36px 0; padding: 28px 36px; border-top: 1px solid rgba(201, 169, 97, 0.4); border-bottom: 1px solid rgba(201, 169, 97, 0.4); line-height: 1.65; }
+        /* ── Abstract ── */
+        .abstract { font-size: 1.02em; padding: 28px 32px; background: rgba(201, 169, 97, 0.06); border-left: 3px solid var(--gold); margin: 20px 0 30px; border-radius: 0 6px 6px 0; }
+        .abstract p { margin-bottom: 14px; }
+        .keywords { font-size: 0.9em; color: var(--accent); }
+        /* ── Definition / Highlight Blocks ── */
+        .definition { font-size: 1.05em; text-align: center; color: var(--ink); margin: 36px 0; padding: 26px 32px; background: rgba(201, 169, 97, 0.08); border-radius: 4px; line-height: 1.7; }
+        .highlight { background: rgba(90, 62, 110, 0.04); border-left: 3px solid var(--deep-violet); padding: 24px 28px; margin: 30px 0; border-radius: 0 6px 6px 0; }
+        .highlight strong { color: var(--deep-violet); }
+        /* ── Protocol Steps ── */
+        .protocol-step { margin: 30px 0; padding: 24px 28px; border-left: 3px solid var(--heal); background: rgba(74, 124, 94, 0.03); border-radius: 0 6px 6px 0; }
+        /* ── Case Study Blocks ── */
+        .case-study { margin: 30px 0; padding: 28px 32px; border: 1px solid rgba(139, 111, 71, 0.15); border-radius: 6px; background: rgba(255, 255, 255, 0.35); }
+        .case-study h3 { margin-top: 0; }
+        /* ── Tables ── */
+        .comparison-table { width: 100%; margin: 36px 0; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 6px; border: 1px solid rgba(139, 111, 71, 0.2); font-size: 0.9em; }
+        .comparison-table thead { background: rgba(42, 37, 32, 0.06); }
+        .comparison-table th { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 14px 16px; text-align: left; border-bottom: 2px solid var(--gold); }
+        .comparison-table td { padding: 14px 16px; border-bottom: 1px solid rgba(139, 111, 71, 0.1); vertical-align: top; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:hover td { background: rgba(201, 169, 97, 0.04); }
+        /* Also style plain tables the same way */
+        table { width: 100%; margin: 36px 0; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 6px; border: 1px solid rgba(139, 111, 71, 0.2); font-size: 0.9em; }
+        thead { background: rgba(42, 37, 32, 0.06); }
+        th { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 14px 16px; text-align: left; border-bottom: 2px solid var(--gold); }
+        td { padding: 14px 16px; border-bottom: 1px solid rgba(139, 111, 71, 0.1); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(201, 169, 97, 0.04); }
+        /* ── Lists ── */
+        .chapter ul { list-style: none; padding: 0; margin: 20px 0; }
+        .chapter ul li { padding: 6px 0 6px 22px; position: relative; line-height: 1.7; }
+        .chapter ul li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); font-size: 0.6em; top: 12px; }
+        .chapter ul ul { margin: 8px 0 8px 10px; }
+        /* ── References ── */
+        .reference { padding: 8px 0; border-bottom: 1px solid rgba(139, 111, 71, 0.08); font-size: 0.92em; line-height: 1.65; }
+        .reference:last-child { border-bottom: none; }
+        /* ── Footer ── */
+        .footer { text-align: center; padding: 60px 0 40px; border-top: 1px solid rgba(201, 169, 97, 0.3); margin-top: 80px; }
+        .footer p { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.6; margin-bottom: 8px; }
+        .footer .footer-quote { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.92em; letter-spacing: 0; opacity: 0.5; max-width: 500px; margin: 0 auto 16px; line-height: 1.6; }
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
-            }
-            
-            .main-title {
-                font-size: 2.5em;
-            }
-            
-            article {
-                padding: 30px;
-            }
-            
-            .toc {
-                padding: 20px;
-            }
-            
-            table {
-                font-size: 0.9em;
-            }
-            
-            th, td {
-                padding: 10px;
-            }
+            .container { padding: 40px 24px 80px; }
+            .title-page { padding: 60px 0; min-height: 70vh; }
+            .title-page h1 { font-size: 2.4em; }
+            .chapter h2 { font-size: 1.6em; }
+            .chapter-nav { display: none; }
+            table, .comparison-table { font-size: 0.8em; }
+            th, td { padding: 10px 10px; }
+        }
+        @media (max-width: 480px) {
+            .title-page h1 { font-size: 1.9em; }
+            .blockquote, .invocation { padding: 24px 18px; font-size: 1em; }
         }
     </style>
 </head>
 <body>
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
-    </div>
-    
-    <div class="container">
-        <header>
-            <h1 class="main-title">Trauma as Field Mechanics</h1>
-            <p class="subtitle">A Coherence-Based Diagnostic and Integration Framework</p>
-            <p class="author">sKiDa</p>
-            <p class="date">February 2026</p>
-        </header>
-        
-        <nav class="toc">
-            <h2>Table of Contents</h2>
-            <ul class="toc-list">
-                <li><a href="#abstract"><span>Abstract</span></a></li>
-                <li><a href="#introduction"><span>1. Introduction</span></a></li>
-                <li><a href="#theory"><span>2. Theoretical Framework</span></a></li>
-                <li><a href="#atlas"><span>3. Field Geometry Atlas</span></a></li>
-                <li><a href="#rps"><span>4. Resonance Profile Scan</span></a></li>
-                <li><a href="#fip5"><span>5. Field Integration Protocol-5</span></a></li>
-                <li><a href="#cases"><span>6. Case Prototypes</span></a></li>
-                <li><a href="#discussion"><span>7. Discussion & Implications</span></a></li>
-                <li><a href="#conclusion"><span>8. Conclusion</span></a></li>
-                <li><a href="#references"><span>References</span></a></li>
-            </ul>
-        </nav>
-        
-        <article>
-            <section id="abstract">
-                <h1>Abstract</h1>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Chapter Navigation -->
+<nav class="chapter-nav" id="chapterNav">
+    <div class="nav-dot" data-target="title" data-label="Title"></div>
+    <div class="nav-dot" data-target="abstract" data-label="Abstract"></div>
+    <div class="nav-dot" data-target="introduction" data-label="Introduction"></div>
+    <div class="nav-dot" data-target="theory" data-label="Framework"></div>
+    <div class="nav-dot" data-target="atlas" data-label="Atlas"></div>
+    <div class="nav-dot" data-target="rps" data-label="RPS"></div>
+    <div class="nav-dot" data-target="fip5" data-label="FIP-5"></div>
+    <div class="nav-dot" data-target="cases" data-label="Cases"></div>
+    <div class="nav-dot" data-target="discussion" data-label="Discussion"></div>
+    <div class="nav-dot" data-target="conclusion" data-label="Conclusion"></div>
+    <div class="nav-dot" data-target="references" data-label="References"></div>
+</nav>
+
+<div class="container">
+
+    <!-- ═══ TITLE PAGE ═══ -->
+    <section class="title-page" id="title">
+        <div class="title-line"></div>
+        <h1>The Curvature<br>of Scars</h1>
+        <div class="subtitle">Mapping the Physics of Trauma, Virtue, and Healing</div>
+        <div class="edition">February 2026</div>
+        <div class="authors">sKiDa</div>
+    </section>
+
+    <!-- ═══ TOC ═══ -->
+    <nav class="toc">
+        <h2>Contents</h2>
+        <ul class="toc-list">
+            <li><a href="#abstract"><span class="toc-label">Abstract</span></a></li>
+            <li><a href="#introduction"><span class="toc-label">1. Introduction</span></a></li>
+            <li><a href="#theory"><span class="toc-label">2. Theoretical Framework</span></a></li>
+            <li><a href="#atlas"><span class="toc-label">3. Field Geometry Atlas</span></a></li>
+            <li><a href="#rps"><span class="toc-label">4. Resonance Profile Scan</span></a></li>
+            <li><a href="#fip5"><span class="toc-label">5. Field Integration Protocol</span></a></li>
+            <li><a href="#cases"><span class="toc-label">6. Case Prototypes</span></a></li>
+            <li><a href="#discussion"><span class="toc-label">7. Discussion</span></a></li>
+            <li><a href="#conclusion"><span class="toc-label">8. Conclusion</span></a></li>
+            <li><a href="#references"><span class="toc-label">References</span></a></li>
+        </ul>
+    </nav>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <!-- ═══ CONTENT ═══ -->
+
+    <section class="chapter" id="abstract">
+        <div class="chapter-label">Abstract</div>
+        <h2>Abstract</h2>
                 
                 <div class="abstract">
                     <p>This paper proposes a radical reconceptualization of trauma, healing, and psychological integration through the lens of field physics. Rather than viewing trauma solely as psychological pathology, we present trauma as a measurable field phenomenon characterized by curvature, entropy shifts, and harmonic distortions. Drawing on concepts from quantum mechanics, thermodynamics, and general relativity, we establish structural isomorphisms between physical field dynamics and psychoemotional states. We introduce a comprehensive diagnostic framework—the Field Geometry Atlas—mapping specific trauma types to distinct field configurations, and present the Resonance Profile Scan (RPS) as a multimodal coherence measurement system. Finally, we detail the Field Integration Protocol-5 (FIP-5), a five-step therapeutic methodology grounded in field mechanics principles. This framework bridges neuroscience, somatic therapy, physics, and consciousness studies, offering both theoretical rigor and practical clinical applications.</p>
                     
                     <p class="keywords"><strong>Keywords:</strong> trauma, field theory, coherence, integration, quantum collapse, entropy, somatic therapy, consciousness</p>
                 </div>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="introduction">
-                <h1>1. Introduction</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="introduction">
+        <div class="chapter-label">1. Introduction</div>
+        <h2>Introduction</h2>
                 
                 <p>Trauma is traditionally framed as a psychological wound—a rupture in normal functioning that requires repair. Contemporary therapeutic approaches, from EMDR to somatic experiencing, have made significant advances in treating traumatic symptoms. Yet these modalities often lack a unified theoretical framework that bridges psychological experience with measurable physical phenomena.</p>
                 
@@ -467,12 +235,13 @@
                     <li>Detail a therapeutic intervention framework (FIP-5) grounded in field mechanics</li>
                     <li>Demonstrate clinical applicability through case prototypes</li>
                 </ul>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="theory">
-                <h1>2. Theoretical Framework: Physics of Integration</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="theory">
+        <div class="chapter-label">2. Theoretical Framework</div>
+        <h2>Theoretical Framework: Physics of Integration</h2>
                 
                 <p>The following table establishes core correspondences between physics concepts and trauma/healing phenomena:</p>
                 
@@ -573,12 +342,13 @@
                 <div class="blockquote">
                     From collapse → to myth → to signal → to song
                 </div>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="atlas">
-                <h1>3. Field Geometry Atlas: Mapping Trauma Types to Field Signatures</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="atlas">
+        <div class="chapter-label">3. Field Geometry Atlas</div>
+        <h2>Field Geometry Atlas: Mapping Trauma Types to Field Signatures</h2>
                 
                 <p>Different trauma types produce distinct field geometries. Just as cymatic patterns visualize sound frequencies through sand or liquid, traumatic experiences leave characteristic signatures in the psychoemotional field. The following atlas provides a diagnostic reference mapping trauma categories to their field phenomenology.</p>
                 
@@ -658,12 +428,13 @@
                 <p><strong>Intervention Targeting:</strong> Different geometries respond to different therapeutic modalities. Standing waves (PTSD) may require bilateral stimulation (EMDR) to break the oscillation lock. Field vacuums (neglect) may need relational attunement to restore resonance density.</p>
                 
                 <p><strong>Progress Tracking:</strong> As therapy proceeds, the field signature should shift—standing waves should dampen, phase inversions should correct, oscillation instability should stabilize.</p>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="rps">
-                <h1>4. Resonance Profile Scan: Multimodal Coherence Assessment</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="rps">
+        <div class="chapter-label">4. Resonance Profile Scan</div>
+        <h2>Resonance Profile Scan: Multimodal Coherence Assessment</h2>
                 
                 <p>To measure field states quantitatively, we propose the Resonance Profile Scan (RPS)—a comprehensive assessment protocol tracking coherence across multiple modalities.</p>
                 
@@ -721,12 +492,13 @@
                 <p><strong>High-Tech:</strong> Clinical-grade EEG coherence analysis, biofield measurement devices (GDV cameras, HeartMath sensors), linguistic AI for automated narrative coherence scoring.</p>
                 
                 <p>Critically, the RPS is not about single-point measurement but trajectory tracking. Integration shows as increasing variance within healthy ranges (flexibility) while reducing pathological variance (chaos/rigidity).</p>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="fip5">
-                <h1>5. Field Integration Protocol-5 (FIP-5)</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="fip5">
+        <div class="chapter-label">5. Field Integration Protocol</div>
+        <h2>Field Integration Protocol-5 (FIP-5)</h2>
                 
                 <p>We now present a practical therapeutic framework derived from field mechanics principles. The Field Integration Protocol-5 (FIP-5) provides a structured yet flexible approach to trauma healing, applicable across diverse modalities.</p>
                 
@@ -857,12 +629,13 @@
                         </tr>
                     </tbody>
                 </table>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="cases">
-                <h1>6. Case Prototypes</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="cases">
+        <div class="chapter-label">6. Case Prototypes</div>
+        <h2>Case Prototypes</h2>
                 
                 <p>To demonstrate clinical applicability, we present three case prototypes illustrating FIP-5 in action. Names and identifying details have been modified to protect confidentiality.</p>
                 
@@ -931,12 +704,13 @@
                     
                     <p><strong>Outcome:</strong> After 2+ years, Maya forms her first secure romantic relationship. Hypervigilance reduces to "appropriate caution." She reports feeling "in her body" for the first time.</p>
                 </div>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="discussion">
-                <h1>7. Discussion and Implications</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="discussion">
+        <div class="chapter-label">7. Discussion</div>
+        <h2>Discussion and Implications</h2>
                 
                 <h2>7.1 Theoretical Contributions</h2>
                 
@@ -983,12 +757,13 @@
                 <p><strong>Cross-Cultural Application:</strong> While field physics is universal, cultural trauma expressions vary. The atlas must be tested and refined across diverse populations.</p>
                 
                 <p><strong>Training Curriculum:</strong> Translating this framework into practitioner education requires pedagogical design—workshops, supervision models, certification programs.</p>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="conclusion">
-                <h1>8. Conclusion</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="conclusion">
+        <div class="chapter-label">8. Conclusion</div>
+        <h2>Conclusion</h2>
                 
                 <p>Trauma is not merely psychological damage—it is field distortion with measurable geometry, entropy dynamics, and coherence shifts. By mapping trauma phenomenology onto physics principles, we reveal structural isomorphisms that unify diverse healing modalities under a single theoretical umbrella.</p>
                 
@@ -1005,12 +780,13 @@
                     Trauma bends the field.<br>
                     Virtue is the shape that holds when it does.
                 </div>
-            </section>
-            
-            <div class="divider">✦</div>
-            
-            <section id="references">
-                <h1>References</h1>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="references">
+        <div class="chapter-label">References</div>
+        <h2>References</h2>
                 
                 <div class="reference">Clausius, R. (1865). <em>The Mechanical Theory of Heat</em>. London: John van Voorst.</div>
                 
@@ -1031,41 +807,61 @@
                 <div class="reference">von Neumann, J. (1932). <em>Mathematische Grundlagen der Quantenmechanik</em>. Berlin: Springer.</div>
                 
                 <div class="reference">Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical. <em>Reviews of Modern Physics</em>, 75(3), 715-775.</div>
-            </section>
-        </article>
-        
-        <footer>
-            <div class="divider">✦</div>
-            <p>The field remembers. The pattern persists. Coherence returns.</p>
-        </footer>
-    </div>
-    
-    <script>
-        // Scroll progress bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+
+    <!-- ═══ FOOTER ═══ -->
+    <footer class="footer">
+        <p class="footer-quote">The field remembers. The pattern persists. Coherence returns.</p>
+        <p class="footer-quote">You can only shine as bright as the darkness you've inhabited.</p>
+        <p>sKiDa · Theoretical Works · 2026</p>
+    </footer>
+</div>
+
+<script>
+    // ── Progress Bar ──
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progressBar').style.width = (scrollTop / docHeight) * 100 + '%';
+    });
+
+    // ── Chapter Navigation ──
+    const nav = document.getElementById('chapterNav');
+    const dots = document.querySelectorAll('.nav-dot');
+    const secs = [];
+    dots.forEach(dot => {
+        const t = document.getElementById(dot.getAttribute('data-target'));
+        if (t) secs.push({ dot, target: t });
+        dot.addEventListener('click', () => { if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    });
+    let navVis = false;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300 && !navVis) { nav.classList.add('visible'); navVis = true; }
+        else if (window.scrollY <= 300 && navVis) { nav.classList.remove('visible'); navVis = false; }
+        let cur = '';
+        secs.forEach(({ dot, target }) => {
+            if (target.getBoundingClientRect().top <= window.innerHeight * 0.4) cur = dot.getAttribute('data-target');
         });
-        
-        // Reveal elements on scroll
-        const reveals = document.querySelectorAll('p, h2, h3, h4, table');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.1
+        dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('data-target') === cur));
+    });
+
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.chapter').forEach(ch => observer.observe(ch));
+
+    // ── TOC Smooth Scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-        
-        reveals.forEach(reveal => {
-            reveal.classList.add('reveal');
-            revealObserver.observe(reveal);
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
