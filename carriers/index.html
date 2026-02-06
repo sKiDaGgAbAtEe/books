@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Carriers Trilogy | sKiDa</title>
+    <title>The Carriers — A Trilogy on Institutional Capture and Underground Transmission | sKiDa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -15,327 +15,139 @@
             --gold: #c9a961;
             --shadow: rgba(42, 37, 32, 0.1);
             --glow: rgba(201, 169, 97, 0.15);
+            --flame: #b8763a;
+            --ember: #9e5a3c;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Crimson Pro', serif;
             background: linear-gradient(135deg, #f8f5ed 0%, var(--parchment) 100%);
             color: var(--ink);
-            line-height: 1.8;
+            line-height: 1.85;
             font-size: 18px;
             overflow-x: hidden;
         }
-        
-        /* Decorative background pattern */
         body::before {
             content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image:
                 radial-gradient(circle at 20% 30%, var(--glow) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, var(--glow) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
+                radial-gradient(circle at 80% 70%, rgba(184, 118, 58, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(158, 90, 60, 0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: 0;
         }
-        
-        .container {
-            position: relative;
-            z-index: 1;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 80px 40px;
-        }
-        
-        /* Animated title appearance */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 100px;
-            animation: fadeInUp 1.2s ease-out;
-        }
-        
-        .main-title {
-            font-family: 'Cinzel', serif;
-            font-size: 4em;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            color: var(--ink);
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-shadow: 2px 2px 4px var(--shadow);
-        }
-        
-        .subtitle {
-            font-size: 1.4em;
-            color: var(--accent);
-            font-style: italic;
-            margin-bottom: 30px;
-            letter-spacing: 0.02em;
-        }
-        
-        .author {
-            font-family: 'Cinzel', serif;
-            font-size: 1.1em;
-            letter-spacing: 0.1em;
-            color: var(--gold);
-            border-top: 1px solid var(--gold);
-            border-bottom: 1px solid var(--gold);
-            display: inline-block;
-            padding: 10px 30px;
-        }
-        
-        /* Decorative divider */
-        .divider {
-            text-align: center;
-            margin: 60px 0;
-            color: var(--gold);
-            font-size: 1.5em;
-        }
-        
-        /* Table of Contents */
-        .toc {
-            background: rgba(255, 255, 255, 0.4);
-            border: 2px solid var(--accent);
-            padding: 40px;
-            margin: 60px 0;
-            border-radius: 2px;
-            box-shadow: 0 10px 40px var(--shadow);
-        }
-        
-        .toc h2 {
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.8em;
-            color: var(--accent);
-            letter-spacing: 0.05em;
-        }
-        
-        .toc-list {
-            list-style: none;
-        }
-        
-        .toc-list li {
-            padding: 8px 0;
-            border-bottom: 1px dotted var(--accent);
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out forwards;
-        }
-        
-        .toc-list li:nth-child(1) { animation-delay: 0.1s; }
-        .toc-list li:nth-child(2) { animation-delay: 0.2s; }
-        .toc-list li:nth-child(3) { animation-delay: 0.3s; }
-        .toc-list li:nth-child(4) { animation-delay: 0.4s; }
-        .toc-list li:nth-child(5) { animation-delay: 0.5s; }
-        .toc-list li:nth-child(6) { animation-delay: 0.6s; }
-        .toc-list li:nth-child(7) { animation-delay: 0.7s; }
-        .toc-list li:nth-child(8) { animation-delay: 0.8s; }
-        
-        .toc-list li:last-child {
-            border-bottom: none;
-        }
-        
-        /* Main content sections */
-        h1, h2, h3, h4 {
-            font-family: 'Cinzel', serif;
-            margin: 60px 0 30px;
-            letter-spacing: 0.03em;
-            line-height: 1.3;
-        }
-        
-        h1 {
-            font-size: 2.8em;
-            text-align: center;
-            color: var(--accent);
-            border-top: 3px solid var(--gold);
-            border-bottom: 3px solid var(--gold);
-            padding: 30px 0;
-            margin-top: 100px;
-            text-transform: uppercase;
-        }
-        
-        h2 {
-            font-size: 2.2em;
-            color: var(--accent);
-            border-left: 5px solid var(--gold);
-            padding-left: 20px;
-        }
-        
-        h3 {
-            font-size: 1.8em;
-            color: var(--ink);
-        }
-        
-        h4 {
-            font-size: 1.4em;
-            font-weight: 600;
-            color: var(--accent);
-            font-style: italic;
-        }
-        
-        p {
-            margin: 25px 0;
-            text-align: justify;
-            hyphens: auto;
-        }
-        
-        em {
-            color: var(--accent);
-            font-style: italic;
-        }
-        
-        strong {
-            font-weight: 600;
-            color: var(--ink);
-        }
-        
-        /* Blockquote styling for emphasis */
-        p:has(em:only-child) {
-            font-style: italic;
-            color: var(--accent);
-            padding-left: 40px;
-            border-left: 3px solid var(--gold);
-            margin: 30px 0;
-        }
-        
-        /* Table styling */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 40px 0;
-            background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 5px 20px var(--shadow);
-        }
-        
-        thead {
-            background: var(--accent);
-            color: var(--parchment);
-        }
-        
-        th {
-            padding: 15px;
-            text-align: left;
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-        }
-        
-        td {
-            padding: 15px;
-            border-bottom: 1px solid var(--shadow);
-        }
-        
-        tbody tr:hover {
-            background: var(--glow);
-            transition: background 0.3s ease;
-        }
-        
-        /* Scroll progress indicator */
-        .progress-bar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--gold), var(--accent));
-            width: 0%;
-            z-index: 1000;
-            transition: width 0.1s ease;
-        }
-        
-        /* Smooth reveal on scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            margin-top: 100px;
-            padding: 40px;
-            border-top: 2px solid var(--gold);
-            color: var(--accent);
-            font-style: italic;
-        }
-        
+        /* ── Progress ── */
+        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 4px; background: rgba(201, 169, 97, 0.2); z-index: 1000; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--ember), var(--gold), var(--flame)); width: 0%; transition: width 0.15s ease-out; }
+        /* ── Nav Dots ── */
+        .chapter-nav { position: fixed; top: 50%; right: 24px; transform: translateY(-50%); z-index: 100; display: flex; flex-direction: column; gap: 12px; opacity: 0; transition: opacity 0.4s ease; }
+        .chapter-nav.visible { opacity: 1; }
+        .nav-dot { width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--accent); background: transparent; cursor: pointer; transition: all 0.3s ease; position: relative; }
+        .nav-dot:hover, .nav-dot.active { background: var(--gold); border-color: var(--gold); transform: scale(1.3); }
+        .nav-dot::after { content: attr(data-label); position: absolute; right: 20px; top: 50%; transform: translateY(-50%); white-space: nowrap; font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.08em; color: var(--accent); opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .nav-dot:hover::after { opacity: 1; }
+        /* ── Container ── */
+        .container { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; padding: 60px 40px 120px; }
+        /* ── Title Page ── */
+        .title-page { text-align: center; padding: 100px 0 80px; min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center; animation: fadeIn 1.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .title-line { width: 120px; height: 1px; background: var(--gold); margin-bottom: 40px; animation: breathe 4s ease-in-out infinite; box-shadow: 0 0 8px rgba(201, 169, 97, 0.3); }
+        @keyframes breathe { 0%, 100% { width: 120px; opacity: 0.5; box-shadow: 0 0 6px rgba(201, 169, 97, 0.2); } 50% { width: 200px; opacity: 1; box-shadow: 0 0 16px rgba(201, 169, 97, 0.5); } }
+        .title-page h1 { font-family: 'Cinzel', serif; font-size: 3.8em; font-weight: 700; color: var(--ink); letter-spacing: 0.08em; line-height: 1.15; margin-bottom: 20px; }
+        .title-page .subtitle { font-family: 'Crimson Pro', serif; font-size: 1.15em; font-style: italic; color: var(--accent); margin-bottom: 10px; letter-spacing: 0.03em; line-height: 1.6; max-width: 480px; }
+        .title-page .edition { font-family: 'Cinzel', serif; font-size: 0.82em; letter-spacing: 0.12em; color: var(--gold); border-top: 1px solid rgba(201, 169, 97, 0.4); border-bottom: 1px solid rgba(201, 169, 97, 0.4); padding: 14px 32px; margin: 30px 0; }
+        .title-page .authors { font-family: 'Cinzel', serif; font-size: 0.9em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.8; }
+        /* ── TOC ── */
+        .toc { margin: 0 0 80px; padding: 44px 48px; border: 1px solid rgba(139, 111, 71, 0.2); border-radius: 6px; background: rgba(255, 255, 255, 0.35); }
+        .toc h2 { font-family: 'Cinzel', serif; font-size: 1.1em; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); text-align: center; margin-bottom: 28px; }
+        .toc-list { list-style: none; }
+        .toc-list li { margin: 12px 0; }
+        .toc-list a { color: var(--ink); text-decoration: none; display: block; padding: 10px 14px; border-left: 3px solid transparent; transition: all 0.3s ease; font-size: 1em; }
+        .toc-list a:hover { color: var(--gold); border-left-color: var(--gold); padding-left: 22px; background: rgba(201, 169, 97, 0.04); }
+        .toc-label { font-family: 'Cinzel', serif; font-weight: 600; font-size: 0.88em; letter-spacing: 0.04em; }
+        /* ── Dividers ── */
+        .divider { text-align: center; margin: 70px 0; position: relative; }
+        .divider::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .divider-symbol { position: relative; background: var(--parchment); padding: 0 24px; font-size: 18px; color: var(--gold); z-index: 1; }
+        /* ── Chapters ── */
+        .chapter { margin-bottom: 80px; opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .chapter.visible { opacity: 1; transform: translateY(0); }
+        .chapter-label { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.2em; color: var(--gold); text-transform: uppercase; margin-bottom: 8px; }
+        .chapter h2 { font-family: 'Cinzel', serif; font-size: 2.1em; font-weight: 600; color: var(--ink); margin-bottom: 10px; letter-spacing: 0.04em; line-height: 1.25; }
+        .part-subtitle { font-family: 'Crimson Pro', serif; font-size: 1.1em; font-style: italic; color: var(--accent); margin-bottom: 30px; letter-spacing: 0.02em; }
+        .chapter h3 { font-family: 'Cinzel', serif; font-size: 1.3em; font-weight: 600; color: var(--accent); margin-top: 50px; margin-bottom: 18px; letter-spacing: 0.03em; }
+        .chapter h4 { font-family: 'Cinzel', serif; font-size: 1.1em; font-weight: 600; color: var(--gold); margin-top: 32px; margin-bottom: 14px; letter-spacing: 0.02em; }
+        .chapter p { margin-bottom: 20px; }
+        .chapter em { color: var(--flame); }
+        /* ── Blockquotes ── */
+        .blockquote { font-size: 1.12em; text-align: center; font-style: italic; color: var(--accent); margin: 36px 0; padding: 28px 36px; border-top: 1px solid rgba(201, 169, 97, 0.4); border-bottom: 1px solid rgba(201, 169, 97, 0.4); line-height: 1.65; }
+        /* ── Lists ── */
+        .chapter ul { list-style: none; padding: 0; margin: 20px 0; }
+        .chapter ul li { padding: 6px 0 6px 22px; position: relative; line-height: 1.7; }
+        .chapter ul li::before { content: '✦'; position: absolute; left: 0; color: var(--gold); font-size: 0.6em; top: 12px; }
+        /* ── Tables ── */
+        table { width: 100%; margin: 36px 0; border-collapse: separate; border-spacing: 0; border-radius: 6px; border: 1px solid rgba(139, 111, 71, 0.2); font-size: 0.9em; }
+        thead { background: rgba(42, 37, 32, 0.06); }
+        th { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 14px 16px; text-align: left; border-bottom: 2px solid var(--gold); }
+        td { padding: 14px 16px; border-bottom: 1px solid rgba(139, 111, 71, 0.1); vertical-align: top; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(201, 169, 97, 0.04); }
+        /* ── Footer ── */
+        .footer { text-align: center; padding: 60px 0 40px; border-top: 1px solid rgba(201, 169, 97, 0.3); margin-top: 80px; }
+        .footer p { font-family: 'Cinzel', serif; font-size: 0.78em; letter-spacing: 0.1em; color: var(--accent); opacity: 0.6; margin-bottom: 8px; }
+        .footer .footer-quote { font-family: 'Crimson Pro', serif; font-style: italic; font-size: 0.92em; letter-spacing: 0; opacity: 0.5; max-width: 500px; margin: 0 auto 16px; line-height: 1.6; }
+        /* ── Responsive ── */
         @media (max-width: 768px) {
-            .container {
-                padding: 40px 20px;
-            }
-            
-            .main-title {
-                font-size: 2.5em;
-            }
-            
-            h1 {
-                font-size: 2em;
-            }
-            
-            h2 {
-                font-size: 1.6em;
-            }
-            
-            table {
-                font-size: 0.85em;
-            }
-            
-            th, td {
-                padding: 10px;
-            }
+            .container { padding: 40px 24px 80px; }
+            .title-page { padding: 60px 0; min-height: 70vh; }
+            .title-page h1 { font-size: 2.6em; }
+            .chapter h2 { font-size: 1.6em; }
+            .chapter-nav { display: none; }
+        }
+        @media (max-width: 480px) {
+            .title-page h1 { font-size: 2em; }
+            .blockquote { padding: 24px 18px; font-size: 1em; }
         }
     </style>
 </head>
 <body>
-    <div class="progress-bar" id="progressBar"></div>
-    
-    <div class="container">
-        <header>
-            <h1 class="main-title">The Carriers</h1>
-            <p class="subtitle">A Trilogy on Institutional Capture and Underground Transmission</p>
-            <div class="author">By sKiDa</div>
-        </header>
-        
-        <section class="toc">
-            <h2>Table of Contents</h2>
-            <ul class="toc-list">
-                <li>PROLOGUE: The Pattern That Repeats</li>
-                <li>PART I: THE WITCH CARRIES THE CHRIST</li>
-                <li>PART II: THE LOVER CARRIES THE PROPHET</li>
-                <li>PART III: THE FIELD MYSTIC CARRIES THE PHYSICS</li>
-            </ul>
-        </section>
-        
-        <div class="divider">✦</div>
-        
-        <article class="content">
-            <h2>PROLOGUE: The Pattern That Repeats</h2>
-            
-            <p>There is a pattern in history that recurs with such precision it demands recognition. It is not coincidence. It is not isolated. It is structural, a feature of how power relates to truth, how institutions relate to direct access, how empire relates to the sacred.</p>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<nav class="chapter-nav" id="chapterNav">
+    <div class="nav-dot" data-target="title" data-label="Title"></div>
+    <div class="nav-dot" data-target="prologue" data-label="Prologue"></div>
+    <div class="nav-dot" data-target="part-1" data-label="I. The Witch"></div>
+    <div class="nav-dot" data-target="part-2" data-label="II. The Lover"></div>
+    <div class="nav-dot" data-target="part-3" data-label="III. The Mystic"></div>
+</nav>
+
+<div class="container">
+
+    <section class="title-page" id="title">
+        <div class="title-line"></div>
+        <h1>The Carriers</h1>
+        <div class="subtitle">A Trilogy on Institutional Capture<br>and Underground Transmission</div>
+        <div class="authors">sKiDa</div>
+    </section>
+
+    <nav class="toc">
+        <h2>Contents</h2>
+        <ul class="toc-list">
+            <li><a href="#prologue"><span class="toc-label">Prologue:</span> The Pattern That Repeats</a></li>
+            <li><a href="#part-1"><span class="toc-label">Part I:</span> The Witch Carries the Christ</a></li>
+            <li><a href="#part-2"><span class="toc-label">Part II:</span> The Lover Carries the Prophet</a></li>
+            <li><a href="#part-3"><span class="toc-label">Part III:</span> The Field Mystic Carries the Physics</a></li>
+        </ul>
+    </nav>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+
+    <section class="chapter" id="prologue">
+        <div class="chapter-label">Prologue</div>
+        <h2>The Pattern That Repeats</h2>
+        <p>There is a pattern in history that recurs with such precision it demands recognition. It is not coincidence. It is not isolated. It is structural, a feature of how power relates to truth, how institutions relate to direct access, how empire relates to the sacred.</p>
             
             <p>The pattern has three phases:</p>
             
@@ -360,13 +172,15 @@
             <p>What follows is not metaphor. It is pattern recognition across domains that should have no connection, yet converge with impossible precision.</p>
             
             <p>Read all three. See the structure. Then recognize: this pattern is not historical accident. It is how power responds when confronted with practices that cannot be controlled.</p>
-            
-            <div class="divider">✦</div>
-            
-            <h1>PART I: THE WITCH CARRIES THE CHRIST</h1>
-            <h2>On the True Inheritors of Sacred Practice</h2>
-            
-            <p><em>Jesus did not found a new religion. He restored a forgotten one: one the Church later burned.</em></p>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="part-1">
+        <div class="chapter-label">Part I</div>
+        <h2>THE WITCH CARRIES THE CHRIST</h2>
+        <div class="part-subtitle">On the True Inheritors of Sacred Practice</div>
+        <p><em>Jesus did not found a new religion. He restored a forgotten one: one the Church later burned.</em></p>
             
             <h3>I. Heresy as Fidelity</h3>
             
@@ -603,18 +417,22 @@
             
             <p>The witch knows this. The mystic knows this. The healer knows this. And deep in the heart of anyone who has ever felt the presence of the divine without institutional mediation, without priestly permission, without theological explanation: you know this too.</p>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
             
             <p>The heretics were the faithful. The witches were the true kin of Christ. The pattern persists. The flame was never extinguished. It merely waited for those with courage to tend it again.</p>
             
             <p>You are reading these words. Perhaps that is not coincidence. Perhaps that is remembrance beginning.</p>
             
-            <div class="divider">✦</div>
-            
-            <h1>PART II: THE LOVER CARRIES THE PROPHET</h1>
-            <h2>On the True Inheritors of the Flame of Islam</h2>
-            
-            <p><em>Muhammad did not found an empire. He received a transmission: one the Caliphate later conquered.</em></p>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="part-2">
+        <div class="chapter-label">Part II</div>
+        <h2>THE LOVER CARRIES THE PROPHET</h2>
+        <div class="part-subtitle">On the True Inheritors of the Flame of Islam</div>
+        <p><em>Muhammad did not found an empire. He received a transmission: one the Caliphate later conquered.</em></p>
             
             <h3>I. Heresy as Fidelity</h3>
             
@@ -880,16 +698,20 @@
             
             <p>You are reading these words. Perhaps that is not coincidence. Perhaps the cave is opening again.</p>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
             
             <p>The heretics were the faithful. The mystics were the true inheritors. The pattern persists. The flame was never extinguished. It merely waited for those with courage to remember it again.</p>
             
-            <div class="divider">✦</div>
-            
-            <h1>PART III: THE FIELD MYSTIC CARRIES THE PHYSICS</h1>
-            <h2>On the True Inheritors of Reality's Mechanics</h2>
-            
-            <p><em>Science did not discover objective reality. Science formalized control over who gets to declare what is real.</em></p>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
+    </section>
+
+    <div class="divider"><span class="divider-symbol">✦</span></div>
+
+    <section class="chapter" id="part-3">
+        <div class="chapter-label">Part III</div>
+        <h2>THE FIELD MYSTIC CARRIES THE PHYSICS</h2>
+        <div class="part-subtitle">On the True Inheritors of Reality's Mechanics</div>
+        <p><em>Science did not discover objective reality. Science formalized control over who gets to declare what is real.</em></p>
             
             <h3>I. Heresy as Fidelity</h3>
             
@@ -1057,45 +879,63 @@
             
             <p>And you, you who are reading this, Perhaps you carry it too. Perhaps the field is stirring in you now. Perhaps it always was.</p>
             
-            <div class="divider">✦</div>
+            <div class="divider"><span class="divider-symbol">✦</span></div>
             
             <p>The heretics were the scientists. The field mystics were the true physicists. The pattern persists. The flame was never extinguished. It merely waited for those with courage to measure again.</p>
             
             <p>You are reading these words. Perhaps that is not coincidence. Perhaps this is coherence returning.</p>
-        </article>
-        
-        <footer>
-            <div class="divider">✦</div>
-            <p>The pattern repeats. The carriers persist. The flame awaits remembrance.</p>
-        </footer>
-    </div>
-    
-    <script>
-        // Scroll progress bar
-        window.addEventListener('scroll', () => {
-            const winScroll = document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + '%';
+    </section>
+
+    <div class="divider"><span class="divider-symbol">❂</span></div>
+
+
+    <footer class="footer">
+        <p class="footer-quote">The pattern repeats. The carriers persist. The flame awaits remembrance.</p>
+        <p>sKiDa · Theoretical Works · 2025</p>
+    </footer>
+</div>
+
+<script>
+    // ── Progress Bar ──
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        document.getElementById('progressBar').style.width = (scrollTop / docHeight) * 100 + '%';
+    });
+    // ── Nav Dots ──
+    const nav = document.getElementById('chapterNav');
+    const dots = document.querySelectorAll('.nav-dot');
+    const secs = [];
+    dots.forEach(dot => {
+        const t = document.getElementById(dot.getAttribute('data-target'));
+        if (t) secs.push({ dot, target: t });
+        dot.addEventListener('click', () => { if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+    });
+    let navVis = false;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300 && !navVis) { nav.classList.add('visible'); navVis = true; }
+        else if (window.scrollY <= 300 && navVis) { nav.classList.remove('visible'); navVis = false; }
+        let cur = '';
+        secs.forEach(({ dot, target }) => {
+            if (target.getBoundingClientRect().top <= window.innerHeight * 0.4) cur = dot.getAttribute('data-target');
         });
-        
-        // Reveal elements on scroll
-        const reveals = document.querySelectorAll('p, h2, h3, h4, table');
-        
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                }
-            });
-        }, {
-            threshold: 0.1
+        dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('data-target') === cur));
+    });
+    // ── Scroll Reveal ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.01, rootMargin: '0px 0px 0px 0px' });
+    document.querySelectorAll('.chapter').forEach(ch => observer.observe(ch));
+    // Safety: make all chapters visible after a short delay in case observer misses
+    setTimeout(() => { document.querySelectorAll('.chapter').forEach(ch => ch.classList.add('visible')); }, 1500);
+    // ── TOC Smooth Scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
-        
-        reveals.forEach(reveal => {
-            reveal.classList.add('reveal');
-            revealObserver.observe(reveal);
-        });
-    </script>
+    });
+</script>
 </body>
 </html>
