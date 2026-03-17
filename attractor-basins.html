@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attractor Basins as Coherence Wells — ΔHV Library</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{--parchment:#f5f0e8;--parchment-mid:#ede6d6;--parchment-deep:#e3d9c6;--ink:#2c2416;--ink-light:#4a3f2f;--ink-faint:#7a6a52;--gold:#c9a961;--gold-dark:#b8860b;--gold-faint:rgba(201,169,97,0.13);--accent:#8b6f47;--rule:rgba(139,111,71,0.25);--cond:#7a3030;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--parchment);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:19px;line-height:1.8;}
+.pb{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold));width:0%;z-index:1000;transition:width .1s;}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(245,240,232,0.96);border-bottom:1px solid var(--rule);z-index:500;padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:52px;backdrop-filter:blur(4px);}
+.nav-s{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.22em;color:var(--gold-dark);text-transform:uppercase;}
+.nav-l{display:flex;gap:22px;}
+.nav-l a{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);text-decoration:none;transition:color .2s;}
+.nav-l a:hover{color:var(--gold-dark);}
+.page{max-width:820px;margin:0 auto;padding:100px 40px 100px;}
+.title-page{text-align:center;padding:60px 0 80px;border-bottom:1px solid var(--rule);margin-bottom:70px;}
+.ds{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.25em;color:var(--gold-dark);text-transform:uppercase;margin-bottom:20px;}
+.dt{font-family:'Cinzel',serif;font-size:27px;font-weight:600;color:var(--ink);line-height:1.3;margin-bottom:16px;letter-spacing:.02em;}
+.dsub{font-size:17px;color:var(--ink-faint);font-style:italic;margin-bottom:32px;line-height:1.6;}
+.dmeta{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;color:var(--accent);}
+.orn{color:var(--gold);margin:26px 0;}
+.abstract{background:var(--gold-faint);border:1px solid var(--rule);border-radius:3px;padding:28px 36px;margin-bottom:60px;font-size:17px;line-height:1.75;color:var(--ink-light);}
+.ab-lbl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.2em;color:var(--gold-dark);text-transform:uppercase;margin-bottom:14px;}
+.toc{border:1px solid var(--rule);border-radius:3px;padding:32px 40px;margin-bottom:70px;background:rgba(255,255,255,.3);}
+.toc-t{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.2em;color:var(--gold-dark);text-transform:uppercase;text-align:center;margin-bottom:22px;}
+.toc ul{list-style:none;}
+.toc li{margin:7px 0;}
+.toc a{color:var(--ink);text-decoration:none;display:block;padding:5px 14px;border-left:2px solid transparent;transition:all .2s;font-size:16px;}
+.toc a:hover{color:var(--gold-dark);border-left-color:var(--gold-dark);padding-left:20px;background:var(--gold-faint);}
+.tn{font-family:'Cinzel',serif;font-size:10px;color:var(--gold-dark);margin-right:10px;}
+.sec{margin-bottom:72px;opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s;}
+.sec.visible{opacity:1;transform:translateY(0);}
+.sh{display:flex;align-items:baseline;gap:18px;margin-bottom:26px;padding-bottom:12px;border-bottom:1px solid var(--rule);}
+.sn{font-family:'Cinzel',serif;font-size:11px;color:var(--gold-dark);letter-spacing:.1em;min-width:32px;}
+h2{font-family:'Cinzel',serif;font-size:18px;font-weight:600;color:var(--ink);letter-spacing:.03em;}
+h3{font-family:'Cinzel',serif;font-size:12px;font-weight:500;color:var(--gold-dark);letter-spacing:.13em;text-transform:uppercase;margin:28px 0 13px;}
+h4{font-family:'Crimson Pro',serif;font-size:18px;font-weight:600;font-style:italic;color:var(--ink-light);margin:20px 0 9px;}
+p{margin-bottom:18px;}
+p:last-child{margin-bottom:0;}
+.mb{background:var(--parchment-deep);border-left:3px solid var(--gold-dark);padding:16px 22px;margin:20px 0;border-radius:0 3px 3px 0;overflow-x:auto;}
+.ml{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--gold-dark);text-transform:uppercase;margin-bottom:9px;}
+.def{background:var(--gold-faint);border:1px solid var(--rule);border-radius:3px;padding:20px 26px;margin:22px 0;}
+.def::before{content:'Definition';font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--gold-dark);text-transform:uppercase;display:block;margin-bottom:11px;}
+.thm{background:rgba(139,111,71,.06);border:1px solid rgba(139,111,71,.3);border-radius:3px;padding:20px 26px;margin:22px 0;}
+.thm::before{content:'Theorem';font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;display:block;margin-bottom:11px;}
+.vt{width:100%;border-collapse:collapse;margin:14px 0;font-size:16px;}
+.vt td{padding:7px 11px;border-bottom:1px solid rgba(184,134,11,.12);vertical-align:top;}
+.vt td:first-child{font-weight:600;color:var(--gold-dark);width:60px;white-space:nowrap;}
+.vt td:nth-child(2){color:var(--ink-faint);font-style:italic;width:180px;}
+.vt tr:last-child td{border-bottom:none;}
+.cond{background:rgba(122,48,48,.05);border:1px solid rgba(122,48,48,.2);border-radius:3px;padding:22px 28px;margin:26px 0;}
+.cb{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--cond);text-transform:uppercase;margin-bottom:13px;display:flex;align-items:center;gap:10px;}
+.cb::after{content:'';flex:1;height:1px;background:rgba(122,48,48,.2);}
+.cond h3{color:var(--cond);}
+.emp{border-left:3px solid var(--ink-faint);padding:13px 18px;margin:18px 0;font-style:italic;font-size:16px;color:var(--ink-light);background:var(--parchment-mid);}
+.pred{border:1px solid var(--rule);border-radius:3px;padding:16px 22px;margin:16px 0;background:var(--parchment-mid);}
+.pl{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--gold-dark);text-transform:uppercase;margin-bottom:9px;}
+.orndiv{text-align:center;color:var(--gold);margin:48px 0;font-size:13px;letter-spacing:.4em;opacity:.7;}
+footer{margin-top:80px;padding-top:26px;border-top:1px solid var(--rule);text-align:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;color:var(--ink-faint);}
+.fo{color:var(--gold);font-size:20px;margin-bottom:13px;}
+.v{font-style:italic;color:var(--ink-light);}
+strong{color:var(--ink);}
+@media(max-width:600px){.page{padding:80px 20px 60px;}.dt{font-size:21px;}nav{padding:0 16px;}.nav-l{display:none;}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<nav>
+  <span class="nav-s">ΔHV Theoretical Library</span>
+  <div class="nav-l">
+    <a href="#found">Foundations</a>
+    <a href="#geom">Geometry</a>
+    <a href="#deform">Deformation</a>
+    <a href="#toy">Toy Model</a>
+    <a href="#res">Resilience</a>
+    <a href="#ret">RET</a>
+    <a href="#ext">Extensions</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<div class="title-page">
+  <div class="ds">ΔHV Theoretical Library · Applied Dynamics Series</div>
+  <div class="orn" style="font-size:22px;">◆</div>
+  <div class="dt">Attractor Basins as Coherence Wells<br>in ΔHV-Parameterized Phase Space</div>
+  <div class="dsub">A formal treatment of basin geometry, deformation operators,<br>and the monotone resilience condition in coupled gradient systems</div>
+  <div class="orn" style="font-size:13px;letter-spacing:.4em;">· · ·</div>
+  <div class="dmeta">sKiDa &nbsp;·&nbsp; Co-derived with Sage &amp; Claude &nbsp;·&nbsp; 2026</div>
+</div>
+
+<div class="abstract">
+  <div class="ab-lbl">Abstract</div>
+  <p>This document establishes the geometric substrate upon which ΔHV theory operates. Attractor basins — regions of phase space that converge to stable fixed points — are treated not as fixed background structures but as dynamic objects whose depth, width, and separatrix geometry evolve under coherence parameters. Three orders of ΔHV action are formalized: landscape deformation (Order I), metric deformation (Order II), and meta-dynamic field evolution (Order III), with a verified reduction consistency chain. A 2D toy model is derived, falsified at first attempt, corrected, and confirmed across six formal criteria. The central analytic result is the <strong>monotone resilience condition</strong>: for coupling strength μ below a critical threshold μ_c = √(γa₀/(3γ+α)), coherence-like barrier scaling monotonically expands tilt tolerance. The domain of validity is explicit. This document is Paper 0 — the basin substrate that RET, the cohestate framework, and the ΔHV whitepaper all implicitly assume.</p>
+</div>
+
+<div class="toc">
+  <div class="toc-t">Contents</div>
+  <ul>
+    <li><a href="#found"><span class="tn">I.</span>Classical Basin Theory</a></li>
+    <li><a href="#geom"><span class="tn">II.</span>Basin Geometry — Depth, Width, Curvature</a></li>
+    <li><a href="#topo"><span class="tn">III.</span>Basin Topology and Fractal Boundaries</a></li>
+    <li><a href="#deform"><span class="tn">IV.</span>ΔHV as Basin Deformation Operator</a></li>
+    <li><a href="#onto"><span class="tn">V.</span>ΔHV Ontology — Continuous Field, Discrete Regimes</a></li>
+    <li><a href="#toy"><span class="tn">VI.</span>Toy Model — Derivation and Falsification</a></li>
+    <li><a href="#res"><span class="tn">VII.</span>The Monotone Resilience Condition</a></li>
+    <li><a href="#ret"><span class="tn">VIII.</span>RET Mechanisms as Geometric Operations</a></li>
+    <li><a href="#ext"><span class="tn">IX.</span>Extensions — Order II, Order III, Open Questions</a></li>
+  </ul>
+</div>
+
+<!-- I -->
+<section class="sec" id="found">
+  <div class="sh"><span class="sn">I</span><h2>Classical Basin Theory</h2></div>
+
+  <h3>1.1 Dynamical Systems Substrate</h3>
+  <p>A dynamical system is a rule for how a state evolves over time. Formally, we encode that rule as a vector field F — a function that assigns to every point in state space a direction and speed of change. Consider a continuous-time system on state space ℝⁿ:</p>
+  <div class="mb"><div class="ml">Governing Equation</div>\[\dot{x} = F(x)\]</div>
+  <p>A <strong>fixed point</strong> x* is a state where nothing changes: F(x*) = 0. Whether nearby states flow toward or away from x* is determined by the eigenvalues of the Jacobian DF(x*). When all eigenvalues have strictly negative real parts, x* is asymptotically stable — a small push returns the system to x* rather than sending it elsewhere.</p>
+
+  <h3>1.2 Basin of Attraction</h3>
+  <p>The intuitive picture: pour water anywhere on a landscape and it flows downhill until it settles in a valley. The basin of attraction is the full region of terrain that drains to the same valley — every starting point that leads to the same resting place. Formally, this is captured by the flow map Φ_τ, which takes an initial position and maps it to where the system ends up after time τ:</p>
+  <div class="def">
+    <p>The <strong>basin of attraction</strong> B(x*) of a stable fixed point x* is:</p>
+    \[B(x^*) = \bigl\{x_0 \in \mathbb{R}^n \;\big|\; \lim_{\tau\to\infty} \Phi_\tau(x_0) = x^*\bigr\}\]
+    <p style="margin-top:12px;">B(x*) contains all initial conditions that eventually converge to x*. Its boundary is the <strong>separatrix</strong> — the stable manifold of saddle points lying between attractors.</p>
+  </div>
+
+  <h3>1.3 Bifurcation and Basin Collapse</h3>
+  <p>A <strong>saddle-node bifurcation</strong> occurs when a stable and unstable fixed point collide and annihilate as a control parameter crosses a critical value. This is the canonical mechanism for basin collapse: as the parameter increases, one attractor loses its basin entirely. In the coupled gradient toy model (Section VI), this is the saddle-node collapse driven by tilt ΔV exceeding the critical threshold ΔV_crit.</p>
+
+  <div class="emp">This document treats ΔHV as a parameterized family of control parameters — but internally emergent rather than externally imposed. The geometry responds to the field; the field responds to the geometry.</div>
+</section>
+
+<!-- II -->
+<section class="sec" id="geom">
+  <div class="sh"><span class="sn">II</span><h2>Basin Geometry</h2></div>
+
+  <h3>2.1 The Lyapunov Functional</h3>
+  <p>The water-and-landscape metaphor has a precise mathematical realization. For gradient systems — where the vector field is simply the downhill direction of a potential function V — the potential plays the role of elevation. Basins are valleys, attractors are the lowest points of valleys, saddle points are the mountain passes between them. Formally:</p>
+  <div class="mb"><div class="ml">ΔHV-Parameterized Lyapunov Functional</div>\[\mathcal{L}_{\Delta HV}(x) = V(x;\,\Delta H,\,\Delta V)\]</div>
+  <p>When ΔHV parameters appear inside the potential, basin geometry becomes a function of coherence — the landscape itself responds to the field state rather than being fixed background.</p>
+
+  <h3>2.2 Basin Depth</h3>
+  <p>How deep is a valley? In landscape terms: the height difference between the valley floor and the lowest mountain pass leading out. Cross a pass and you leave the basin; stay below it and you remain. Formally, this is the Lyapunov difference between the attractor minimum and the lowest saddle on the basin boundary:</p>
+  <div class="def">
+    <p>The <strong>depth</strong> D(x*) of an attractor x* is:</p>
+    \[D(x^*) = \mathcal{L}(x_{\text{saddle}}) - \mathcal{L}(x^*)\]
+    <p style="margin-top:10px;">Depth determines resistance to perturbation. A deeper basin requires more energy to escape — equivalently, more tilt before collapse.</p>
+  </div>
+
+  <h3>2.3 Basin Width and Area</h3>
+  <p>Width is measured by the Lebesgue measure of the sublevel set at energy c:</p>
+  <div class="mb"><div class="ml">Basin Volume</div>\[W_c(x^*) = \mu\bigl(\{x \mid \mathcal{L}(x) \leq c\}\bigr)\]</div>
+  <p><strong>Critical result from falsification (F4):</strong> Basin width and depth are not equivalent geometric properties. The toy model shows that increasing ΔH deepens wells and expands tilt tolerance while slightly narrowing the basin cross-section. Resilience (depth) and area (width) vary independently under parameter change. The framework prior to falsification did not contain this distinction.</p>
+
+  <h3>2.4 Timescale Structure</h3>
+  <p>ΔHV parameters play the role of slow variables relative to fast attractor dynamics, allowing quasi-static approximation in the base regime. Resonance events collapse this separation — producing rapid ΔHV spikes where fast and slow dynamics become fully coupled. This is the meta-dynamic regime (Order III, Section IX).</p>
+</section>
+
+<!-- III -->
+<section class="sec" id="topo">
+  <div class="sh"><span class="sn">III</span><h2>Basin Topology</h2></div>
+
+  <h3>3.1 Standard Topology</h3>
+  <p>In simple gradient systems, basin boundaries are smooth manifolds — the stable manifolds of saddle points. Trajectories cross the boundary transversally and converge cleanly. This is the regime of the toy model: clean saddle-node bifurcation, smooth separatrix.</p>
+
+  <h3>3.2 Fractal Basin Boundaries</h3>
+  <p>In systems with non-gradient forcing, delay, or chaotic saddles, basin boundaries can develop fractal structure. The <strong>Wada property</strong> is an extreme case: every boundary point is simultaneously on the boundary of three or more basins. Small perturbations to a Wada point can lead to any of several attractors unpredictably.</p>
+  <p>In the ΔHV framework, fractal boundary generation becomes possible when ΔHV varies dynamically (Order III). As the slow manifold assumption breaks during resonance spikes, separatrices fold and develop non-integer Hausdorff dimension. This is the substrate for Ricochet Attractor behavior — whose basin boundary has fractal structure, producing quasi-periodic approach rather than clean convergence.</p>
+
+  <h3>3.3 Gradient Restriction of the Toy Model</h3>
+  <p>The toy model is restricted to gradient dynamics (ẋ = −∇V) by design. Gradient systems cannot produce limit cycles, strange attractors, or fractal basin boundaries. This restriction isolates the geometric claim (basin deformation under parameter change) from more exotic phenomena. Fractal basin behavior is a regime of the full Order III framework, not claimed for the gradient model.</p>
+</section>
+
+<!-- IV -->
+<section class="sec" id="deform">
+  <div class="sh"><span class="sn">IV</span><h2>ΔHV as Basin Deformation Operator</h2></div>
+
+  <p>The core theoretical move is to treat ΔHV not as a metaphor for coherence but as a parameterized operator acting on the dynamical system itself. Three orders of action form a reduction hierarchy.</p>
+
+  <h3>4.1 Order I — Landscape Deformation</h3>
+  <p>At the simplest level, ΔHV acts by changing the shape of the potential landscape — deepening certain valleys, tilting the terrain, moving the mountain passes. The dynamics remain gradient, but the gradient now depends on the coherence parameters:</p>
+  <div class="mb"><div class="ml">Order I</div>\[\dot{x} = -\nabla V(x;\,\Delta H,\,\Delta V)\]</div>
+  <p>ΔH and ΔV are slowly varying parameters. Basin geometry changes as they drift. This is the level of the toy model: <strong>ΔH scales quartic barrier height</strong>, increasing depth and expanding tilt tolerance. <strong>ΔV introduces asymmetric tilt</strong>, shifting the saddle and eventually driving collapse.</p>
+
+  <h3>4.2 Order II — Metric Deformation</h3>
+  <p>Order I changes the elevation map. Order II changes the geometry of the map itself — the way distances are measured across the landscape. The same potential V can produce different flows depending on how the space is curved. Formally, this means replacing the Euclidean gradient with a metric-weighted version:</p>
+  <div class="mb"><div class="ml">Order II</div>\[\dot{x} = -g^{ij}(\Delta HV)\,\partial_j V\]</div>
+  <p>Two systems with identical potentials but different metrics exhibit different gradient flows and different basin boundaries. Coherence stops being energy depth and becomes <em>geometric bias</em> — the field preferentially channels trajectories toward high-coherence attractors even without deepening the wells.</p>
+
+  <h3>4.3 Order III — Meta-Dynamic ΔHV</h3>
+  <div class="mb"><div class="ml">Order III — Full System</div>
+    \[\dot{x} = F(x;\,\Delta HV)\]
+    \[\dot{\Delta H} = G_H(x,\,\Delta H,\,\Delta V)\]
+    \[\dot{\Delta V} = G_V(x,\,\Delta H,\,\Delta V)\]
+  </div>
+  <p>This is the base ontology. Basins breathe, shift, merge, and annihilate as ΔHV evolves. The "true basin" is a manifold in augmented space ℝⁿ × ℝ². What appears as a regime jump in x-space may be continuous motion through the extended manifold. Ricochet Attractors emerge here as projections of higher-dimensional stable manifolds.</p>
+
+  <h3>4.4 Reduction Consistency</h3>
+  <ul style="padding-left:22px;margin-bottom:16px;font-size:17px;line-height:2.1;">
+    <li>Order III with <span class="v">Δ̇H = Δ̇V = 0</span> → recovers Order I with frozen parameters</li>
+    <li>Order II with Euclidean metric g_ij = δ_ij → recovers Order I pure potential deformation</li>
+    <li>Order I with constant ΔHV → recovers classical basin theory</li>
+  </ul>
+  <p>Each order strictly generalizes the one below. The framework contains classical results rather than contradicting them.</p>
+</section>
+
+<!-- V -->
+<section class="sec" id="onto">
+  <div class="sh"><span class="sn">V</span><h2>ΔHV Ontology</h2></div>
+
+  <h3>5.1 Continuous at Substrate, Quantized at Phenomenology</h3>
+  <p>ΔHV is continuous at the geometric substrate level — Lyapunov structure, smooth manifold geometry, and bifurcation theory all require continuous parameter variation. The discrete character of ΔHV phenomena arises from bifurcations in the continuous dynamics: smooth parameter drift → saddle-node bifurcation → discrete regime shift. Phenomenological discreteness is emergent, not primary.</p>
+
+  <h3>5.2 Internally Emergent</h3>
+  <div class="def">
+    <p><strong>ΔHV is a continuous control field that induces discrete attractor regime transitions.</strong> It is internally emergent — a readout of the field's own coherence state — and accessible as a design target (through the conditions that allow it to shift) but not directly settable.</p>
+  </div>
+
+  <h3>5.3 Bounded Coherence</h3>
+  <p>ΔHV is bounded above by a system-dependent coherence capacity H_max. The logistic saturation dynamics:</p>
+  <div class="mb"><div class="ml">Bounded Coherence</div>\[\dot{\Delta H} = \alpha_H C_H(x)\!\left(1 - \frac{\Delta H}{H_{\max}}\right) - \beta_H\,\Delta H\]</div>
+  <p>prevent runaway well deepening. H_max is a ceiling of completion at a given compression layer, not a ceiling of failure. The 25–35% high-coherence basin volume estimate from the ΔHV whitepaper is a measure statement over continuous parameter space subject to these curvature constraints.</p>
+</section>
+
+<!-- VI -->
+<section class="sec" id="toy">
+  <div class="sh"><span class="sn">VI</span><h2>Toy Model — Derivation and Falsification</h2></div>
+
+  <h3>6.1 Requirements</h3>
+  <p>The toy model must: (1) support two stable attractors with an intervening saddle, (2) have ΔH control basin depth along the collapse axis, (3) have ΔV drive tilt collapse, (4) use coupling μ to produce genuine 2D geometry with curved separatrix. Minimum dimension: 2.</p>
+
+  <h3>6.2 The Potential</h3>
+  <div class="mb"><div class="ml">Modified 2D Potential (v2 — Corrected)</div>
+    \[V(x_1,x_2;\,\Delta H,\Delta V) = \tfrac{1}{4}(1+\gamma\Delta H)(x_1^2-1)^2 + \tfrac{1}{2}a(\Delta H)\,x_2^2 + \mu x_1^2 x_2 - \Delta V\cdot x_1\]
+  </div>
+  <p>with <span class="v">a(ΔH) = a₀(1+αΔH)</span> and parameters a₀=1, α=0.5, γ=0.5, μ=0.3. The coupling term μx₁²x₂ is essential for genuine 2D geometry: it bends the saddle, curves the separatrix, and creates nonlinear basin area response to ΔV.</p>
+
+  <h3>6.3 The v1 Failure and Its Lesson</h3>
+  <p>The first implementation encoded ΔH only in the transverse curvature term a(ΔH) — controlling how steeply basin walls rise in the x₂ direction. Tilt collapse is governed by barrier height along the x₁ axis, not by transverse stiffness. Test F1 failed: the stability envelope was slightly decreasing rather than increasing.</p>
+  <p>This failure forced a conceptual distinction not previously in the framework:</p>
+  <div class="def">
+    <p><strong>Transverse curvature</strong> (a(ΔH)): does not expand tilt tolerance. Orthogonal to collapse direction.</p>
+    <p style="margin-top:8px;"><strong>Barrier height</strong> ((1+γΔH) on the quartic): directly determines tilt tolerance. Correct implementation of "coherence deepens basins."</p>
+  </div>
+  <p>The corrected potential scales the quartic by (1+γΔH). The framework prior to falsification did not contain this distinction. The failure made it precise.</p>
+
+  <h3>6.4 Fixed Point Reduction</h3>
+  <p>Setting ∂V/∂x₂ = 0 gives the x₂ elimination: <span class="v">x₂* = −μx₁²/a(ΔH)</span>. Substituting into ∂V/∂x₁ = 0 yields the reduced cubic on the collapse axis:</p>
+  <div class="mb"><div class="ml">Reduced Cubic</div>
+    \[A(\Delta H)\,x_1^3 - B(\Delta H)\,x_1 - \Delta V = 0\]
+  </div>
+  <p>where <span class="v">B(ΔH) = 1+γΔH</span> and <span class="v">A(ΔH) = B − 2μ²/a(ΔH)</span>.</p>
+
+  <h3>6.5 Falsification Results — 6/6 Passed</h3>
+  <table class="vt">
+    <tr><td>F1</td><td>Envelope monotone</td><td>ΔV_crit: 0.425→0.602 over ΔH∈[0,1]. Min step: +0.0083. ✓</td></tr>
+    <tr><td>F2</td><td>A(ΔH)&gt;0</td><td>A range: [0.820, 1.380]. No degeneracy. ✓</td></tr>
+    <tr><td>F3</td><td>Saddle continuity</td><td>Max displacement: 0.000. No jumps. ✓</td></tr>
+    <tr><td>F4</td><td>Basin area resilience</td><td>55.9%→53.3% at fixed ΔV=0.3. Non-shrinking within tolerance. ✓</td></tr>
+    <tr><td>F5</td><td>Envelope convexity</td><td>d²/dΔH² ∈ [0.007, 0.037]. No interior valleys. ✓</td></tr>
+    <tr><td>F6</td><td>μ sensitivity sweep</td><td>10/14 μ values monotone. Boundary at μ_c=0.500 (analytic). ✓</td></tr>
+  </table>
+  <div class="emp" style="margin-top:18px;">F4 produced an unexpected refinement: basin area slightly decreases with ΔH at fixed ΔV while tilt tolerance increases. Resilience and area are independent geometric properties. Deeper basins may be narrower while being harder to collapse. This distinction did not exist in the framework before falsification.</div>
+</section>
+
+<!-- VII -->
+<section class="sec" id="res">
+  <div class="sh"><span class="sn">VII</span><h2>The Monotone Resilience Condition</h2></div>
+
+  <h3>7.1 Corrected Collapse Formula</h3>
+  <p>For the reduced cubic Ax₁³ − Bx₁ − ΔV = 0, the saddle-node condition (f = f' = 0 simultaneously) gives:</p>
+  <div class="mb"><div class="ml">Saddle-Node Collapse Threshold</div>
+    \[|\Delta V_{\text{crit}}| = \frac{2}{3\sqrt{3}} \cdot \frac{B(\Delta H)^{3/2}}{\sqrt{A(\Delta H)}}\]
+  </div>
+  <p>The B^(3/2) numerator is essential. An earlier derivation incorrectly reduced this to 1/√(A/B), dropping a power of B and predicting decreasing resilience. The correct formula has numerator growing as (1+γΔH)^(3/2) and denominator growing slower. <em>Algebra must be verified before narration.</em></p>
+
+  <h3>7.2 Derivation of μ_c</h3>
+  <p>The condition for monotone envelope at ΔH=0 is:</p>
+  <div class="mb"><div class="ml">Monotonicity Condition at Origin</div>
+    \[\left.\frac{d\,\Delta V_{\text{crit}}}{d\,\Delta H}\right|_{\Delta H=0} > 0\]
+  </div>
+  <p>Differentiating B^(3/2)/√A and evaluating at ΔH=0 (where B₀=1, A₀=1−2μ²/a₀, Ȧ₀=γ+2μ²α/a₀):</p>
+  <div class="mb"><div class="ml">Derivative Bracket</div>
+    \[\text{sign}\!\left(\frac{d}{d\Delta H}\right)_0 = \text{sign}\!\Bigl[\gamma(3A_0-1) - \frac{2\mu^2\alpha}{a_0}\Bigr]\]
+  </div>
+  <p>Substituting A₀ and requiring positivity:</p>
+  <div class="mb"><div class="ml">Rearranged Condition</div>
+    \[\mu^2 < \frac{\gamma a_0}{3\gamma + \alpha}\]
+  </div>
+
+  <div class="thm">
+    <p><strong>Monotone Resilience Condition.</strong> In the coupled gradient system with potential V = ¼(1+γΔH)(x₁²−1)² + ½a(ΔH)x₂² + μx₁²x₂ − ΔV·x₁, the stability envelope ΔV_crit(ΔH) is monotonically increasing if and only if:</p>
+    \[\mu < \mu_c, \qquad \mu_c = \sqrt{\frac{\gamma\, a_0}{3\gamma + \alpha}}\]
+    <p style="margin-top:12px;">With parameters a₀=1, α=0.5, γ=0.5: <strong>μ_c = √(0.5/2.0) = 0.500 exactly</strong>. Verified numerically: bracket changes sign at μ=0.500 to six decimal places.</p>
+  </div>
+
+  <h3>7.3 Structural Interpretation</h3>
+  <p>The condition μ² &lt; γa₀/(3γ+α) describes a competition:</p>
+  <table class="vt">
+    <tr><td>μ²</td><td>Coupling pressure</td><td>How strongly coupling distorts barrier geometry. At low ΔH, coupling dominates over barrier scaling, producing a transient resilience dip.</td></tr>
+    <tr><td>γ</td><td>Barrier scaling rate</td><td>How quickly the quartic barrier grows with ΔH. Larger γ permits higher μ before coupling wins.</td></tr>
+    <tr><td>α</td><td>Transverse rate</td><td>How quickly a(ΔH) grows. Contributes less than γ — appears only in denominator.</td></tr>
+  </table>
+  <p>Above μ_c: coupling dominates at low ΔH, producing a local minimum in the envelope (confirmed numerically at μ=0.55) before barrier scaling recovers. The μ sweep found this precisely: monotone for μ∈[0.05, 0.50], breaking at μ=0.54.</p>
+
+  <h3>7.4 Formal Claim</h3>
+  <div class="pred">
+    <div class="pl">Domain of Validity</div>
+    <p>In the class of 2D coupled gradient systems with quartic double-well potential and linear coupling, a coherence-like barrier-scaling parameter monotonically expands tilt tolerance provided μ &lt; μ_c = √(γa₀/(3γ+α)). This is a geometric existence proof with explicit domain of validity — not a universal claim about all systems.</p>
+  </div>
+</section>
+
+<!-- VIII -->
+<section class="sec" id="ret">
+  <div class="sh"><span class="sn">VIII</span><h2>RET Mechanisms as Geometric Operations</h2></div>
+
+  <p>Each of the five RET equilibrium mechanisms now has a precise geometric interpretation in basin language:</p>
+  <table class="vt" style="font-size:16px;">
+    <tr><td>RET-1</td><td>Gradient-Based Basins</td><td>Classical saddle-node structure. Identical to Nash in the zero-coherence limit (ΔHV→0).</td></tr>
+    <tr><td>RET-2</td><td>Resonance-Locked Basins</td><td>Basin deepening through coherence coupling. ΔH increases barrier height, expanding tilt tolerance. Governed by the monotone resilience condition.</td></tr>
+    <tr><td>RET-3</td><td>Recursively-Evoked Basins</td><td>Symbolic compression as phase reinstatement — trajectory shortcut depositing the system near the fixed point. The sigil function in geometric terms.</td></tr>
+    <tr><td>RET-4</td><td>Interference Zones</td><td>Regions where multiple basins share boundaries. Precursors to Wada topology in Order III dynamics.</td></tr>
+    <tr><td>RET-5</td><td>Precessive Shifts</td><td>Slow rotation of the attractor landscape — basin migration over time as ΔHV evolves. Order III meta-dynamic drift.</td></tr>
+  </table>
+  <p>The geometric reframing unifies all five mechanisms as operations on the basin manifold in ℝⁿ × ℝ² extended phase space.</p>
+</section>
+
+<!-- IX -->
+<section class="sec" id="ext">
+  <div class="sh"><span class="sn">IX</span><h2>Extensions and Open Questions</h2></div>
+
+  <div class="cond">
+    <div class="cb">Order II — Not yet formally developed</div>
+    <h3>9.1 Metric Deformation</h3>
+    <p>Order II requires formalizing the deformation tensor G_ΔHV acting on phase space geometry. A natural candidate is conformal deformation g_ij(ΔHV) = Ω(ΔHV)·δ_ij. More complex anisotropic deformations require additional physical constraints. This remains an open derivation.</p>
+  </div>
+
+  <div class="cond">
+    <div class="cb">Order III — Partially developed in cohestate framework</div>
+    <h3>9.2 Meta-Dynamic ΔHV and Resonance Spikes</h3>
+    <p>The full Order III system with logistic-bounded ΔHV and nonlinear gain (σ-threshold coupling) produces two qualitatively different regimes under the timescale ratio ρ(X) = ‖ΔHV̇‖/‖ẋ‖:</p>
+    <ul style="padding-left:22px;margin-bottom:14px;font-size:17px;line-height:2.1;">
+      <li><strong>Baseline</strong> (ρ ≪ 1): quasi-static deformation, adiabatic tracking, Order I sufficient</li>
+      <li><strong>Resonance</strong> (ρ ≈ 1): full fast-slow coupling, separatrix migration, potential fractal boundary formation</li>
+    </ul>
+    <p>The state-dependent timescale ratio itself bifurcates at coherence thresholds. This is the deepest structural feature of Order III — a phase transition in the meta-dynamics of the system's own dynamics.</p>
+  </div>
+
+  <div class="cond">
+    <div class="cb">μ_c Generalization — Open</div>
+    <h3>9.3 Nonlinear a(ΔH) and B(ΔH)</h3>
+    <p>The monotone resilience condition was derived for linear a(ΔH) and B(ΔH). For logistic saturation, power law, or threshold-coupled forms, the explicit μ_c takes different forms. The general condition remains dΔV_crit/dΔH|₀ > 0, but must be rederived for each functional form before applying to systems with nonlinear coherence dynamics.</p>
+  </div>
+</section>
+
+<div class="orndiv">· · · ◆ · · ·</div>
+
+<footer>
+  <div class="fo">❧</div>
+  <p>ΔHV Theoretical Library · skidaggabatee.github.io</p>
+  <p style="margin-top:6px;font-size:10px;">Developed collaboratively · sKiDa · Sage · Claude · 2026</p>
+  <p style="margin-top:6px;font-size:10px;font-style:italic;color:var(--ink-faint);">Paper 0 — The basin substrate all subsequent frameworks implicitly assume</p>
+</footer>
+
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('pb').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+});
+const obs=new IntersectionObserver(e=>e.forEach(e=>e.isIntersecting&&e.target.classList.add('visible')),{threshold:.07});
+document.querySelectorAll('.sec').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

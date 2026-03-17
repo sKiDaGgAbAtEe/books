@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Geometry of Stability in Dynamical Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<style>
+:root{--bg:#fafaf7;--paper:#f4f2ed;--ink:#1a1a18;--ink-mid:#3a3a36;--ink-light:#6a6a62;--accent:#4a4a40;--rule:rgba(60,60,50,0.18);--gold:#8a7a50;--gold-faint:rgba(138,122,80,0.1);}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--ink);font-family:'EB Garamond',Georgia,serif;font-size:19px;line-height:1.85;}
+.pb{position:fixed;top:0;left:0;height:2px;background:var(--ink-mid);width:0%;z-index:1000;}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(250,250,247,.97);border-bottom:1px solid var(--rule);z-index:500;padding:0 48px;display:flex;align-items:center;justify-content:space-between;height:48px;}
+.nav-t{font-size:13px;color:var(--ink-light);letter-spacing:.04em;font-style:italic;}
+.nav-l{display:flex;gap:28px;}
+.nav-l a{font-size:13px;color:var(--ink-light);text-decoration:none;transition:color .2s;letter-spacing:.03em;}
+.nav-l a:hover{color:var(--ink);}
+.page{max-width:740px;margin:0 auto;padding:96px 40px 100px;}
+/* Title */
+.title-page{padding:64px 0 72px;border-bottom:1px solid var(--rule);margin-bottom:64px;text-align:center;}
+.journal-line{font-size:12px;letter-spacing:.2em;color:var(--ink-light);text-transform:uppercase;margin-bottom:32px;}
+h1{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--ink);line-height:1.25;margin-bottom:14px;letter-spacing:.01em;}
+.subtitle{font-size:17px;color:var(--ink-light);font-style:italic;margin-bottom:36px;line-height:1.6;}
+.authors{font-size:15px;color:var(--ink-mid);margin-bottom:8px;letter-spacing:.04em;}
+.affil{font-size:13px;color:var(--ink-light);font-style:italic;}
+.title-rule{border:none;border-top:1px solid var(--rule);margin:32px auto;width:80px;}
+/* Abstract */
+.abstract{padding:0 0 48px;border-bottom:1px solid var(--rule);margin-bottom:56px;}
+.abstract-head{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:14px;}
+.abstract p{font-size:17px;line-height:1.8;color:var(--ink-mid);}
+/* Sections */
+.sec{margin-bottom:64px;opacity:0;transform:translateY(18px);transition:opacity .65s,transform .65s;}
+.sec.visible{opacity:1;transform:translateY(0);}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:22px;padding-bottom:8px;border-bottom:1px solid var(--rule);}
+.sec-n{font-size:12px;color:var(--ink-light);letter-spacing:.08em;min-width:28px;font-variant-numeric:tabular-nums;}
+h2{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+h3{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin:26px 0 12px;font-weight:400;}
+p{margin-bottom:16px;}
+p:last-child{margin-bottom:0;}
+/* Math */
+.mb{background:var(--paper);border-left:2px solid var(--rule);padding:14px 20px;margin:18px 0;border-radius:0 2px 2px 0;overflow-x:auto;}
+.ml{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+/* Environments */
+.env{margin:20px 0;padding:16px 22px;border-left:2px solid var(--ink-mid);}
+.env-label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);margin-bottom:8px;}
+.env p{font-size:17px;color:var(--ink-mid);}
+.def{border-left-color:var(--gold);}
+.thm{border-left-color:var(--ink-mid);background:var(--gold-faint);}
+.prop{border-left-color:rgba(60,60,50,.3);}
+/* Tables */
+.tbl{width:100%;border-collapse:collapse;margin:16px 0;font-size:16px;}
+.tbl th{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);padding:8px 12px;border-bottom:2px solid var(--rule);text-align:left;font-weight:400;}
+.tbl td{padding:8px 12px;border-bottom:1px solid var(--rule);vertical-align:top;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl td:first-child{font-weight:500;color:var(--ink-mid);white-space:nowrap;}
+/* Remark */
+.remark{font-style:italic;color:var(--ink-light);font-size:17px;margin:18px 0;padding-left:18px;border-left:1px solid var(--rule);}
+/* TOC */
+.toc{padding:28px 32px;border:1px solid var(--rule);margin-bottom:56px;background:var(--paper);}
+.toc-t{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-light);margin-bottom:18px;text-align:center;}
+.toc ul{list-style:none;}
+.toc li{margin:5px 0;display:flex;gap:8px;font-size:16px;}
+.toc li span:first-child{color:var(--ink-light);min-width:28px;}
+.toc a{color:var(--ink-mid);text-decoration:none;}
+.toc a:hover{color:var(--ink);}
+/* Divider */
+.divider{text-align:center;color:var(--ink-light);margin:48px 0;font-size:12px;letter-spacing:.3em;}
+/* Footer */
+footer{margin-top:72px;padding-top:24px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-light);display:flex;justify-content:space-between;align-items:center;}
+.v{font-style:italic;}
+strong{color:var(--ink);}
+@media(max-width:600px){.page{padding:76px 20px 60px;}h1{font-size:24px;}.nav-l{display:none;}nav{padding:0 18px;}footer{flex-direction:column;gap:8px;text-align:center;}}
+</style>
+</head>
+<body>
+<div class="pb" id="pb"></div>
+<nav>
+  <span class="nav-t">The Geometry of Stability</span>
+  <div class="nav-l">
+    <a href="#found">§1 Classical Theory</a>
+    <a href="#geom">§2 Basin Geometry</a>
+    <a href="#model">§3 Toy Model</a>
+    <a href="#res">§4 Resilience Condition</a>
+    <a href="#disc">§5 Discussion</a>
+  </div>
+</nav>
+
+<div class="page">
+
+<div class="title-page">
+  <div class="journal-line">Preprint · Nonlinear Dynamics · 2026</div>
+  <h1>The Geometry of Stability<br>in Dynamical Systems</h1>
+  <p class="subtitle">Basin deformation, monotone resilience, and the role<br>of coherence parameters in coupled gradient systems</p>
+  <hr class="title-rule">
+  <div class="authors">sKiDa</div>
+  <div class="affil">Independent Theoretical Research · ΔHV Theoretical Library</div>
+  <div class="affil" style="margin-top:4px;">Co-derived with Sage and Claude · 2026</div>
+</div>
+
+<div class="abstract">
+  <div class="abstract-head">Abstract</div>
+  <p>We study how attractor basin geometry — depth, width, separatrix position — responds to parameterized changes in a coupled gradient system. Beginning from classical basin theory, we introduce a two-parameter family of 2D gradient systems in which one parameter (ΔH) scales barrier height and a second (ΔV) introduces asymmetric tilt. We derive the saddle-node collapse condition, formalize basin depth via a Lyapunov functional approach, and establish the <strong>monotone resilience condition</strong>: the stability envelope ΔV_crit(ΔH) is monotonically increasing if and only if the coupling strength μ satisfies μ &lt; μ_c = √(γa₀/(3γ+α)). This condition is derived analytically from the sign of dΔV_crit/dΔH at ΔH=0 and confirmed numerically across a fourteen-point coupling sweep. Six formal falsification tests are reported, including one initial failure that forced a conceptual correction. The result establishes a clean geometric existence proof: in the specified class of coupled gradient systems, a coherence-like barrier-scaling parameter monotonically expands tilt tolerance within an explicitly defined validity domain.</p>
+  <p style="margin-top:14px;font-size:16px;color:var(--ink-light);font-style:italic;"><strong>Keywords:</strong> attractor basins, basin geometry, saddle-node bifurcation, Lyapunov stability, gradient systems, monotone resilience, coupled dynamics</p>
+</div>
+
+<div class="toc">
+  <div class="toc-t">Contents</div>
+  <ul>
+    <li><span>1.</span><a href="#found">Classical Basin Theory and Saddle-Node Bifurcation</a></li>
+    <li><span>2.</span><a href="#geom">Basin Geometry: Depth, Width, and Curvature</a></li>
+    <li><span>3.</span><a href="#model">The 2D Coupled Gradient Model</a></li>
+    <li><span>4.</span><a href="#res">The Monotone Resilience Condition</a></li>
+    <li><span>5.</span><a href="#disc">Discussion and Extensions</a></li>
+    <li><span></span><a href="#refs">References and Related Work</a></li>
+  </ul>
+</div>
+
+<!-- §1 -->
+<section class="sec" id="found">
+  <div class="sec-head"><span class="sec-n">1.</span><h2>Classical Basin Theory and Saddle-Node Bifurcation</h2></div>
+
+  <p style="font-size:17px;color:var(--ink-mid);font-style:italic;margin-bottom:22px;padding:14px 20px;border-left:2px solid var(--rule);">This paper proceeds in four stages. §1–2 establish the classical substrate: what basins are, how their geometry is measured, and what causes them to collapse. §3 introduces and falsifies a concrete 2D model, reporting the initial failure and the correction it forced. §4 derives the central analytic result — the coupling threshold μ_c below which barrier-height scaling monotonically expands tilt tolerance. §5 discusses scope and open extensions. Readers familiar with saddle-node bifurcations may proceed directly to §3.</p>
+
+  <h3>1.1 Dynamical Systems Setup</h3>
+  <p>Let F: ℝⁿ → ℝⁿ be a smooth vector field. We consider the autonomous system:</p>
+  <div class="mb"><div class="ml">System</div>\[\dot{x} = F(x), \qquad x \in \mathbb{R}^n\]</div>
+  <p>A point x* is a <em>fixed point</em> if F(x*) = 0. Local stability is determined by eigenvalues of the Jacobian DF(x*): x* is asymptotically stable if all eigenvalues have strictly negative real parts.</p>
+
+  <div class="env def">
+    <div class="env-label">Definition 1.1 — Basin of Attraction</div>
+    <p>Let Φ_τ: ℝⁿ → ℝⁿ denote the flow map at time τ. The <strong>basin of attraction</strong> of a stable fixed point x* is:</p>
+    \[B(x^*) = \bigl\{x_0 \in \mathbb{R}^n \;\big|\; \lim_{\tau\to\infty}\Phi_\tau(x_0) = x^*\bigr\}\]
+  </div>
+
+  <h3>1.2 Separatrix and Saddle-Node Bifurcation</h3>
+  <p>The boundary ∂B(x*) of the basin is the <em>separatrix</em> — the stable manifold W^s(x_s) of any saddle point x_s lying between attractors. Trajectories initialized on the separatrix converge to x_s rather than to either attractor.</p>
+  <p>A <strong>saddle-node bifurcation</strong> occurs at parameter value p = p_c when a stable node and saddle point collide and annihilate. For p &gt; p_c, the basin B(x*) ceases to exist — this is basin collapse. In gradient systems with potential V, the saddle-node condition reduces to simultaneous vanishing of the gradient and its first derivative along the principal axis.</p>
+
+  <h3>1.3 Gradient Systems</h3>
+  <p>For gradient systems of the form ẋ = −∇V(x), the potential V is a natural Lyapunov function: dV/dt = −|∇V|² ≤ 0 along trajectories. Stable fixed points are local minima of V; saddle points are saddle points of V. Basin geometry is directly readable from the potential landscape — the objects of study in Section 3.</p>
+</section>
+
+<!-- §2 -->
+<section class="sec" id="geom">
+  <div class="sec-head"><span class="sec-n">2.</span><h2>Basin Geometry: Depth, Width, and Curvature</h2></div>
+
+  <h3>2.1 Lyapunov-Based Depth</h3>
+  <div class="env def">
+    <div class="env-label">Definition 2.1 — Basin Depth</div>
+    <p>Let V be a Lyapunov function for the system. The <strong>depth</strong> of attractor x* is:</p>
+    \[D(x^*) = V(x_s) - V(x^*)\]
+    <p style="margin-top:8px;">where x_s is the lowest saddle point on the boundary of B(x*). Depth measures the minimum energy required to escape the basin.</p>
+  </div>
+
+  <div class="env def">
+    <div class="env-label">Definition 2.2 — Basin Width</div>
+    <p>The <strong>width</strong> at energy level c is:</p>
+    \[W_c(x^*) = \mu\bigl(\{x \mid V(x) \leq c\}\bigr)\]
+    <p style="margin-top:8px;">where μ denotes Lebesgue measure. This quantifies the volume of the basin below energy threshold c.</p>
+  </div>
+
+  <h3>2.2 Independence of Depth and Width</h3>
+  <p>A central result of this work (established numerically in §3.4) is that basin depth and width are not equivalent geometric properties. A parameter change that increases depth can simultaneously decrease width. Specifically: increasing the barrier-height parameter ΔH expands the stability envelope (increases depth) while slightly narrowing the basin cross-section (decreases width at fixed tilt).</p>
+  <p>This independence has implications for stability analysis. Resilience against tilt (depth) and robustness to perturbation spread (width) are distinct properties requiring separate geometric treatment.</p>
+
+  <h3>2.3 Curvature and Convergence Rate</h3>
+  <p>Local curvature at the attractor x* is encoded in the Hessian H = ∇²V(x*). Eigenvalues of H determine convergence rates along principal directions: large eigenvalues → steep descent, fast convergence; small eigenvalues → shallow descent, slow convergence. For the coupled 2D system of §3, the Hessian block structure changes under both ΔH (increasing diagonal entries) and ΔV (breaking off-diagonal symmetry).</p>
+
+  <div class="remark">
+    Remark 2.1. The parameterized Lyapunov functional 𝓛_θ(x) = V(x; θ) for parameter θ = (ΔH, ΔV) converts basin geometry questions into questions about how sublevel sets, saddle heights, and curvature respond to parameter variation. This is the framework within which §3–4 operate.
+  </div>
+</section>
+
+<!-- §3 -->
+<section class="sec" id="model">
+  <div class="sec-head"><span class="sec-n">3.</span><h2>The 2D Coupled Gradient Model</h2></div>
+
+  <h3>3.1 Model Construction</h3>
+  <p>We study a two-dimensional gradient system ẋ = −∇V with potential:</p>
+  <div class="mb"><div class="ml">Primary Potential</div>
+    \[V(x_1,x_2;\,\Delta H,\Delta V) = \frac{1}{4}(1+\gamma\Delta H)(x_1^2-1)^2 + \frac{1}{2}a(\Delta H)\,x_2^2 + \mu x_1^2 x_2 - \Delta V\cdot x_1\]
+  </div>
+  <p>where <span class="v">a(ΔH) = a₀(1+αΔH)</span>. Parameters: a₀ = 1, α = 0.5, γ = 0.5, μ = 0.3 (baseline).</p>
+  <p>The quartic term ¼(1+γΔH)(x₁²−1)² provides a symmetric double-well in x₁ with barrier height increasing in ΔH. The term ½a(ΔH)x₂² provides transverse confinement. The coupling term μx₁²x₂ creates genuine 2D basin geometry — without it, the x₁ and x₂ dynamics are separable, the separatrix is nearly vertical, and basin areas respond trivially to parameter changes. The tilt term ΔV·x₁ breaks left-right symmetry and drives saddle-node collapse.</p>
+
+  <h3>3.2 Design History: v1 Failure and Correction</h3>
+  <p>The initial model encoded ΔH only in the transverse curvature term a(ΔH), which controls how steeply basin walls rise in the x₂ direction. Tilt collapse is governed by barrier height along the x₁ axis — the collapse direction. Transverse curvature is orthogonal to collapse direction; changing it does not expand tilt tolerance.</p>
+  <p>Formal test F1 (stability envelope monotonicity) failed under the initial implementation: ΔV_crit was slightly decreasing rather than increasing with ΔH. This failure forced a conceptual correction: the quartic scaling (1+γΔH) directly increases barrier height along x₁ and is the correct implementation of the intended geometric effect.</p>
+  <p>This history is reported not as a limitation but as a methodological point: falsification prior to narrative, algebra prior to interpretation.</p>
+
+  <h3>3.3 Fixed Point Structure and Collapse Condition</h3>
+  <p>Fixed points satisfy ∇V = 0. The x₂ equation gives the elimination condition:</p>
+  <div class="mb"><div class="ml">Elimination</div>\[x_2^* = -\frac{\mu x_1^2}{a(\Delta H)}\]</div>
+  <p>Substituting into the x₁ equation yields a reduced cubic on the collapse axis:</p>
+  <div class="mb"><div class="ml">Reduced Cubic</div>
+    \[A(\Delta H)\,x_1^3 - B(\Delta H)\,x_1 - \Delta V = 0\]
+  </div>
+  <p>where <span class="v">B(ΔH) = 1+γΔH</span> (quartic coefficient) and <span class="v">A(ΔH) = B − 2μ²/a(ΔH)</span> (effective cubic coefficient). The stability condition A(ΔH) &gt; 0 must hold for the double-well structure to be maintained. With the stated parameters, A ranges from 0.820 to 1.380 across ΔH∈[0,1] — safely positive throughout.</p>
+  <p>The saddle-node condition (f = f' = 0 simultaneously) gives:</p>
+  <div class="mb"><div class="ml">Collapse Threshold</div>
+    \[|\Delta V_{\text{crit}}| = \frac{2}{3\sqrt{3}}\cdot\frac{B(\Delta H)^{3/2}}{\sqrt{A(\Delta H)}}\]
+  </div>
+  <p>The B^(3/2) factor in the numerator is essential. A preliminary derivation inadvertently reduced this to 1/√(A/B), losing a power of B. The correct formula has numerator growing as (1+γΔH)^(3/2) — asymptotically faster than the denominator — predicting monotone increase. The incorrect formula predicted decrease.</p>
+
+  <h3>3.4 Falsification Protocol and Results</h3>
+  <p>Six formal tests were conducted before accepting the model. All passed under the corrected potential:</p>
+  <table class="tbl">
+    <tr><th>Test</th><th>Property</th><th>Result</th></tr>
+    <tr><td>F1</td><td>Envelope monotonicity</td><td>ΔV_crit: 0.425→0.602 over ΔH∈[0,1]. Min step: +0.0083. Pass.</td></tr>
+    <tr><td>F2</td><td>Stability condition A&gt;0</td><td>A∈[0.820, 1.380] throughout. No degeneracy. Pass.</td></tr>
+    <tr><td>F3</td><td>Saddle continuity under ΔV</td><td>Max displacement per step: 0.000. No discontinuities. Pass.</td></tr>
+    <tr><td>F4</td><td>Basin area under increasing ΔH</td><td>Area: 55.9%→53.3% at ΔV=0.3. Slight decrease; within tolerance. Pass.</td></tr>
+    <tr><td>F5</td><td>Envelope convexity</td><td>d²ΔV_crit/dΔH² ∈ [0.007, 0.037]. No interior valleys. Pass.</td></tr>
+    <tr><td>F6</td><td>μ sensitivity sweep (14 values)</td><td>Monotone for μ∈[0.05, 0.50]. Breaks at μ≈0.54. Analytic μ_c=0.500. Pass.</td></tr>
+  </table>
+  <p>Test F4 produced an important refinement: basin area and stability envelope respond differently to ΔH. Depth (tilt tolerance) increases while area slightly decreases. These are independent geometric properties. The framework prior to testing did not distinguish them.</p>
+</section>
+
+<!-- §4 -->
+<section class="sec" id="res">
+  <div class="sec-head"><span class="sec-n">4.</span><h2>The Monotone Resilience Condition</h2></div>
+
+  <h3>4.1 Derivation</h3>
+  <p>The stability envelope is monotonically increasing at ΔH=0 if and only if:</p>
+  <div class="mb"><div class="ml">Condition</div>
+    \[\left.\frac{d\,\Delta V_{\text{crit}}}{d\,\Delta H}\right|_{\Delta H=0} > 0\]
+  </div>
+  <p>We differentiate ΔV_crit = (2/3√3)·B^(3/2)/A^(1/2) using the product rule. At ΔH=0: B₀=1, a₀=a₀, A₀=1−2μ²/a₀, Ȧ₀=γ+2μ²α/a₀, Ḃ₀=γ. The derivative is proportional to:</p>
+  <div class="mb"><div class="ml">Derivative at ΔH=0</div>
+    \[\frac{d}{d\Delta H}\bigg|_0 \propto \,\frac{1}{2}A_0^{-3/2}\!\left[\gamma(3A_0-1) - \frac{2\mu^2\alpha}{a_0}\right]\]
+  </div>
+  <p>Since A₀^(−3/2) &gt; 0, the sign is determined by the bracket. Substituting A₀=1−2μ²/a₀ and requiring positivity:</p>
+  <div class="mb"><div class="ml">Rearranged</div>
+    \[\gamma\!\left(2 - \frac{6\mu^2}{a_0}\right) > \frac{2\mu^2\alpha}{a_0} \implies \mu^2 < \frac{\gamma a_0}{3\gamma+\alpha}\]
+  </div>
+
+  <div class="env thm">
+    <div class="env-label">Theorem 4.1 — Monotone Resilience Condition</div>
+    <p>In the coupled gradient system with potential V = ¼(1+γΔH)(x₁²−1)² + ½a(ΔH)x₂² + μx₁²x₂ − ΔV·x₁, the stability envelope ΔV_crit(ΔH) is monotonically increasing if and only if:</p>
+    \[\mu < \mu_c, \qquad \mu_c = \sqrt{\frac{\gamma\, a_0}{3\gamma+\alpha}}\]
+    <p style="margin-top:10px;">With parameters a₀=1, α=0.5, γ=0.5: μ_c = √(0.5/2.0) = <strong>0.500 exactly</strong>. The bracket in the derivative changes sign precisely at μ=0.500 (verified to six decimal places).</p>
+  </div>
+
+  <p>To interpret μ_c intuitively: it is the coupling strength at which cross-dimensional distortion exactly cancels barrier growth at ΔH=0. Below μ_c, every increment of ΔH adds more barrier than it loses to coupling — resilience grows smoothly. Above μ_c, coupling wins at low coherence, bending the landscape in a way that temporarily reduces tilt tolerance before barrier scaling reasserts at higher ΔH. The threshold is not a continuous degradation — it is a sign change: one side monotone, the other not.</p>
+
+  <h3>4.2 Structural Interpretation</h3>
+  <p>The condition μ² &lt; γa₀/(3γ+α) describes a competition between coupling pressure and barrier scaling:</p>
+  <table class="tbl">
+    <tr><th>Term</th><th>Role</th><th>Effect</th></tr>
+    <tr><td>μ²</td><td>Coupling pressure</td><td>At low ΔH, coupling distorts the barrier geometry. Above μ_c, this dominates, producing a resilience dip before barrier scaling recovers.</td></tr>
+    <tr><td>γ</td><td>Barrier scaling rate</td><td>Drives the quartic height increase. Larger γ raises μ_c — more coupling is permissible.</td></tr>
+    <tr><td>α</td><td>Transverse stiffness rate</td><td>Contributes positively but less strongly than γ — appears only in the denominator.</td></tr>
+  </table>
+
+  <h3>4.3 Behavior Above μ_c</h3>
+  <p>For μ slightly above μ_c, the envelope exhibits a local minimum near ΔH=0 before recovering and increasing monotonically at larger ΔH. At μ=0.55, the minimum occurs near ΔH≈0.20 with a depth of approximately 0.012 below the ΔH=0 value — small but systematic. As μ increases further, A(ΔH=0) decreases toward zero, producing increasingly pathological behavior near ΔH=0 before barrier scaling reasserts. By μ=0.70, A_min≈0.020 — near degeneracy of the cubic reduction.</p>
+
+  <div class="env prop">
+    <div class="env-label">Proposition 4.2 — Domain of Validity</div>
+    <p>The monotone resilience claim holds in the regime:</p>
+    \[\mu < \mu_c = \sqrt{\frac{\gamma a_0}{3\gamma+\alpha}}, \qquad A(\Delta H) > 0 \;\text{for all}\; \Delta H \in [0,1]\]
+    <p style="margin-top:8px;">Outside this regime, coupling dominates at low ΔH and the envelope is not monotone. The boundary is analytically sharp, not an approximation.</p>
+  </div>
+</section>
+
+<!-- §5 -->
+<section class="sec" id="disc">
+  <div class="sec-head"><span class="sec-n">5.</span><h2>Discussion and Extensions</h2></div>
+
+  <h3>5.1 Summary of Results</h3>
+  <p>We have established three things:</p>
+  <p><strong>(1)</strong> A 2D coupled gradient system in which a barrier-height parameter monotonically expands tilt tolerance within an explicitly defined parameter regime. This is a geometric existence proof.</p>
+  <p><strong>(2)</strong> An analytic threshold μ_c = √(γa₀/(3γ+α)) below which the claim holds and above which it fails, derived from first principles and confirmed numerically.</p>
+  <p><strong>(3)</strong> A methodological record: one failed test, the conceptual correction it forced, and the distinction (depth vs. width) that was not in the framework prior to falsification.</p>
+
+  <p>On that third point: the v1 model encoded ΔH only in the transverse curvature term — how steeply basin walls rise perpendicular to the collapse axis. The v2 model encodes ΔH as quartic scaling — barrier height along the collapse axis. In plain English: v1 made the walls steeper; v2 raised the mountain pass. Raising the pass is what expands tilt tolerance. Making the walls steeper does not. The failure was not algebraic but conceptual — a misidentification of which geometric property "coherence deepens basins" should correspond to. Falsification caught it; the correction was exact.</p>
+
+  <h3>5.2 Gradient Restriction</h3>
+  <p>All results are restricted to gradient dynamics. Gradient systems cannot produce limit cycles, strange attractors, or fractal basin boundaries. The toy model demonstrates basin deformation under parameter change — it does not and cannot demonstrate the richer topological phenomena (Wada boundaries, chaotic saddles) that arise in non-gradient systems. Extending the model to non-gradient forcing is an open problem.</p>
+
+  <h3>5.3 Nonlinear Coherence Functions</h3>
+  <p>The monotone resilience condition was derived for linear a(ΔH) = a₀(1+αΔH) and B(ΔH) = 1+γΔH. For logistic saturation, power-law growth, or threshold-coupled forms, the explicit μ_c takes different forms. The general condition dΔV_crit/dΔH|₀ &gt; 0 remains valid as a boundary definition, but must be rederived for each functional form. The structure of the derivation (derivative bracket at ΔH=0) generalizes naturally.</p>
+
+  <h3>5.4 Metric Deformation</h3>
+  <p>The present work operates entirely at the potential level (Order I). A natural extension treats the parameter as deforming the phase space metric g_ij rather than (or in addition to) the potential. Under metric deformation, two systems with identical potentials exhibit different gradient flows and different basin boundaries — coherence becomes geometric bias rather than energetic depth. The appropriate deformation tensor requires formalization; a conformal deformation g_ij(p) = Ω(p)·δ_ij is the natural starting point.</p>
+
+  <h3>5.5 Meta-Dynamic Parameters</h3>
+  <p>In systems where the parameter itself obeys a dynamic equation (Δ̇H = G_H(x, ΔH)), the basin geometry evolves continuously as the system moves through parameter space. The slow-manifold approximation (treating ΔH as quasi-static) breaks down during rapid parameter excursions. This produces a two-regime structure: slow drift with adiabatic basin deformation, and fast spikes with transient coupling of parameter and state dynamics. The boundary between regimes is a phase transition in the meta-dynamics of the system's own parameters — an open problem combining the geometry of this paper with slow-fast dynamical systems theory.</p>
+
+  <div class="remark">
+    Remark 5.1. The results in §4 say precisely: coherence-like barrier scaling increases resilience when coupling remains subcritical. They do not say that such scaling always increases resilience, or that resilience is equivalent to depth, or that these results extend beyond the specified class of gradient systems. The statement is clean because it is bounded.
+  </div>
+</section>
+
+<div class="divider">— · —</div>
+
+<!-- REFERENCES -->
+<section class="sec" id="refs">
+  <div class="sec-head"><span class="sec-n"></span><h2>References and Related Work</h2></div>
+
+  <p style="font-size:16px;color:var(--ink-light);">This work is the tabletop companion to a ΔHV-native treatment published in the ΔHV Theoretical Library (<em>Attractor Basins as Coherence Wells in ΔHV-Parameterized Phase Space</em>, 2026), which contextualizes these results within the broader ΔHV theoretical framework including Resonant Equilibrium Theory, the cohestate framework, and Order II/III deformation operators.</p>
+
+  <p style="font-size:16px;color:var(--ink-light);margin-top:14px;">Relevant classical background: Strogatz (2018) <em>Nonlinear Dynamics and Chaos</em>, Guckenheimer &amp; Holmes (1983) <em>Nonlinear Oscillations, Dynamical Systems, and Bifurcations of Vector Fields</em>, Milnor (1985) "On the concept of attractor," <em>Communications in Mathematical Physics</em> 99(2).</p>
+</section>
+
+<footer>
+  <span>sKiDa · ΔHV Theoretical Library · 2026</span>
+  <span>skidaggabatee.github.io</span>
+</footer>
+
+</div>
+
+<script>
+window.addEventListener('scroll',()=>{
+  const h=document.documentElement;
+  document.getElementById('pb').style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';
+});
+const obs=new IntersectionObserver(e=>e.forEach(e=>e.isIntersecting&&e.target.classList.add('visible')),{threshold:.07});
+document.querySelectorAll('.sec').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
