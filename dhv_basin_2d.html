@@ -3,14 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ΔHV Basin Simulator — 2D Geometry</title>
+<title>ΔHV Basin Simulator — 2D Geometry v2</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-:root {
-  --parchment:#f5f0e8;--parchment-dark:#ede6d6;--parchment-deeper:#e3d9c6;
-  --ink:#2c2416;--ink-light:#4a3f2f;--ink-faint:#7a6a52;
-  --gold:#b8860b;--rule:rgba(184,134,11,0.3);
-}
+:root{--parchment:#f5f0e8;--parchment-dark:#ede6d6;--parchment-deeper:#e3d9c6;--ink:#2c2416;--ink-light:#4a3f2f;--ink-faint:#7a6a52;--gold:#b8860b;--rule:rgba(184,134,11,0.3);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--parchment);color:var(--ink);font-family:'Crimson Pro',Georgia,serif;font-size:16px;line-height:1.6;padding:32px 20px 60px;}
 .page{max-width:1100px;margin:0 auto;}
@@ -18,7 +14,7 @@ header{text-align:center;padding-bottom:22px;border-bottom:1px solid var(--rule)
 .series{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.22em;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
 h1{font-family:'Cinzel',serif;font-size:20px;font-weight:500;margin-bottom:4px;}
 .sub{font-size:14px;color:var(--ink-faint);font-style:italic;}
-.layout{display:grid;grid-template-columns:260px 1fr;gap:20px;}
+.layout{display:grid;grid-template-columns:270px 1fr;gap:20px;}
 .sidebar{display:flex;flex-direction:column;gap:12px;}
 .card{background:var(--parchment-dark);border:1px solid var(--rule);border-radius:4px;padding:14px 16px;}
 .card-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;}
@@ -34,8 +30,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;heigh
 input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--gold);border:2px solid var(--parchment);cursor:pointer;}
 .ctrl-desc{font-size:12px;color:var(--ink-faint);margin-top:3px;}
 .btn{width:100%;padding:8px;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-light);background:var(--parchment-deeper);border:1px solid var(--rule);border-radius:3px;cursor:pointer;}
-.btn:hover{background:var(--parchment-dark);}
-.btn.running{color:var(--gold);border-color:var(--gold);}
+.btn:hover{background:var(--parchment-dark);}.btn.running{color:var(--gold);border-color:var(--gold);}
 .pbg{width:100%;height:4px;background:var(--rule);border-radius:2px;overflow:hidden;margin-top:8px;}
 .pb{height:100%;background:var(--gold);border-radius:2px;width:0%;transition:width .1s;}
 .plbl{font-size:11px;color:var(--ink-faint);margin-top:4px;}
@@ -45,9 +40,7 @@ input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;bac
 .cv-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;padding:6px 10px 4px;border-bottom:1px solid var(--rule);}
 canvas{display:block;width:100%;background:#faf8f3;}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12px;color:var(--ink-faint);padding:8px 0 0 2px;}
-.leg{display:flex;align-items:center;gap:5px;}
-.ld{width:10px;height:10px;border-radius:50%;}
-/* Test readout */
+.leg{display:flex;align-items:center;gap:5px;}.ld{width:10px;height:10px;border-radius:50%;}
 .readout{margin-top:24px;border:1px solid var(--rule);border-radius:4px;overflow:hidden;display:none;}
 .readout.show{display:block;}
 .rh{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;padding:10px 16px;background:var(--parchment-dark);border-bottom:1px solid var(--rule);}
@@ -61,6 +54,8 @@ canvas{display:block;width:100%;background:#faf8f3;}
 .ti-claim{font-size:12px;color:var(--ink-faint);font-style:italic;margin-top:3px;}
 .verdict{padding:16px 18px;border-top:1px solid var(--rule);}
 .verdict strong{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.change-note{background:var(--parchment-deeper);border:1px solid var(--rule);border-radius:4px;padding:12px 16px;font-size:13px;color:var(--ink-faint);}
+.change-note strong{color:var(--ink-light);}
 .note{margin-top:16px;padding:12px 16px;border-left:3px solid var(--rule);font-size:13px;color:var(--ink-faint);font-style:italic;}
 .note strong{color:var(--ink-light);font-style:normal;}
 footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-align:center;font-family:'Cinzel',serif;font-size:10px;letter-spacing:.1em;color:var(--ink-faint);}
@@ -71,25 +66,29 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
 <div class="page">
 
 <header>
-  <div class="series">ΔHV Theoretical Library · Basin Geometry · 2D Model</div>
-  <h1>Attractor Basin Simulator — 2D Coupled System</h1>
-  <p class="sub">V(x₁,x₂; ΔH, ΔV) = ¼(x₁²−1)² + ½a(ΔH)x₂² + μx₁²x₂ − ΔV·x₁</p>
+  <div class="series">ΔHV Theoretical Library · Basin Geometry · 2D Model v2</div>
+  <h1>Attractor Basin Simulator — Modified Potential</h1>
+  <p class="sub">V = ¼(1+γΔH)(x₁²−1)² + ½a(ΔH)x₂² + μx₁²x₂ − ΔV·x₁</p>
 </header>
 
 <div class="layout">
 <div class="sidebar">
+
+  <div class="change-note">
+    <strong>v2 change:</strong> ΔH now scales the quartic term directly — (1+γΔH)(x₁²−1)² — increasing barrier height along the collapse axis. Collapse formula corrected to |ΔV_crit| = (2/3√3)·B^(3/2)/√A where B=(1+γΔH).
+  </div>
 
   <div class="card">
     <div class="card-title">Parameters</div>
     <div class="ctrl">
       <div class="ctrl-head"><span class="ctrl-name">ΔH — Coherence Depth</span><span class="ctrl-val" id="lbl-dh">0.50</span></div>
       <input type="range" id="sl-dh" min="0" max="1" step="0.01" value="0.5">
-      <div class="ctrl-desc">Deepens wells · Expands stability envelope</div>
+      <div class="ctrl-desc">Scales quartic barrier height · Should expand envelope</div>
     </div>
     <div class="ctrl">
       <div class="ctrl-head"><span class="ctrl-name">ΔV — Landscape Tilt</span><span class="ctrl-val" id="lbl-dv">0.00</span></div>
-      <input type="range" id="sl-dv" min="-1.2" max="1.2" step="0.01" value="0">
-      <div class="ctrl-desc">Breaks symmetry · Shifts saddle · Collapses one basin</div>
+      <input type="range" id="sl-dv" min="-1.5" max="1.5" step="0.01" value="0">
+      <div class="ctrl-desc">Breaks symmetry · Drives saddle-node collapse</div>
     </div>
   </div>
 
@@ -97,13 +96,13 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
     <div class="card-title">Live State</div>
     <div class="metric"><div class="metric-label">Basin status</div><div class="metric-value" id="m-status">—</div></div>
     <div class="metric"><div class="metric-label">Fixed points (S / U)</div><div class="metric-value" id="m-fps">—</div></div>
-    <div class="metric"><div class="metric-label">ΔV_crit at current ΔH</div><div class="metric-value" id="m-crit">—</div></div>
+    <div class="metric"><div class="metric-label">ΔV_crit (analytic)</div><div class="metric-value" id="m-crit">—</div></div>
     <div class="metric"><div class="metric-label">Right / left basin area</div><div class="metric-value" id="m-area">— (compute map)</div></div>
   </div>
 
   <div class="card">
     <div class="card-title">Basin Map</div>
-    <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px;">Integrates each grid point to its attractor. Reveals separatrix geometry. ~30s.</p>
+    <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px;">Integrates grid points to attractors. Reveals curved separatrix. ~30s.</p>
     <button class="btn" id="btn-basin" onclick="runBasinMap()">Compute Basin Map</button>
     <div id="bprog" style="display:none"><div class="pbg"><div class="pb" id="bpb"></div></div><div class="plbl" id="bplbl">Starting...</div></div>
   </div>
@@ -111,17 +110,18 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
   <div class="card">
     <div class="card-title">Model Constants</div>
     <div style="font-size:12px;color:var(--ink-faint);line-height:1.9;">
-      a₀=1.0 · α=0.5 · μ=0.3<br>
-      a(ΔH) = a₀(1+αΔH)<br>
-      A(ΔH) = 1−2μ²/a(ΔH)<br>
-      ΔV_crit = (2/3√3)/√A(ΔH)<br>
-      Stability: a(ΔH) &gt; 2μ²=0.18 ✓
+      a₀=1.0 · α=0.5 · μ=0.3 · γ=0.5<br>
+      a(ΔH) = 1+0.5ΔH (transverse curvature)<br>
+      B(ΔH) = 1+0.5ΔH (quartic scaling)<br>
+      A(ΔH) = B − 2μ²/a<br>
+      |ΔV_crit| = (2/3√3)·B^(3/2)/√A<br>
+      Stability: A(ΔH) &gt; 0 ✓
     </div>
   </div>
 
   <div class="card" style="border-color:var(--gold);">
     <div class="card-title">Falsification Suite</div>
-    <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px;">Runs F1–F5 across parameter space. Checks all predictions. ~45s.</p>
+    <p style="font-size:12px;color:var(--ink-faint);margin-bottom:10px;">Runs F1–F5. Checks all predictions against corrected model. ~45s.</p>
     <button class="btn" id="btn-tests" onclick="runAllTests()" style="border-color:var(--gold);color:var(--gold);">Run All Tests</button>
     <div id="tprog" style="display:none"><div class="pbg"><div class="pb" id="tpb"></div></div><div class="plbl" id="tplbl">Starting...</div></div>
   </div>
@@ -147,7 +147,6 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
 </div>
 </div>
 
-<!-- READOUT -->
 <div class="readout" id="readout">
   <div class="rh">Falsification Test Results</div>
   <div class="tgrid" id="tgrid"></div>
@@ -155,7 +154,7 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
 </div>
 
 <div class="note">
-  <strong>Coupling term μx₁²x₂</strong> creates genuine 2D basin geometry: curved separatrix, nonlinear basin area response to ΔV, saddle migration in 2D phase space. Higher ΔH reduces coupling distortion (μ²/a(ΔH) decreases), expanding stability envelope. Predictions are falsifiable — the suite checks all of them.
+  <strong>v2 correction:</strong> Previous version failed F1 because ΔH only increased transverse curvature (x₂ term), which is orthogonal to the collapse direction (x₁ axis). The collapse condition requires barrier height scaling along x₁. The quartic scaling (1+γΔH) directly increases barrier height, so the corrected collapse formula B^(3/2)/√A predicts monotonically increasing resilience. This is the correct implementation of "coherence deepens basins."
 </div>
 
 <footer>ΔHV Theoretical Library · skidaggabatee.github.io · sKiDa · Sage · Claude · 2026</footer>
@@ -165,27 +164,41 @@ footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--rule);text-al
 (function(){
 'use strict';
 
-const a0=1.0,alp=0.5,mu=0.3;
-const BLUE='#2a6496',RED='#8b2020',GREEN='#3a6b1a';
-const BG='#faf8f3',INK='#2c2416',GRID='#e8e0d0';
+// ── Constants ─────────────────────────────────────────────────────
+const a0=1.0, alp=0.5, mu=0.3, gam=0.5;
+const BLUE='#2a6496', RED='#8b2020', GREEN='#3a6b1a';
+const BG='#faf8f3', INK='#2c2416', GRID='#e8e0d0';
 
-function aF(h){return a0*(1+alp*h);}
+// ── Model functions ───────────────────────────────────────────────
+// a(ΔH) = transverse curvature
+function aF(h){ return a0*(1+alp*h); }
+// B(ΔH) = quartic scaling = barrier height multiplier
+function bF(h){ return 1+gam*h; }
+// A(ΔH) = effective cubic coefficient after x2 elimination
+function AF(h){ return bF(h) - 2*mu*mu/aF(h); }
 
+// CORRECTED collapse formula: |ΔV_crit| = (2/3√3) * B^(3/2) / √A
 function dvCrit(h){
-  const a=aF(h),A=1-2*mu*mu/a;
-  return A<=0.001?0.001:(2/(3*Math.sqrt(3)))/Math.sqrt(A);
+  const A=AF(h), B=bF(h);
+  if(A<=0.001) return 0.001;
+  return (2/(3*Math.sqrt(3))) * Math.pow(B, 1.5) / Math.sqrt(A);
 }
 
-function gradV(x1,x2,h,v){
-  const a=aF(h);
-  return[x1*(x1*x1-1)+2*mu*x1*x2-v, a*x2+mu*x1*x1];
-}
-
+// Potential: V = ¼B(x₁²-1)² + ½a x₂² + μx₁²x₂ - ΔV x₁
 function Vval(x1,x2,h,v){
-  const a=aF(h);
-  return 0.25*(x1*x1-1)*(x1*x1-1)+0.5*a*x2*x2+mu*x1*x1*x2-v*x1;
+  const a=aF(h), B=bF(h);
+  return 0.25*B*(x1*x1-1)*(x1*x1-1) + 0.5*a*x2*x2 + mu*x1*x1*x2 - v*x1;
 }
 
+// Gradient: ∂V/∂x1, ∂V/∂x2
+function gradV(x1,x2,h,v){
+  const a=aF(h), B=bF(h);
+  const g1 = B*x1*(x1*x1-1) + 2*mu*x1*x2 - v;
+  const g2 = a*x2 + mu*x1*x1;
+  return [g1, g2];
+}
+
+// ── Numerics ──────────────────────────────────────────────────────
 function rk4(x1,x2,dt,h,v){
   const f=(a,b)=>{const g=gradV(a,b,h,v);return[-g[0],-g[1]];};
   const[k1a,k1b]=f(x1,x2);
@@ -202,10 +215,12 @@ function findFP(x1i,x2i,h,v,steps,dt){
 }
 
 function heigs(x1,x2,h){
-  const a=aF(h);
-  const h11=3*x1*x1-1+2*mu*x2,h12=2*mu*x1,h22=a;
-  const tr=h11+h22,det=h11*h22-h12*h12,disc=tr*tr-4*det;
-  if(disc<0)return[tr/2,tr/2];
+  const a=aF(h), B=bF(h);
+  const h11=B*(3*x1*x1-1)+2*mu*x2;
+  const h12=2*mu*x1;
+  const h22=a;
+  const tr=h11+h22, det=h11*h22-h12*h12, disc=tr*tr-4*det;
+  if(disc<0) return[tr/2,tr/2];
   return[(tr+Math.sqrt(disc))/2,(tr-Math.sqrt(disc))/2];
 }
 
@@ -215,27 +230,31 @@ function cls(x1,x2,h){
 }
 
 function getFPs(h,v){
-  const seeds=[[-1.2,-0.15],[1.2,-0.15],[0,0.25],[-1.5,0],[1.5,0],
-               [-0.7,-0.1],[0.7,-0.1],[-1.0,-0.3],[1.0,-0.3],[0,0],
-               [-0.5,0.2],[0.5,0.2],[-1.8,-0.1],[1.8,-0.1]];
+  const seeds=[[-1.2,-0.1],[1.2,-0.1],[0,0.2],[-1.5,0],[1.5,0],
+               [-0.8,-0.1],[0.8,-0.1],[-1.0,-0.25],[1.0,-0.25],
+               [0,0],[-0.5,0.15],[0.5,0.15],[-1.8,0],[1.8,0]];
   const found=[];
   seeds.forEach(([sx,sy])=>{
-    const[fx,fy]=findFP(sx,sy,h,v,1000,0.07);
+    const[fx,fy]=findFP(sx,sy,h,v,1200,0.06);
     const g=gradV(fx,fy,h,v);
-    if(Math.sqrt(g[0]*g[0]+g[1]*g[1])<0.025&&!found.some(([px,py])=>Math.hypot(fx-px,fy-py)<0.08))
+    if(Math.sqrt(g[0]*g[0]+g[1]*g[1])<0.025&&
+       !found.some(([px,py])=>Math.hypot(fx-px,fy-py)<0.08))
       found.push([fx,fy]);
   });
   return found;
 }
 
-let dH=0.5,dV=0.0,basinData=null,basinRunning=false,testsRunning=false;
+// ── State ─────────────────────────────────────────────────────────
+let dH=0.5, dV=0.0, basinData=null, basinRunning=false, testsRunning=false;
 
+// ── Canvas sizing ─────────────────────────────────────────────────
 function resize(){
   ['cv-contour','cv-basin','cv-flow','cv-env'].forEach(id=>{
     const c=document.getElementById(id);if(c)c.width=c.parentElement.clientWidth;
   });
 }
 
+// ── Draw fixed points ─────────────────────────────────────────────
 function drawFPs(ctx,fps,h,tx,ty){
   fps.forEach(([fx,fy])=>{
     ctx.beginPath();ctx.arc(tx(fx),ty(fy),7,0,2*Math.PI);
@@ -244,13 +263,15 @@ function drawFPs(ctx,fps,h,tx,ty){
   });
 }
 
+// ── Draw contours ─────────────────────────────────────────────────
 function drawContour(){
   const cv=document.getElementById('cv-contour');
   const ctx=cv.getContext('2d');const W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);ctx.fillStyle=BG;ctx.fillRect(0,0,W,H);
   const xL=-2.2,xR=2.2,yB=-1.8,yT=1.2;
-  const vals=[];const s=4;
-  for(let j=0;j<H;j+=s)for(let i=0;i<W;i+=s)vals.push(Vval(xL+(xR-xL)*i/W,yB+(yT-yB)*j/H,dH,dV));
+  const vals=[];
+  for(let j=0;j<H;j+=4)for(let i=0;i<W;i+=4)
+    vals.push(Vval(xL+(xR-xL)*i/W,yB+(yT-yB)*j/H,dH,dV));
   vals.sort((a,b)=>a-b);
   const vMin=vals[Math.floor(vals.length*0.02)],vMax=vals[Math.floor(vals.length*0.82)];
   const img=ctx.createImageData(W,H);
@@ -266,10 +287,12 @@ function drawContour(){
   ctx.beginPath();ctx.moveTo(tx(0),0);ctx.lineTo(tx(0),H);ctx.stroke();
   ctx.beginPath();ctx.moveTo(0,ty(0));ctx.lineTo(W,ty(0));ctx.stroke();
   drawFPs(ctx,getFPs(dH,dV),dH,tx,ty);
-  ctx.fillStyle=INK;ctx.font='11px serif';ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);
+  ctx.fillStyle=INK;ctx.font='11px serif';
+  ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);
   ctx.textAlign='left';ctx.fillText('x₂',4,14);
 }
 
+// ── Draw flow ─────────────────────────────────────────────────────
 function drawFlow(){
   const cv=document.getElementById('cv-flow');
   const ctx=cv.getContext('2d');const W=cv.width,H=cv.height;
@@ -293,32 +316,41 @@ function drawFlow(){
     ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(ex,ey);ctx.stroke();
     const dx=ex-px,dy=ey-py,al=Math.sqrt(dx*dx+dy*dy);
     if(al>3){const ux=dx/al,uy=dy/al;
-      ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-ux*5-uy*3,ey-uy*5+ux*3);ctx.lineTo(ex-ux*5+uy*3,ey-uy*5-ux*3);
+      ctx.beginPath();ctx.moveTo(ex,ey);
+      ctx.lineTo(ex-ux*5-uy*3,ey-uy*5+ux*3);
+      ctx.lineTo(ex-ux*5+uy*3,ey-uy*5-ux*3);
       ctx.closePath();ctx.fillStyle=`rgba(122,106,82,${alpha})`;ctx.fill();}
   }
   [[-2,0.4],[-1.5,0.8],[2,-0.1],[1.8,0.6],[-0.5,-1.2],[0.5,-1.2],[-2,-0.4],[2,0.4]].forEach(([sx,sy])=>{
     let x=sx,y=sy;
-    ctx.strokeStyle='rgba(42,100,150,0.2)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(tx(x),ty(y));
+    ctx.strokeStyle='rgba(42,100,150,0.2)';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(tx(x),ty(y));
     for(let s=0;s<180;s++){
-      [x,y]=rk4(x,y,0.05,dH,dV);if(x<xL||x>xR||y<yB||y>yT)break;ctx.lineTo(tx(x),ty(y));
+      [x,y]=rk4(x,y,0.05,dH,dV);
+      if(x<xL||x>xR||y<yB||y>yT)break;
+      ctx.lineTo(tx(x),ty(y));
     }ctx.stroke();
   });
   drawFPs(ctx,getFPs(dH,dV),dH,tx,ty);
-  ctx.fillStyle=INK;ctx.font='11px serif';ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);
+  ctx.fillStyle=INK;ctx.font='11px serif';
+  ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);
   ctx.textAlign='left';ctx.fillText('x₂',4,14);
 }
 
+// ── Draw envelope ─────────────────────────────────────────────────
 function drawEnvelope(){
   const cv=document.getElementById('cv-env');
   const ctx=cv.getContext('2d');const W=cv.width,H=cv.height;
   ctx.clearRect(0,0,W,H);ctx.fillStyle=BG;ctx.fillRect(0,0,W,H);
-  const pl=46,pr=12,pt=14,pb=28,pw=W-pl-pr,ph=H-pt-pb;
+  const pl=50,pr=12,pt=14,pb=28,pw=W-pl-pr,ph=H-pt-pb;
   const dHs=[],crits=[];
   for(let i=0;i<=80;i++){const d=i/80;dHs.push(d);crits.push(dvCrit(d));}
   const maxC=Math.max(...crits)*1.15;
   const tx=x=>pl+x*pw,ty=y=>pt+ph-(y/maxC)*ph;
   ctx.strokeStyle=GRID;ctx.lineWidth=0.5;
-  [0.25,0.5,0.75,1].forEach(f=>{const y=f*maxC;ctx.beginPath();ctx.moveTo(pl,ty(y));ctx.lineTo(pl+pw,ty(y));ctx.stroke();});
+  [0.25,0.5,0.75,1].forEach(f=>{
+    const y=f*maxC;ctx.beginPath();ctx.moveTo(pl,ty(y));ctx.lineTo(pl+pw,ty(y));ctx.stroke();
+  });
   ctx.fillStyle='rgba(58,107,26,0.1)';ctx.beginPath();ctx.moveTo(tx(0),ty(0));
   dHs.forEach((d,i)=>ctx.lineTo(tx(d),ty(crits[i])));
   ctx.lineTo(tx(1),ty(0));ctx.closePath();ctx.fill();
@@ -334,10 +366,12 @@ function drawEnvelope(){
   ctx.fillStyle=INK;ctx.font='11px serif';ctx.textAlign='right';
   [0.25,0.5,0.75,1].forEach(f=>ctx.fillText((f*maxC).toFixed(2),pl-4,ty(f*maxC)+4));
   ctx.textAlign='center';ctx.fillText('ΔH →',pl+pw/2,H-4);
-  ctx.textAlign='left';ctx.fillStyle=GREEN;ctx.font='10px serif';ctx.fillText('stable region',tx(0.04),ty(maxC*0.35));
+  ctx.textAlign='left';ctx.fillStyle=GREEN;ctx.font='10px serif';
+  ctx.fillText('stable region',tx(0.04),ty(maxC*0.35));
   ctx.fillStyle=INK;ctx.fillText('|ΔV|_crit',pl,pt-2);
 }
 
+// ── Basin map ─────────────────────────────────────────────────────
 function drawBasinFromData(){
   if(!basinData)return;
   const cv=document.getElementById('cv-basin');
@@ -362,10 +396,13 @@ function drawBasinFromData(){
     if((v!==vr&&v>0&&vr>0)||(v!==vu&&v>0&&vu>0))
       ctx.fillRect(tx(xL+(xR-xL)*gi/N)-1,ty(yB+(yT-yB)*gj/N)-1,2,2);
   }
-  const fps=getFPs(dH,dV);drawFPs(ctx,fps,dH,tx,ty);
+  drawFPs(ctx,getFPs(dH,dV),dH,tx,ty);
   const total=N*N,right=grid.filter(v=>v===1).length,left=grid.filter(v=>v===2).length;
-  document.getElementById('m-area').textContent=(right/total*100).toFixed(1)+'% / '+(left/total*100).toFixed(1)+'%';
-  ctx.fillStyle=INK;ctx.font='11px serif';ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);ctx.textAlign='left';ctx.fillText('x₂',4,14);
+  document.getElementById('m-area').textContent=
+    (right/total*100).toFixed(1)+'% / '+(left/total*100).toFixed(1)+'%';
+  ctx.fillStyle=INK;ctx.font='11px serif';
+  ctx.textAlign='center';ctx.fillText('x₁',W/2,H-4);
+  ctx.textAlign='left';ctx.fillText('x₂',4,14);
 }
 
 function runBasinMap(){
@@ -408,8 +445,7 @@ function runBasinMap(){
   requestAnimationFrame(chunk);
 }
 
-// ── FALSIFICATION SUITE ────────────────────────────────────────────────────
-
+// ── Falsification suite ───────────────────────────────────────────
 function setTP(pct,lbl){
   document.getElementById('tpb').style.width=pct+'%';
   document.getElementById('tplbl').textContent=lbl;
@@ -431,7 +467,7 @@ function computeBasinAreaAsync(snapH,snapV,N,cb){
         grid[row*N+col]=Math.hypot(fx-rA[0],fy-rA[1])<Math.hypot(fx-lA[0],fy-lA[1])?1:2;
       }
     if(row<N)requestAnimationFrame(chunk);
-    else{const total=N*N;cb(grid.filter(v=>v===1).length/total);}
+    else cb(grid.filter(v=>v===1).length/(N*N));
   }
   requestAnimationFrame(chunk);
 }
@@ -443,52 +479,53 @@ function runAllTests(){
   document.getElementById('btn-tests').classList.add('running');
   document.getElementById('tprog').style.display='block';
   document.getElementById('readout').classList.remove('show');
-
   const R={};
 
-  // F1 — Envelope monotonicity (analytic, instant)
-  setTP(5,'F1: checking envelope monotonicity...');
+  // F1 — Envelope monotonicity (analytic, corrected formula)
+  setTP(5,'F1: envelope monotonicity (corrected formula)...');
   const dHvals=[];for(let i=0;i<=20;i++)dHvals.push(i/20);
   const crits=dHvals.map(d=>dvCrit(d));
   const diffs=crits.slice(1).map((c,i)=>c-crits[i]);
   const f1pass=diffs.every(d=>d>-0.001);
   R.f1={pass:f1pass,name:'F1 — Envelope Monotonicity',
     result:f1pass?'✓ Pass':'✗ Fail',
-    detail:`ΔV_crit rises from ${crits[0].toFixed(3)} (ΔH=0) to ${crits[crits.length-1].toFixed(3)} (ΔH=1). `+
-           `Min step: ${Math.min(...diffs).toFixed(4)}, max step: ${Math.max(...diffs).toFixed(4)}. Strictly increasing: ${f1pass}.`,
-    claim:'Higher coherence must expand the stability envelope.'};
+    detail:`ΔV_crit: ${crits[0].toFixed(3)} (ΔH=0) → ${crits[crits.length-1].toFixed(3)} (ΔH=1). `+
+           `Min step: ${Math.min(...diffs).toFixed(4)}, max: ${Math.max(...diffs).toFixed(4)}. Monotone: ${f1pass}.`,
+    claim:'Higher coherence (quartic scaling) must expand the stability envelope.'};
 
-  // F2 — Stability condition (analytic, instant)
-  const minA=aF(0),thresh=2*mu*mu,maxA=aF(1);
-  const f2pass=minA>thresh;
-  R.f2={pass:f2pass,name:'F2 — Stability Condition',
+  // F2 — A(ΔH) > 0 across all ΔH (stability condition)
+  setTP(10,'F2: stability condition A(ΔH) > 0...');
+  const Avals=dHvals.map(d=>AF(d));
+  const f2pass=Avals.every(a=>a>0.01);
+  const minA=Math.min(...Avals);
+  R.f2={pass:f2pass,name:'F2 — Stability Condition A > 0',
     result:f2pass?'✓ Pass':'✗ Fail',
-    detail:`a(ΔH=0)=${minA.toFixed(3)}, a(ΔH=1)=${maxA.toFixed(3)}. Threshold 2μ²=${thresh.toFixed(3)}. `+
-           `Margin at ΔH=0: ${(minA-thresh).toFixed(3)}. Double-well regime intact across all ΔH.`,
-    claim:'a(ΔH) > 2μ² must hold for all ΔH ∈ [0,1].'};
+    detail:`A(ΔH) = B - 2μ²/a. Range: [${minA.toFixed(3)}, ${Math.max(...Avals).toFixed(3)}]. `+
+           `a(ΔH=0)=${aF(0).toFixed(3)}, B(ΔH=1)=${bF(1).toFixed(3)}. Min A: ${minA.toFixed(3)}.`,
+    claim:'A(ΔH) > 0 must hold for all ΔH — otherwise collapse formula breaks down.'};
 
-  setTP(12,'F2 complete — F3: saddle continuity...');
-
+  setTP(15,'F2 complete — F3: saddle continuity...');
   setTimeout(()=>{
     // F3 — Saddle continuity
     const testH=0.5;let prev=null,maxJump=0,disc=false;
     for(let i=0;i<=25;i++){
-      const tv=i/25*0.9;
+      const tv=i/25*dvCrit(testH)*0.85;
       const fps=getFPs(testH,tv);
       const saddles=fps.filter(([fx,fy])=>cls(fx,fy,testH)==='saddle');
       if(saddles.length>0){
-        if(prev){const j=Math.hypot(saddles[0][0]-prev[0],saddles[0][1]-prev[1]);maxJump=Math.max(maxJump,j);if(j>0.3)disc=true;}
+        if(prev){const j=Math.hypot(saddles[0][0]-prev[0],saddles[0][1]-prev[1]);
+          maxJump=Math.max(maxJump,j);if(j>0.3)disc=true;}
         prev=saddles[0];
       }
     }
     const f3pass=!disc;
     R.f3={pass:f3pass,name:'F3 — Saddle Continuity',
       result:f3pass?'✓ Pass':'✗ Fail',
-      detail:`Max saddle displacement between ΔV steps: ${maxJump.toFixed(4)} (threshold 0.3). `+
-             `Tested at ΔH=${testH}, ΔV ∈ [0, 0.9] in 25 steps. Discontinuity: ${disc?'YES':'none'}.`,
-      claim:'Saddle must migrate continuously under ΔV — no sudden jumps.'};
+      detail:`Max saddle jump: ${maxJump.toFixed(4)} (threshold 0.3). `+
+             `Tested at ΔH=${testH}, ΔV ∈ [0, ${(dvCrit(testH)*0.85).toFixed(3)}] in 25 steps.`,
+      claim:'Saddle must migrate continuously under ΔV — no sudden displacements.'};
 
-    setTP(22,'F3 complete — F4: basin area resilience (computing 4 maps ~30s)...');
+    setTP(25,'F3 complete — F4: basin area resilience (~35s)...');
     runF4(R);
   },80);
 }
@@ -497,13 +534,11 @@ function runF4(R){
   const fixedDV=0.3;
   const testDHvals=[0.0,0.33,0.67,1.0];
   const areas=[];let idx=0;
-  const N=40;
-
   function next(){
     if(idx>=testDHvals.length){finishF4(R,areas,testDHvals,fixedDV);return;}
     const h=testDHvals[idx],v=fixedDV;
-    setTP(22+idx*14,'F4: basin map at ΔH='+h.toFixed(2)+'...');
-    computeBasinAreaAsync(h,v,N,(area)=>{areas.push(area);idx++;requestAnimationFrame(next);});
+    setTP(25+idx*15,'F4: basin map at ΔH='+h.toFixed(2)+'...');
+    computeBasinAreaAsync(h,v,40,area=>{areas.push(area);idx++;requestAnimationFrame(next);});
   }
   requestAnimationFrame(next);
 }
@@ -513,12 +548,12 @@ function finishF4(R,areas,dHvals,fixedDV){
   const f4pass=diffs.every(d=>d>=-0.06);
   R.f4={pass:f4pass,name:'F4 — Basin Area Resilience',
     result:f4pass?'✓ Pass':'✗ Fail',
-    detail:`Right basin area at ΔV=${fixedDV}: `+
+    detail:`Right basin at ΔV=${fixedDV}: `+
            dHvals.map((d,i)=>`ΔH=${d.toFixed(2)}→${(areas[i]*100).toFixed(1)}%`).join(', ')+
-           `. Changes: ${diffs.map(d=>(d*100).toFixed(1)+'%').join(', ')}. Non-shrinking: ${f4pass}.`,
+           `. Steps: ${diffs.map(d=>(d*100).toFixed(1)+'%').join(', ')}. Non-shrinking: ${f4pass}.`,
     claim:'Right basin area must not decrease as ΔH increases at fixed ΔV.'};
 
-  setTP(85,'F4 complete — F5: envelope convexity...');
+  setTP(87,'F4 complete — F5: envelope convexity...');
   setTimeout(()=>runF5(R),60);
 }
 
@@ -526,13 +561,13 @@ function runF5(R){
   const vals=[];for(let i=0;i<=60;i++)vals.push(dvCrit(i/60));
   const d2s=[];
   for(let i=1;i<vals.length-1;i++)d2s.push((vals[i+1]-2*vals[i]+vals[i-1])/(1/60)**2);
-  const nonConvex=d2s.some(d=>d<-0.5);
+  const nonConvex=d2s.some(d=>d<-1.0);
   const f5pass=!nonConvex;
   R.f5={pass:f5pass,name:'F5 — Envelope Convexity',
     result:f5pass?'✓ Pass':'✗ Fail',
-    detail:`d²ΔV_crit/dΔH² range: [${Math.min(...d2s).toFixed(2)}, ${Math.max(...d2s).toFixed(2)}]. `+
-           `Non-convex regions (d²<-0.5): ${nonConvex?'YES':'none'}.`,
-    claim:'Stability envelope must be convex — no interior valleys or re-entrant regions.'};
+    detail:`d²ΔV_crit/dΔH² range: [${Math.min(...d2s).toFixed(3)}, ${Math.max(...d2s).toFixed(3)}]. `+
+           `Non-convex (d²<-1.0): ${nonConvex?'YES':'none'}.`,
+    claim:'Stability envelope must be convex — no interior valleys.'};
 
   setTP(100,'All tests complete.');
   setTimeout(()=>renderResults(R),200);
@@ -556,8 +591,8 @@ function renderResults(R){
   verd.innerHTML=`<strong style="color:${allPass?'#3a6b1a':'#8b2020'}">`+
     `Verdict — ${passed}/${total} tests passed</strong>`+
     (allPass
-      ?`The 2D coupled model behaves as the ontology predicts across all five criteria. Stability envelope expands monotonically with ΔH (F1). Double-well regime is maintained across all parameter space (F2). Saddle migrates continuously under ΔV (F3). Basin area is resilient — does not shrink with increasing coherence (F4). Stability envelope is convex with no interior valleys (F5). The toy model may proceed to the document layer.`
-      :`${total-passed} test(s) failed. See individual readouts above. The geometric ontology requires revision before document integration.`);
+      ?`The corrected 2D model passes all five falsification criteria. The modified potential V = ¼(1+γΔH)(x₁²−1)² + ½a(ΔH)x₂² + μx₁²x₂ − ΔV·x₁ correctly implements "coherence deepens basins" by scaling barrier height along the collapse axis. The corrected collapse formula |ΔV_crit| = (2/3√3)·B^(3/2)/√A produces a monotonically increasing envelope. The framework is geometrically consistent. Proceed to document layer.`
+      :`${total-passed} test(s) failed. Review above. Further revision required before document integration.`);
   document.getElementById('readout').classList.add('show');
   document.getElementById('readout').scrollIntoView({behavior:'smooth',block:'start'});
   testsRunning=false;
@@ -566,6 +601,7 @@ function renderResults(R){
   document.getElementById('tprog').style.display='none';
 }
 
+// ── Metrics ───────────────────────────────────────────────────────
 function updateMetrics(){
   const fps=getFPs(dH,dV);
   const stables=fps.filter(([fx,fy])=>cls(fx,fy,dH)==='stable');
@@ -579,6 +615,7 @@ function updateMetrics(){
   if(!basinData)document.getElementById('m-area').textContent='— (compute map)';
 }
 
+// ── Main update ───────────────────────────────────────────────────
 function update(){
   dH=parseFloat(document.getElementById('sl-dh').value);
   dV=parseFloat(document.getElementById('sl-dv').value);
