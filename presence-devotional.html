@@ -302,10 +302,11 @@
   .app-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.2rem 2rem;
-    border-bottom: 1px solid rgba(201,168,92,0.2);
-    background: rgba(26,21,16,0.95);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
     backdrop-filter: blur(10px);
     position: sticky; top: 0; z-index: 50;
+    transition: background 0.4s ease, border-color 0.4s ease;
   }
   .header-logo {
     font-family: 'Cinzel', serif;
@@ -566,12 +567,13 @@
   /* ── OVERVIEW PANEL ── */
   #overview-panel {
     position: fixed; inset: 0;
-    background: rgba(26,21,16,0.97);
+    background: var(--bg);
     z-index: 90;
     display: none;
     overflow-y: auto;
     padding: 3rem 2rem;
     animation: fadeIn 0.3s ease;
+    transition: background 0.4s ease;
   }
   #overview-panel.open { display: block; }
   .overview-header {
@@ -646,21 +648,23 @@
   /* ── INTRO / GLOSSARY PANELS ── */
   .fullscreen-panel {
     position: fixed; inset: 0;
-    background: var(--ink);
+    background: var(--bg);
     z-index: 95;
     display: none;
     overflow-y: auto;
+    transition: background 0.4s ease;
   }
   .fullscreen-panel.open { display: block; animation: fadeIn 0.4s ease; }
 
   .panel-header {
     position: sticky; top: 0;
-    background: rgba(26,21,16,0.97);
+    background: var(--bg);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(201,168,92,0.2);
+    border-bottom: 1px solid var(--border);
     padding: 1.2rem 2rem;
     display: flex; align-items: center; justify-content: space-between;
     z-index: 10;
+    transition: background 0.4s ease;
   }
   .panel-header-title {
     font-family: 'Cinzel', serif;
@@ -774,10 +778,11 @@
     display: flex; flex-wrap: wrap; gap: 0.4rem;
     margin-bottom: 2rem;
     position: sticky; top: 70px;
-    background: rgba(26,21,16,0.95);
+    background: var(--bg);
     padding: 0.8rem 0;
-    border-bottom: 1px solid rgba(201,168,92,0.1);
+    border-bottom: 1px solid var(--border);
     z-index: 5;
+    transition: background 0.4s ease;
   }
   .alpha-btn {
     font-family: 'Cinzel', serif;
@@ -785,14 +790,14 @@
     letter-spacing: 0.1em;
     width: 28px; height: 28px;
     display: flex; align-items: center; justify-content: center;
-    border: 1px solid rgba(201,168,92,0.2);
+    border: 1px solid var(--border);
     background: transparent;
     color: var(--dust);
     cursor: pointer;
     transition: all 0.2s ease;
   }
   .alpha-btn:hover { color: var(--gold); border-color: var(--gold); }
-  .alpha-btn.has-entries { color: var(--parchment-dark); }
+  .alpha-btn.has-entries { color: var(--text-body); }
 
   .glossary-letter-section { margin-bottom: 2.5rem; }
   .glossary-letter {
@@ -1107,8 +1112,8 @@
     </div>
     <div class="header-right">
       <div class="theme-dots" title="Change theme">
-        <div class="theme-dot active" data-t="dark"      onclick="setTheme('dark')"      title="Dark"></div>
-        <div class="theme-dot"        data-t="chromium"  onclick="setTheme('chromium')"  title="Chromium"></div>
+        <div class="theme-dot"        data-t="dark"      onclick="setTheme('dark')"      title="Dark"></div>
+        <div class="theme-dot active"  data-t="chromium"  onclick="setTheme('chromium')"  title="Chromium"></div>
         <div class="theme-dot"        data-t="parchment" onclick="setTheme('parchment')" title="Parchment"></div>
         <div class="theme-dot"        data-t="light"     onclick="setTheme('light')"     title="Light"></div>
       </div>
@@ -1914,6 +1919,9 @@ function introGoTo(n) {
   slides[introCurrentSlide]?.classList.remove('active');
   introCurrentSlide = n;
   slides[introCurrentSlide]?.classList.add('active');
+  // scroll panel body back to top
+  const panel = document.getElementById('intro-panel');
+  if (panel) panel.scrollTo({ top: 0, behavior: 'smooth' });
   document.getElementById('intro-prev').disabled = introCurrentSlide === 0;
   const nextBtn = document.getElementById('intro-next');
   if (introCurrentSlide === INTRO_TOTAL - 1) {
@@ -1986,6 +1994,16 @@ const GLOSSARY = [
   { letter: 'W', term: 'Witness Consciousness', def: 'The stabilized, ongoing state of being the observer. It is awareness aware of itself. Witness consciousness is the operational mode Jesus describes as the "single eye" (Matthew 6:22) — undivided attention that brings clarity to the whole body.', practice: 'Meditation trains witness consciousness. So does any practice that teaches you to watch your internal process without judgment. Witness consciousness is not detachment — it is lucid presence.' },
 ];
 
+function glossaryScrollTo(letter) {
+  const target = document.getElementById('gls-' + letter);
+  if (!target) return;
+  const panel = document.getElementById('glossary-panel');
+  const panelHeader = panel.querySelector('.panel-header');
+  const alphaBar = document.getElementById('gloss-alpha');
+  const offset = (panelHeader ? panelHeader.offsetHeight : 0) + (alphaBar ? alphaBar.offsetHeight : 0) + 12;
+  panel.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+}
+
 function buildGlossary() {
   const letters = [...new Set(GLOSSARY.map(e => e.letter))].sort();
   const alphaEl = document.getElementById('gloss-alpha');
@@ -1994,7 +2012,7 @@ function buildGlossary() {
 
   alphaEl.innerHTML = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => {
     const has = letters.includes(l);
-    return `<button class="alpha-btn ${has ? 'has-entries' : ''}" onclick="${has ? `document.getElementById('gls-${l}').scrollIntoView({behavior:'smooth'})` : ''}">${l}</button>`;
+    return `<button class="alpha-btn ${has ? 'has-entries' : ''}" onclick="${has ? `glossaryScrollTo('${l}')` : ''}">${l}</button>`;
   }).join('');
 
   bodyEl.innerHTML = letters.map(l => {
@@ -2035,8 +2053,8 @@ function setTheme(t) {
 }
 
 function loadTheme() {
-  let t = 'dark';
-  try { t = localStorage.getItem('presence_theme') || 'dark'; } catch(e) {}
+  let t = 'chromium';
+  try { t = localStorage.getItem('presence_theme') || 'chromium'; } catch(e) {}
   setTheme(t);
 }
 
