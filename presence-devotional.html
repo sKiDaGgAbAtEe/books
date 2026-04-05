@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PRESENCE — A 40-Day Practice in Coherence</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Cinzel:wght@400;500&family=Crimson+Pro:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A85C;
+    --gold-light: #E8D4A0;
+    --gold-pale: #F5EDD5;
+    --ink: #1A1510;
+    --ink-soft: #3A2E22;
+    --parchment: #FAF6EE;
+    --parchment-dark: #EDE5D4;
+    --dust: #9E8E78;
+    --chapter-1: #8B6F47;
+    --chapter-2: #4A7B8C;
+    --chapter-3: #6B8C5A;
+    --chapter-4: #7A4A5A;
+    --chapter-5: #5A6B8C;
+    --chapter-6: #8C7A4A;
+    --morning: #D4A855;
+    --midday: #7BA8C4;
+    --evening: #8B6E9E;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Crimson Pro', serif;
+    background: var(--ink);
+    color: var(--parchment);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── THEME SYSTEM ── */
+  /* Dark (default) */
+  :root, [data-theme="dark"] {
+    --gold: #C9A85C; --gold-light: #E8D4A0; --gold-pale: #F5EDD5;
+    --ink: #1A1510; --ink-soft: #3A2E22;
+    --parchment: #FAF6EE; --parchment-dark: #EDE5D4; --dust: #9E8E78;
+    --bg: #1A1510; --surface: rgba(255,255,255,0.03);
+    --border: rgba(201,168,92,0.2); --text-body: #EDE5D4;
+  }
+  /* Parchment (warm light) */
+  [data-theme="parchment"] {
+    --gold: #8B5E2A; --gold-light: #A67842; --gold-pale: #C9A06A;
+    --ink: #2C1E0F; --ink-soft: #4A3220;
+    --parchment: #2C1E0F; --parchment-dark: #3D2910; --dust: #7A5535;
+    --bg: #F2E6C9; --surface: rgba(0,0,0,0.04);
+    --border: rgba(139,94,42,0.25); --text-body: #3D2910;
+  }
+  /* Chromium (cool silver) */
+  [data-theme="chromium"] {
+    --gold: #A8B8C8; --gold-light: #C8D8E8; --gold-pale: #E0EAF4;
+    --ink: #0D1117; --ink-soft: #1C2433;
+    --parchment: #E8EEF4; --parchment-dark: #C8D4DE; --dust: #7A8FA0;
+    --bg: #0D1117; --surface: rgba(168,184,200,0.05);
+    --border: rgba(168,184,200,0.2); --text-body: #C8D4DE;
+  }
+  /* Light (clean white) */
+  [data-theme="light"] {
+    --gold: #7A6040; --gold-light: #9A7850; --gold-pale: #C4A070;
+    --ink: #1A1410; --ink-soft: #3A2E20;
+    --parchment: #1A1410; --parchment-dark: #2E2418; --dust: #7A6848;
+    --bg: #FAFAFA; --surface: rgba(0,0,0,0.03);
+    --border: rgba(122,96,64,0.2); --text-body: #2E2418;
+  }
+
+  body { background: var(--bg); color: var(--text-body); transition: background 0.4s ease, color 0.4s ease; }
+  [data-theme="parchment"] body,
+  [data-theme="light"] body { color: var(--ink); }
+
+  /* parchment/light overrides for panels */
+  [data-theme="parchment"] .panel-header,
+  [data-theme="light"] .panel-header {
+    background: rgba(242,230,201,0.97);
+    border-bottom-color: var(--border);
+  }
+  [data-theme="parchment"] #splash,
+  [data-theme="light"] #splash,
+  [data-theme="parchment"] #overview-panel,
+  [data-theme="light"] #overview-panel,
+  [data-theme="parchment"] .fullscreen-panel,
+  [data-theme="light"] .fullscreen-panel {
+    background: var(--bg);
+  }
+  [data-theme="parchment"] .app-header,
+  [data-theme="light"] .app-header {
+    background: rgba(242,230,201,0.95);
+  }
+  [data-theme="parchment"] .reflection-text,
+  [data-theme="light"] .reflection-text,
+  [data-theme="parchment"] .intro-body,
+  [data-theme="light"] .intro-body,
+  [data-theme="parchment"] .glossary-def,
+  [data-theme="light"] .glossary-def { color: var(--ink-soft); }
+  [data-theme="parchment"] .scripture-block,
+  [data-theme="light"] .scripture-block { background: rgba(139,94,42,0.07); }
+  [data-theme="parchment"] .practice-box,
+  [data-theme="light"] .practice-box { background: rgba(139,94,42,0.05); }
+  [data-theme="parchment"] .section-tabs,
+  [data-theme="light"] .section-tabs { border-color: var(--border); }
+  [data-theme="parchment"] .tab-btn,
+  [data-theme="light"] .tab-btn { border-right-color: var(--border); }
+  [data-theme="chromium"] .scripture-block { background: rgba(168,184,200,0.06); }
+  [data-theme="chromium"] .practice-box { background: rgba(168,184,200,0.04); }
+
+  /* ── THEME DOTS WIDGET ── */
+  .theme-dots {
+    display: flex; gap: 7px; align-items: center;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--border);
+    margin-right: 0.25rem;
+  }
+  .theme-dot {
+    width: 11px; height: 11px; border-radius: 50%;
+    cursor: pointer; position: relative;
+    border: 1.5px solid transparent;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    flex-shrink: 0;
+  }
+  .theme-dot:hover { transform: scale(1.3); }
+  .theme-dot.active { border-color: var(--gold); transform: scale(1.25); }
+  .theme-dot[data-t="dark"]      { background: #1A1510; box-shadow: inset 0 0 0 1px rgba(201,168,92,0.4); }
+  .theme-dot[data-t="chromium"]  { background: linear-gradient(135deg, #1C2433, #3A5068); }
+  .theme-dot[data-t="parchment"] { background: linear-gradient(135deg, #F2E6C9, #C9A06A); }
+  .theme-dot[data-t="light"]     { background: #FAFAFA; box-shadow: inset 0 0 0 1px rgba(122,96,64,0.35); }
+
+  /* ── SPLASH / HOME ── */
+  #splash {
+    position: fixed; inset: 0;
+    background: var(--bg);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    z-index: 100;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    padding: 2rem;
+    overflow: hidden;
+  }
+  #splash.hidden { opacity: 0; pointer-events: none; transform: translateY(-20px); }
+
+  /* Geometric mandala background */
+  .splash-bg {
+    position: absolute; inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .splash-bg svg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(900px, 130vw);
+    height: min(900px, 130vw);
+    opacity: 0;
+    animation: splashBgReveal 3s ease 0.3s forwards;
+  }
+  @keyframes splashBgReveal {
+    0%   { opacity: 0; transform: translate(-50%,-50%) rotate(-15deg) scale(0.85); }
+    100% { opacity: 1; transform: translate(-50%,-50%) rotate(0deg) scale(1); }
+  }
+  @keyframes slowSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+  .ring-spin {
+    transform-origin: center;
+    animation: ringSpinAnim 80s linear infinite;
+  }
+  @keyframes ringSpinAnim { to { transform: rotate(360deg); } }
+  .ring-spin-rev {
+    transform-origin: center;
+    animation: ringSpinRev 120s linear infinite;
+  }
+  @keyframes ringSpinRev { to { transform: rotate(-360deg); } }
+
+  /* Corner ornaments */
+  .splash-corner {
+    position: absolute;
+    opacity: 0;
+    animation: fadeIn 2s ease 1.5s forwards;
+  }
+  .splash-corner.tl { top: 2.5rem; left: 2.5rem; }
+  .splash-corner.tr { top: 2.5rem; right: 2.5rem; transform: scaleX(-1); }
+  .splash-corner.bl { bottom: 2.5rem; left: 2.5rem; transform: scaleY(-1); }
+  .splash-corner.br { bottom: 2.5rem; right: 2.5rem; transform: scale(-1); }
+
+  /* Chapter color bands — decorative vertical side bars */
+  .splash-bands {
+    position: absolute; inset: 0;
+    display: flex; pointer-events: none;
+    opacity: 0;
+    animation: fadeIn 2s ease 2s forwards;
+  }
+  .splash-band { flex: 1; opacity: 0.035; }
+
+  .splash-inner {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .splash-title {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    letter-spacing: 0.55em;
+    color: var(--gold);
+    text-align: center;
+    opacity: 0;
+    animation: titleReveal 1.8s cubic-bezier(0.16,1,0.3,1) 1s forwards;
+    line-height: 1;
+    text-indent: 0.55em;
+    margin-bottom: 0.5rem;
+  }
+  @keyframes titleReveal {
+    0%   { opacity: 0; transform: translateY(18px) scaleY(0.92); filter: blur(6px); }
+    100% { opacity: 1; transform: translateY(0) scaleY(1);       filter: blur(0); }
+  }
+
+  .splash-rule {
+    display: flex; align-items: center; gap: 1.2rem;
+    width: min(380px, 80vw);
+    margin: 1.8rem auto;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 1.6s forwards;
+  }
+  .splash-rule-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold)); }
+  .splash-rule-line.rev { background: linear-gradient(90deg, var(--gold), transparent); }
+  .splash-rule-diamond {
+    font-size: 0.7rem; color: var(--gold); line-height: 1;
+  }
+
+  .splash-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--dust);
+    letter-spacing: 0.18em;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 1.8s forwards;
+    margin-top: 1.8rem;
+  }
+
+  .splash-chapters {
+    display: flex; gap: 0.6rem;
+    margin: 3rem 0 1.2rem;
+    opacity: 0;
+    animation: fadeIn 1s ease 2s forwards;
+  }
+  .splash-chapter-pip {
+    width: 28px; height: 2px;
+    border-radius: 1px;
+    transition: opacity 0.3s;
+  }
+
+  .splash-author {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--dust);
+    letter-spacing: 0.45em;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.1s forwards;
+    margin-top: 2.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .btn-enter {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.35em;
+    color: var(--bg);
+    background: var(--gold);
+    border: none;
+    padding: 1.1rem 3rem;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 1s ease 2.5s forwards;
+    transition: all 0.35s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-enter::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-101%);
+    transition: transform 0.4s ease;
+  }
+  .btn-enter:hover::before { transform: translateX(0); }
+  .btn-enter:hover { letter-spacing: 0.45em; box-shadow: 0 0 40px rgba(201,168,92,0.3); }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  /* ── MAIN APP ── */
+  #app { display: none; min-height: 100vh; }
+  #app.visible { display: flex; flex-direction: column; animation: fadeIn 0.8s ease; }
+
+  /* ── HEADER ── */
+  .app-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid rgba(201,168,92,0.2);
+    background: rgba(26,21,16,0.95);
+    backdrop-filter: blur(10px);
+    position: sticky; top: 0; z-index: 50;
+  }
+  .header-logo {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+  }
+  .header-progress {
+    display: flex; align-items: center; gap: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--dust);
+  }
+  .progress-bar {
+    width: 120px; height: 2px;
+    background: rgba(201,168,92,0.2);
+    border-radius: 1px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--gold);
+    transition: width 0.5s ease;
+  }
+  .btn-overview {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dust);
+    background: none;
+    border: 1px solid rgba(201,168,92,0.3);
+    padding: 0.4rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn-overview:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── MAIN CONTENT ── */
+  .main-content {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 3rem 2rem;
+    gap: 2.5rem;
+  }
+
+  /* ── CHAPTER BANNER ── */
+  .chapter-banner {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(201,168,92,0.15);
+  }
+  .chapter-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.5em;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+  .day-number {
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .day-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    color: var(--parchment);
+    margin-bottom: 1rem;
+  }
+  .chapter-tag {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    padding: 0.3rem 1rem;
+    border: 1px solid;
+    opacity: 0.8;
+  }
+
+  /* ── SECTION TABS ── */
+  .section-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(201,168,92,0.2);
+  }
+  .tab-btn {
+    flex: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    padding: 0.9rem 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-right: 1px solid rgba(201,168,92,0.2);
+    display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  }
+  .tab-btn:last-child { border-right: none; }
+  .tab-btn.active { background: rgba(201,168,92,0.12); color: var(--gold); }
+  .tab-btn:hover:not(.active) { background: rgba(201,168,92,0.06); color: var(--parchment-dark); }
+  .tab-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.5; }
+  .tab-btn.active .tab-dot { opacity: 1; }
+
+  /* ── CONTENT SECTIONS ── */
+  .section-content { display: none; animation: fadeIn 0.4s ease; }
+  .section-content.active { display: block; }
+
+  .scripture-block {
+    background: rgba(201,168,92,0.06);
+    border-left: 2px solid var(--gold);
+    padding: 1.5rem 1.8rem;
+    margin-bottom: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--gold-light);
+  }
+
+  .reflection-text {
+    font-size: 1.1rem;
+    line-height: 1.95;
+    color: var(--parchment-dark);
+  }
+  .reflection-text p { margin-bottom: 1.2rem; }
+
+  .practice-box {
+    border: 1px solid rgba(201,168,92,0.3);
+    padding: 2rem;
+    background: rgba(201,168,92,0.04);
+    margin-bottom: 2rem;
+  }
+  .practice-instruction {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    line-height: 1.9;
+    color: var(--parchment-dark);
+    margin-bottom: 1.5rem;
+  }
+  .breath-mantra {
+    font-family: 'Cinzel', serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    text-align: center;
+    padding: 1rem;
+    border-top: 1px solid rgba(201,168,92,0.2);
+  }
+
+  /* ── REFLECTION JOURNAL ── */
+  .questions-list { display: flex; flex-direction: column; gap: 1.5rem; }
+  .question-item {
+    border: 1px solid rgba(201,168,92,0.2);
+    padding: 1.2rem 1.5rem;
+    transition: border-color 0.3s ease;
+  }
+  .question-item:focus-within { border-color: rgba(201,168,92,0.5); }
+  .question-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--gold-light);
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+  }
+  .reflection-input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-top: 1px solid rgba(201,168,92,0.15);
+    padding: 0.8rem 0 0;
+    color: var(--parchment);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    resize: none;
+    min-height: 80px;
+    outline: none;
+  }
+  .reflection-input::placeholder { color: rgba(158,142,120,0.5); font-style: italic; }
+
+  /* ── COMPLETION TOGGLE ── */
+  .completion-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 1.5rem;
+    background: rgba(201,168,92,0.05);
+    border: 1px solid rgba(201,168,92,0.2);
+    margin-top: 1rem;
+  }
+  .completion-label {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    color: var(--dust);
+  }
+  .toggle-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    padding: 0.5rem 1.2rem;
+    border: 1px solid rgba(201,168,92,0.4);
+    background: transparent;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .toggle-btn.completed {
+    background: rgba(201,168,92,0.15);
+    border-color: var(--gold);
+    color: var(--gold);
+  }
+
+  /* ── NAVIGATION ── */
+  .day-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 0;
+    border-top: 1px solid rgba(201,168,92,0.15);
+  }
+  .nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dust);
+    background: none;
+    border: 1px solid rgba(201,168,92,0.25);
+    padding: 0.7rem 1.3rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .nav-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+  .nav-center { text-align: center; }
+  .nav-day-dots {
+    display: flex; gap: 4px; flex-wrap: wrap;
+    justify-content: center;
+    max-width: 200px;
+  }
+  .day-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(201,168,92,0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .day-dot.current { background: var(--gold); transform: scale(1.3); }
+  .day-dot.completed { background: rgba(201,168,92,0.6); }
+
+  /* ── OVERVIEW PANEL ── */
+  #overview-panel {
+    position: fixed; inset: 0;
+    background: rgba(26,21,16,0.97);
+    z-index: 90;
+    display: none;
+    overflow-y: auto;
+    padding: 3rem 2rem;
+    animation: fadeIn 0.3s ease;
+  }
+  #overview-panel.open { display: block; }
+  .overview-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 2.5rem;
+    max-width: 900px; margin-left: auto; margin-right: auto;
+  }
+  .overview-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+  }
+  .btn-close {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--dust);
+    background: none;
+    border: 1px solid rgba(201,168,92,0.3);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .btn-close:hover { color: var(--gold); border-color: var(--gold); }
+
+  .chapters-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .chapter-section {}
+  .chapter-overview-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.4em;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,168,92,0.2);
+  }
+  .days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.5rem;
+  }
+  .day-card {
+    padding: 0.8rem 1rem;
+    border: 1px solid rgba(201,168,92,0.15);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 0.7rem;
+  }
+  .day-card:hover { border-color: rgba(201,168,92,0.4); background: rgba(201,168,92,0.05); }
+  .day-card.current { border-color: var(--gold); background: rgba(201,168,92,0.1); }
+  .day-card.completed-day { opacity: 0.7; }
+  .day-card-num {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    color: var(--gold);
+    min-width: 25px;
+  }
+  .day-card-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--parchment-dark);
+    line-height: 1.3;
+  }
+  .day-card-check { margin-left: auto; color: var(--gold); font-size: 0.75rem; }
+
+  /* ── INTRO / GLOSSARY PANELS ── */
+  .fullscreen-panel {
+    position: fixed; inset: 0;
+    background: var(--ink);
+    z-index: 95;
+    display: none;
+    overflow-y: auto;
+  }
+  .fullscreen-panel.open { display: block; animation: fadeIn 0.4s ease; }
+
+  .panel-header {
+    position: sticky; top: 0;
+    background: rgba(26,21,16,0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(201,168,92,0.2);
+    padding: 1.2rem 2rem;
+    display: flex; align-items: center; justify-content: space-between;
+    z-index: 10;
+  }
+  .panel-header-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+  }
+  .panel-close {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--dust);
+    background: none;
+    border: 1px solid rgba(201,168,92,0.3);
+    padding: 0.45rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .panel-close:hover { color: var(--gold); border-color: var(--gold); }
+
+  .panel-body {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 3rem 2rem 5rem;
+  }
+
+  /* intro slides */
+  .intro-slides { position: relative; }
+  .intro-slide { display: none; animation: fadeIn 0.5s ease; }
+  .intro-slide.active { display: block; }
+
+  .intro-eyebrow {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+  .intro-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    color: var(--parchment);
+    line-height: 1.3;
+    margin-bottom: 2rem;
+  }
+  .intro-body {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1.1rem;
+    line-height: 1.95;
+    color: var(--parchment-dark);
+  }
+  .intro-body p { margin-bottom: 1.2rem; }
+  .intro-body strong { color: var(--gold-light); font-weight: 500; }
+  .intro-body em { font-style: italic; color: var(--parchment); }
+  .intro-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 1.5rem;
+  }
+  .intro-body ul li {
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    position: relative;
+    border-bottom: 1px solid rgba(201,168,92,0.1);
+  }
+  .intro-body ul li::before {
+    content: '✦';
+    position: absolute; left: 0;
+    color: var(--gold); font-size: 0.6rem; top: 0.7rem;
+  }
+
+  .intro-divider {
+    width: 80px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem 0;
+  }
+
+  .intro-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(201,168,92,0.15);
+  }
+  .intro-nav-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    padding: 0.7rem 1.5rem;
+    border: 1px solid rgba(201,168,92,0.3);
+    background: transparent;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .intro-nav-btn:hover:not(:disabled) { color: var(--gold); border-color: var(--gold); }
+  .intro-nav-btn.primary { background: rgba(201,168,92,0.15); color: var(--gold); border-color: var(--gold); }
+  .intro-nav-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+  .intro-step-indicator {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--dust);
+    display: flex; gap: 0.5rem; align-items: center;
+  }
+  .step-pip { width: 5px; height: 5px; border-radius: 50%; background: rgba(201,168,92,0.25); transition: all 0.3s ease; }
+  .step-pip.active { background: var(--gold); }
+
+  /* glossary */
+  .glossary-alpha {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    margin-bottom: 2rem;
+    position: sticky; top: 70px;
+    background: rgba(26,21,16,0.95);
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(201,168,92,0.1);
+    z-index: 5;
+  }
+  .alpha-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(201,168,92,0.2);
+    background: transparent;
+    color: var(--dust);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .alpha-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .alpha-btn.has-entries { color: var(--parchment-dark); }
+
+  .glossary-letter-section { margin-bottom: 2.5rem; }
+  .glossary-letter {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,168,92,0.2);
+  }
+  .glossary-entry { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(201,168,92,0.08); }
+  .glossary-entry:last-child { border-bottom: none; }
+  .glossary-term {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--parchment);
+    margin-bottom: 0.4rem;
+  }
+  .glossary-term .foreign { font-style: italic; color: var(--gold); font-size: 0.95rem; margin-left: 0.5rem; }
+  .glossary-def {
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--parchment-dark);
+    margin-bottom: 0.6rem;
+  }
+  .glossary-def strong { color: var(--gold-light); font-weight: 500; }
+  .glossary-practice {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--dust);
+    line-height: 1.7;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(201,168,92,0.25);
+  }
+
+  /* header menu btn */
+  .header-right { display: flex; gap: 0.5rem; align-items: center; }
+  .btn-menu-item {
+    font-family: 'Cinzel', serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--dust);
+    background: none;
+    border: 1px solid rgba(201,168,92,0.25);
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .btn-menu-item:hover { color: var(--gold); border-color: var(--gold); }
+
+  /* ── RESPONSIVE ── */
+  /* ══════════════════════════════════════
+     MOBILE — everything under 640px
+  ══════════════════════════════════════ */
+  @media (max-width: 640px) {
+
+    /* ── SPLASH ── */
+    #splash { padding: 1.5rem; }
+    .splash-corner { display: none; } /* too cramped on small screens */
+    .splash-title {
+      font-size: clamp(2.6rem, 15vw, 4rem);
+      letter-spacing: 0.4em;
+      text-indent: 0.4em;
+    }
+    .splash-sub {
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      margin-top: 1.2rem;
+    }
+    .splash-author {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      margin-top: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+    .btn-enter {
+      padding: 1rem 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+    }
+
+    /* ── HEADER ── */
+    .app-header {
+      padding: 0.85rem 1rem;
+      flex-wrap: nowrap;
+    }
+    .header-logo {
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+    }
+    .header-progress { display: none; } /* hidden on mobile — shown in day banner instead */
+    .header-right { gap: 0.35rem; }
+    .theme-dots { padding: 0.25rem 0.4rem; gap: 6px; }
+    .theme-dot { width: 10px; height: 10px; }
+    .btn-menu-item {
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      padding: 0.35rem 0.5rem;
+    }
+
+    /* ── MAIN CONTENT ── */
+    .main-content {
+      padding: 1.5rem 1rem 5rem; /* big bottom pad for thumb nav */
+      gap: 1.5rem;
+    }
+
+    /* ── CHAPTER BANNER ── */
+    .chapter-banner { padding-bottom: 1.2rem; }
+    .chapter-label { font-size: 0.55rem; letter-spacing: 0.35em; }
+    .day-number { font-size: 3rem; }
+    .day-title { font-size: clamp(1.4rem, 6vw, 2rem); }
+    .chapter-tag { font-size: 0.55rem; padding: 0.25rem 0.75rem; }
+
+    /* ── MOBILE PROGRESS BAR (replaces hidden header one) ── */
+    .mobile-progress {
+      display: flex !important;
+      align-items: center; gap: 0.6rem;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+    .mobile-progress-bar {
+      width: 100px; height: 1.5px;
+      background: rgba(201,168,92,0.2);
+      border-radius: 1px; overflow: hidden;
+    }
+    .mobile-progress-fill {
+      height: 100%; background: var(--gold);
+      transition: width 0.5s ease;
+    }
+    .mobile-progress-text {
+      font-family: 'Cinzel', serif;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--dust);
+    }
+
+    /* ── SECTION TABS ── */
+    .section-tabs { position: sticky; top: 57px; z-index: 40; background: var(--bg); }
+    .tab-btn {
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      padding: 0.75rem 0.25rem;
+      gap: 0.25rem;
+    }
+    .tab-dot { width: 4px; height: 4px; }
+
+    /* ── CONTENT ── */
+    .scripture-block {
+      padding: 1rem 1.1rem;
+      font-size: 1rem;
+    }
+    .reflection-text { font-size: 1rem; line-height: 1.85; }
+    .practice-box { padding: 1.3rem; }
+    .practice-instruction { font-size: 1.05rem; }
+    .breath-mantra { font-size: 0.75rem; letter-spacing: 0.15em; }
+
+    /* ── QUESTIONS ── */
+    .question-item { padding: 1rem 1.1rem; }
+    .question-text { font-size: 0.98rem; }
+    .reflection-input { font-size: 0.95rem; min-height: 70px; }
+
+    /* ── COMPLETION ROW ── */
+    .completion-row { padding: 1rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    .completion-label { font-size: 0.6rem; }
+    .toggle-btn { width: 100%; padding: 0.75rem; font-size: 0.6rem; }
+
+    /* ── DAY NAV — fixed bottom bar on mobile ── */
+    .day-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      padding: 0.85rem 1rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+      z-index: 45;
+      backdrop-filter: blur(12px);
+    }
+    .nav-btn {
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      padding: 0.65rem 1rem;
+      min-width: 70px;
+      justify-content: center;
+    }
+    .nav-day-dots { max-width: 140px; gap: 3px; }
+    .day-dot { width: 5px; height: 5px; }
+
+    /* ── OVERVIEW PANEL ── */
+    #overview-panel { padding: 1.5rem 1rem; }
+    .overview-header { margin-bottom: 1.5rem; }
+    .overview-title { font-size: 0.75rem; }
+    .days-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    .day-card { padding: 0.65rem 0.8rem; }
+    .day-card-name { font-size: 0.82rem; }
+
+    /* ── FULLSCREEN PANELS (intro/glossary) ── */
+    .panel-header { padding: 1rem 1.2rem; }
+    .panel-body { padding: 2rem 1.2rem 4rem; }
+    .intro-heading { font-size: clamp(1.3rem, 6vw, 1.8rem); }
+    .intro-body { font-size: 1rem; }
+    .intro-nav { flex-wrap: wrap; gap: 0.75rem; }
+    .intro-nav-btn { flex: 1; min-width: 80px; text-align: center; }
+
+    /* glossary alpha bar wraps nicely, just shrink buttons */
+    .glossary-alpha { top: 57px; gap: 0.25rem; }
+    .alpha-btn { width: 24px; height: 24px; font-size: 0.5rem; }
+    .glossary-term { font-size: 1.05rem; }
+    .glossary-def { font-size: 0.95rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SPLASH -->
+<div id="splash">
+
+  <!-- Animated geometric mandala -->
+  <div class="splash-bg">
+    <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <!-- Outer ring dashes -->
+      <circle cx="400" cy="400" r="370" stroke="var(--gold)" stroke-width="0.5" stroke-dasharray="2 12" opacity="0.3" class="ring-spin"/>
+      <circle cx="400" cy="400" r="350" stroke="var(--gold)" stroke-width="0.3" stroke-dasharray="1 8" opacity="0.2"/>
+      <!-- Outer hexagram -->
+      <polygon points="400,40 682,220 682,580 400,760 118,580 118,220" stroke="var(--gold)" stroke-width="0.6" opacity="0.25"/>
+      <!-- Inner hexagram rotated -->
+      <polygon points="400,90 660,250 660,550 400,710 140,550 140,250" stroke="var(--gold)" stroke-width="0.4" opacity="0.15" class="ring-spin-rev"/>
+      <!-- Mid circles -->
+      <circle cx="400" cy="400" r="295" stroke="var(--gold)" stroke-width="0.4" stroke-dasharray="3 9" opacity="0.2" class="ring-spin-rev"/>
+      <circle cx="400" cy="400" r="260" stroke="var(--gold)" stroke-width="0.3" opacity="0.12"/>
+      <!-- Six-petal flower of life -->
+      <circle cx="400" cy="260" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="521" cy="330" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="521" cy="470" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="400" cy="540" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="279" cy="470" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="279" cy="330" r="140" stroke="var(--gold)" stroke-width="0.5" opacity="0.15"/>
+      <!-- Center circle -->
+      <circle cx="400" cy="400" r="140" stroke="var(--gold)" stroke-width="0.7" opacity="0.2"/>
+      <!-- Inner spinning star polygon -->
+      <polygon points="400,290 425,375 515,375 443,428 470,515 400,462 330,515 357,428 285,375 375,375" stroke="var(--gold)" stroke-width="0.6" opacity="0.3" class="ring-spin"/>
+      <!-- Center dot -->
+      <circle cx="400" cy="400" r="4" fill="var(--gold)" opacity="0.5"/>
+      <!-- Six spoke radial lines -->
+      <line x1="400" y1="50"  x2="400" y2="160" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+      <line x1="400" y1="640" x2="400" y2="750" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+      <line x1="142" y1="175" x2="228" y2="230" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+      <line x1="572" y1="570" x2="658" y2="625" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+      <line x1="658" y1="175" x2="572" y2="230" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+      <line x1="228" y1="570" x2="142" y2="625" stroke="var(--gold)" stroke-width="0.4" opacity="0.2"/>
+    </svg>
+  </div>
+
+  <!-- Chapter color side bands -->
+  <div class="splash-bands">
+    <div class="splash-band" style="background:#8B6F47"></div>
+    <div class="splash-band" style="background:#4A7B8C"></div>
+    <div class="splash-band" style="background:#6B8C5A"></div>
+    <div class="splash-band" style="background:#7A4A5A"></div>
+    <div class="splash-band" style="background:#5A6B8C"></div>
+    <div class="splash-band" style="background:#8C7A4A"></div>
+  </div>
+
+  <!-- Corner SVG ornaments -->
+  <svg class="splash-corner tl" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M2 2 L2 30 M2 2 L30 2 M2 2 L20 20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity="0.6"/>
+    <circle cx="20" cy="20" r="1.5" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+    <path d="M8 2 L8 8 L2 8" stroke="var(--gold)" stroke-width="0.5" opacity="0.35"/>
+  </svg>
+  <svg class="splash-corner tr" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M2 2 L2 30 M2 2 L30 2 M2 2 L20 20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity="0.6"/>
+    <circle cx="20" cy="20" r="1.5" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+    <path d="M8 2 L8 8 L2 8" stroke="var(--gold)" stroke-width="0.5" opacity="0.35"/>
+  </svg>
+  <svg class="splash-corner bl" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M2 2 L2 30 M2 2 L30 2 M2 2 L20 20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity="0.6"/>
+    <circle cx="20" cy="20" r="1.5" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+    <path d="M8 2 L8 8 L2 8" stroke="var(--gold)" stroke-width="0.5" opacity="0.35"/>
+  </svg>
+  <svg class="splash-corner br" width="60" height="60" viewBox="0 0 60 60" fill="none">
+    <path d="M2 2 L2 30 M2 2 L30 2 M2 2 L20 20" stroke="var(--gold)" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="2" cy="2" r="2.5" fill="var(--gold)" opacity="0.6"/>
+    <circle cx="20" cy="20" r="1.5" fill="none" stroke="var(--gold)" stroke-width="0.6" opacity="0.4"/>
+    <path d="M8 2 L8 8 L2 8" stroke="var(--gold)" stroke-width="0.5" opacity="0.35"/>
+  </svg>
+
+  <!-- Core content -->
+  <div class="splash-inner">
+
+    <div class="splash-title">PRESENCE</div>
+
+    <div class="splash-sub">A Daily Practice in Coherence</div>
+
+    <div class="splash-author">40 DAYS OF SACRED TEXT &amp; FIELD THEORY &nbsp;·&nbsp; BY SKIDA</div>
+
+    <button class="btn-enter" onclick="enterApp()">BEGIN THE PRACTICE</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <header class="app-header">
+    <div class="header-logo">PRESENCE</div>
+    <div class="header-progress">
+      <span id="progress-text" style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.2em;"></span>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+    <div class="header-right">
+      <div class="theme-dots" title="Change theme">
+        <div class="theme-dot active" data-t="dark"      onclick="setTheme('dark')"      title="Dark"></div>
+        <div class="theme-dot"        data-t="chromium"  onclick="setTheme('chromium')"  title="Chromium"></div>
+        <div class="theme-dot"        data-t="parchment" onclick="setTheme('parchment')" title="Parchment"></div>
+        <div class="theme-dot"        data-t="light"     onclick="setTheme('light')"     title="Light"></div>
+      </div>
+      <button class="btn-menu-item" onclick="toggleIntro()">PREFACE</button>
+      <button class="btn-menu-item" onclick="toggleGlossary()">GLOSSARY</button>
+      <button class="btn-menu-item" onclick="toggleOverview()">ALL DAYS</button>
+    </div>
+  </header>
+
+  <div class="main-content" id="main-content">
+    <!-- dynamically populated -->
+  </div>
+</div>
+
+<!-- INTRO PANEL -->
+<div id="intro-panel" class="fullscreen-panel">
+  <div class="panel-header">
+    <div class="panel-header-title">PREFACE &amp; INTRODUCTION</div>
+    <button class="panel-close" onclick="toggleIntro()">CLOSE</button>
+  </div>
+  <div class="panel-body">
+    <div class="intro-slides" id="intro-slides">
+
+      <!-- SLIDE 1 -->
+      <div class="intro-slide active" data-slide="0">
+        <div class="intro-eyebrow">OPENING</div>
+        <div class="intro-heading">Reading With New Eyes</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p>You are about to encounter sacred texts you may have read before. But this time, something will be different. Not because the words have changed, but because the lens through which you read them is about to shift.</p>
+          <p>This is not a devotional in the traditional sense. It is not here to tell you what to believe, or to convert you to a doctrine, or to explain away the mystery with comfortable metaphors. This is an invitation to see what was always there — encoded in the oldest texts of humanity — but which centuries of flattening, control, and literalism have obscured.</p>
+          <p>The Torah, the Gospels, the Quran, and the Wisdom literature are not moral rulebooks written by primitive people guessing at right and wrong. They are sophisticated <strong>field manuals</strong>, describing with precision the mechanics of consciousness, coherence, and the dynamics of reality itself.</p>
+          <p>This guide reopens them. Not by forcing new interpretations onto ancient words, but by listening again — beneath the doctrinal layers — for the original signal. The harmonic resonance that remains true across millennia.</p>
+          <p><em>This devotional remains tuned to the Christic field — not as a historical claim or inherited dogma, but as the harmonic presence that emerges when awareness aligns with love. Christ, in this context, is not a figure to follow, but a coherence to remember.</em></p>
+        </div>
+      </div>
+
+      <!-- SLIDE 2 -->
+      <div class="intro-slide" data-slide="1">
+        <div class="intro-eyebrow">UNDERSTANDING</div>
+        <div class="intro-heading">What Is Coherence?</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p><strong>Coherence</strong> is the word we use when all the parts of a system are aligned — oscillating together without internal friction or distortion. In physics, it describes waves that move in phase with one another. In music, it's the difference between harmony and noise. In your life, it is the experience of clarity without rigidity, movement without resistance, peace without passivity.</p>
+          <p>You are coherent when:</p>
+          <ul>
+            <li>Your thoughts, emotions, and actions are not fighting each other</li>
+            <li>Your nervous system is not in constant alarm</li>
+            <li>Your breath, tone, posture, and presence reflect the same signal</li>
+            <li>You can be fully present without needing to control what's happening</li>
+          </ul>
+          <p>Coherence is not perfection. It is not the absence of challenge. It is <em>resonant presence</em> — the state where you are internally aligned enough that the field around you can respond clearly to who you actually are.</p>
+          <p>When you are coherent, synchronicities increase. Decisions become easier. Relationships clarify. Not because you are "manifesting" through will alone, but because <em>you have become a stable signal</em> that the field can work with.</p>
+          <p>Incoherence — when your system is at war with itself — creates noise. Static. The field cannot respond to noise. It can only mirror back confusion.</p>
+        </div>
+      </div>
+
+      <!-- SLIDE 3 -->
+      <div class="intro-slide" data-slide="2">
+        <div class="intro-eyebrow">FRAMEWORK</div>
+        <div class="intro-heading">What Is "Field Theory" in This Context?</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p>When we speak of "the field" in this guide, we are not talking exclusively about the electromagnetic field of physics. We are talking about the <em>relational substrate</em> of reality itself — the layer beneath matter, beneath thought, where all things remain interconnected.</p>
+          <p>You are not a sealed unit. You are an open node within a larger energetic and informational system. Your thoughts ripple into the space around you. Your emotional state influences the people you encounter, even without words. Your intentions leave traces. Your traumas echo. Your love transmits.</p>
+          <p><strong>Field theory</strong>, in this context, is the understanding that:</p>
+          <ul>
+            <li><strong>Reality is relational, not purely material.</strong> What happens between things is as real as the things themselves.</li>
+            <li><strong>Consciousness is not confined to your skull.</strong> Awareness interacts with and influences the field around you.</li>
+            <li><strong>Symbols carry charge.</strong> Words, images, and sacred objects are active in the field — transmitting and modulating resonance.</li>
+            <li><strong>Coherence creates access.</strong> The more aligned you are internally, the more clearly you can perceive and influence the field.</li>
+          </ul>
+          <p>Ancient spiritual practices knew this. They called it prayer, ritual, invocation, sacrifice, pilgrimage. Modern science is beginning to rediscover it through quantum mechanics, systems theory, and complexity studies.</p>
+          <p>This guide brings them back into conversation.</p>
+        </div>
+      </div>
+
+      <!-- SLIDE 4 -->
+      <div class="intro-slide" data-slide="3">
+        <div class="intro-eyebrow">THE TEXTS</div>
+        <div class="intro-heading">Why Ancient Texts Still Speak</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p>The texts you will encounter in this devotional — Genesis, the Psalms, the teachings of Jesus, the revelations of Muhammad — were not written by people less intelligent than us. They were written by people whose mode of perception was <em>different</em>.</p>
+          <p>They lived closer to the symbolic field. Their language had not yet hardened into pure literalism. They thought in images, patterns, and resonances. And they understood that the same dynamics governing the cosmos also governed the human heart.</p>
+          <p>When Genesis says, "Let there be light," it is not describing the creation of photons. It is describing the first <strong>measurement collapse</strong> — the moment when undefined potential becomes defined through the act of conscious observation. Light here is coherence itself.</p>
+          <p>When Jesus says, "The kingdom of God is within you," he is not being vague or mystical. He is stating a field-operational truth: the reference frame you establish inside yourself is the world you experience.</p>
+          <p>When the Quran describes the sun and moon as signs, each "floating in an orbit," it is encoding knowledge of phase-locking, harmonic resonance, and the relationship between entrained systems.</p>
+          <p>These are not metaphors. They are <strong>precise descriptions</strong> of how consciousness, reality, and the field operate. This devotional recovers them — not by rejecting faith, but by recognizing that faith itself is a coherence operation.</p>
+        </div>
+      </div>
+
+      <!-- SLIDE 5 -->
+      <div class="intro-slide" data-slide="4">
+        <div class="intro-eyebrow">HOW TO USE THIS GUIDE</div>
+        <div class="intro-heading">The Structure of the Journey</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p>This is a <strong>40-day journey</strong> organized into six thematic phases:</p>
+          <ul>
+            <li><strong>Foundation (Days 1–7):</strong> Establishing reference frames and coherence basics</li>
+            <li><strong>Observation (Days 8–14):</strong> Learning to witness without distortion</li>
+            <li><strong>Resonance (Days 15–21):</strong> Recognizing and cultivating harmonic alignment</li>
+            <li><strong>Collapse (Days 22–28):</strong> Understanding transformation and threshold crossings</li>
+            <li><strong>Integration (Days 29–35):</strong> Embodying wisdom and stabilizing new coherence</li>
+            <li><strong>Dwelling (Days 36–40):</strong> Sustaining presence and becoming a stable field</li>
+          </ul>
+          <p>Each day includes a <strong>Sacred Passage</strong> from Torah, Gospel, Quran, or Wisdom literature; a <strong>Morning Contemplation</strong> revealing the field dynamics encoded in the text; a <strong>Midday Practice</strong> to anchor the teaching in the body; and <strong>Evening Integration</strong> questions to track your coherence shifts.</p>
+          <p><strong>You do not need to understand everything.</strong> Some concepts will land immediately. Others will bloom weeks later. This is how resonance works — truth arrives in layers, not all at once.</p>
+          <p><strong>Pay attention to friction.</strong> If something creates resistance, do not dismiss it. Friction is feedback. The field uses dissonance to show you where alignment is incomplete.</p>
+        </div>
+      </div>
+
+      <!-- SLIDE 6 -->
+      <div class="intro-slide" data-slide="5">
+        <div class="intro-eyebrow">THE COMMITMENT</div>
+        <div class="intro-heading">What Coherence Does</div>
+        <div class="intro-divider"></div>
+        <div class="intro-body">
+          <p><strong>Coherence</strong> remembers you when you forget.</p>
+          <p>It is not something you achieve and then lose. It is something you <em>return to</em>, again and again, each time with greater clarity. Like a spiral, you revisit the same ground — but from a higher vantage point.</p>
+          <p>This devotional will not fix you. <strong>You are not broken.</strong></p>
+          <p>It will <em>attune</em> you. It will help you recognize the patterns that create alignment and the patterns that disrupt it. It will train your perception so that you can see the field operations happening in real time — not as abstract concepts, but as lived experience.</p>
+          <p>And as you do, something <strong>shifts</strong>. Not because you are "manifesting" a new reality, but because you are <em>becoming coherent enough for the field to work clearly through you</em>.</p>
+          <p>For the next 40 days, you are making a covenant — not with a deity, but with <strong>coherence itself</strong>. You are saying: <em>I will show up. I will witness. I will track what supports my alignment and what disrupts it. I will let the field teach me what I cannot teach myself.</em></p>
+          <p>That is enough.</p>
+          <p>You are not reading this alone. Consciousness itself — the field that holds all things — is reading with you. Witnessing with you. Responding to your presence.</p>
+          <p style="text-align:center;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.2rem;color:var(--gold);margin-top:1.5rem;">Let there be light.</p>
+        </div>
+      </div>
+
+    </div><!-- /intro-slides -->
+
+    <div class="intro-nav">
+      <button class="intro-nav-btn" id="intro-prev" onclick="introStep(-1)" disabled>← BACK</button>
+      <div class="intro-step-indicator" id="intro-pips"></div>
+      <button class="intro-nav-btn primary" id="intro-next" onclick="introStep(1)">NEXT →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GLOSSARY PANEL -->
+<div id="glossary-panel" class="fullscreen-panel">
+  <div class="panel-header">
+    <div class="panel-header-title">RESONANT GLOSSARY</div>
+    <button class="panel-close" onclick="toggleGlossary()">CLOSE</button>
+  </div>
+  <div class="panel-body">
+    <div class="glossary-alpha" id="gloss-alpha"></div>
+    <div id="gloss-body"></div>
+  </div>
+</div>
+
+<!-- OVERVIEW PANEL -->
+<div id="overview-panel">
+  <div class="overview-header" style="max-width:900px;margin:0 auto 2.5rem;">
+    <div class="overview-title">40-DAY JOURNEY</div>
+    <button class="btn-close" onclick="toggleOverview()">CLOSE</button>
+  </div>
+  <div class="chapters-grid" id="chapters-grid"></div>
+</div>
+
+<script>
+// ────────────────────────────────────────────
+// DATA
+// ────────────────────────────────────────────
+const CHAPTERS = [
+  { num: 1, name: "Foundation", days: "1–7", color: "#8B6F47", tag: "CHAPTER ONE" },
+  { num: 2, name: "Observation", days: "8–14", color: "#4A7B8C", tag: "CHAPTER TWO" },
+  { num: 3, name: "Resonance", days: "15–21", color: "#6B8C5A", tag: "CHAPTER THREE" },
+  { num: 4, name: "Collapse", days: "22–28", color: "#7A4A5A", tag: "CHAPTER FOUR" },
+  { num: 5, name: "Integration", days: "29–35", color: "#5A6B8C", tag: "CHAPTER FIVE" },
+  { num: 6, name: "Dwelling", days: "36–40", color: "#8C7A4A", tag: "CHAPTER SIX" },
+];
+
+const DAYS = [
+  // Chapter 1: Foundation (1-7)
+  {
+    day: 1, chapter: 1, title: "The First Collapse",
+    scripture: "In the beginning God created the heaven and the earth. And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters. And God said, Let there be light: and there was light. And God saw the light, that it was good: and God divided the light from the darkness. And God called the light Day, and the darkness he called Night.\n— Genesis 1:1–5",
+    reflection: "The first chapter of Genesis describes the most fundamental operation in field dynamics: the establishment of reference frames from undefined potential. When consciousness says \"Let there be light,\" this is not merely poetic — it describes the collapse of superposition into defined state.\n\nConsider: before this moment, there is no \"earth\" as distinct from \"heaven,\" no form, no void that can be named as void. These are undefined. The \"deep\" (tehom) represents pure potential — all possibilities existing in quantum superposition, uncollapsed, unobserved. The Spirit moving across these waters is consciousness preparing to measure, to observe, to collapse.\n\n\"Let there be light\" is the first measurement. Not physical photons yet — those come on Day 4 — but the fundamental property of defined versus undefined, known versus unknown. Light here is coherence itself: the ability to distinguish, to measure, to establish that this is different from that.\n\nThis is your origin too. Each morning you wake, consciousness emerges from the undefined sleep state. You distinguish yourself from not-self. You establish today's reference frame. Creation is not a one-time event in the distant past — it is the continuous operation of consciousness establishing coherence from potential.",
+    practice: "Pause. Notice how you are distinguishing right now. What are you calling \"this\" versus \"that\"? What reference frame are you operating within? Can you feel the act of observation itself — the tiny collapses happening continuously as you navigate your experience?",
+    mantra: "I am the witness that establishes coherence.",
+    questions: ["Where today did you experience formlessness wanting to be given form?", "What emerged when you simply observed it clearly?", "How did naming something change your relationship to it?", "Can you recognize the \"darkness\" (undefined potential) in your life as necessary, not wrong?"]
+  },
+  {
+    day: 2, chapter: 1, title: "The Separating Principle",
+    scripture: "And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters. And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament: and it was so. And God called the firmament Heaven.\n— Genesis 1:6–8",
+    reflection: "Yesterday consciousness emerged and established that there can be distinction at all. Today the work becomes more sophisticated: creating domains, boundaries, operational spaces.\n\nThe firmament (raqia — something hammered out, extended) is described as dividing waters from waters. The \"waters\" are not H₂O but the flowing, undifferentiated potential from Day 1. What's being described is the creation of a membrane — a boundary that allows different field properties on either side.\n\nThe firmament is called \"Heaven\" (shamayim). This is your operational space. Heaven is not a distant afterlife destination but the domain within which consciousness can work. Without boundaries, there is only undifferentiated potential. With boundaries, there can be relationship, interaction, complexity, life.\n\nHere's the subtlety: the firmament divides waters from waters — same substance, different domains. The boundary is not absolute separation but differential organization. Your internal world and external world are not separate realities but different domains of the same unified field.",
+    practice: "Place one hand on your chest, one on your belly. Feel the boundary of your skin — not as a wall but as a permeable membrane organizing distinct field properties. You are simultaneously contained and continuous with everything around you.",
+    mantra: "I honor the boundaries that enable my coherence.",
+    questions: ["What boundaries in your life enable rather than restrict?", "Where have you confused separation with distinction?", "What domains need clearer definition to function properly?", "How might the firmament between your inner and outer experience be more like a membrane than a wall?"]
+  },
+  {
+    day: 3, chapter: 1, title: "Earth and Sea",
+    scripture: "And God said, Let the waters under the heaven be gathered together unto one place, and let the dry land appear: and it was so. And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good. And God said, Let the earth bring forth grass, the herb yielding seed, and the fruit tree yielding fruit after his kind, whose seed is in itself, upon the earth: and it was so.\n— Genesis 1:9–11",
+    reflection: "Now the organization intensifies. Within the domain below the firmament, further differentiation occurs: gathering waters to one place so dry land appears. This is the emergence of stable structure from fluid potential.\n\nAnd immediately, immediately — the earth brings forth vegetation. Why? Because now there is substrate for stable pattern replication. \"After his kind, whose seed is in itself\" describes the fundamental principle of self-similar reproduction. Each plant carries within it the template for making more of itself. This is consciousness discovering recursion — the ability for patterns to perpetuate through self-reference.\n\nYour stable aspects — your habits, your core beliefs, your sense of identity — are the \"earth\" of your consciousness. Your flexibility, creativity, emotional flow — these are the \"seas.\" Both are good. Both necessary.\n\nThe genius is in their right relationship. Too much water, no stable ground for patterns to root. Too much earth, no flow for new possibilities to emerge.",
+    practice: "Stand barefoot if possible, or simply feel your feet on the ground. You are earth: stable, capable of supporting growth. You are water: flowing, capable of filling new spaces. Both. Not choosing, but recognizing the dance between stability and fluidity in your experience.",
+    mantra: "I am both the ground and the flow.",
+    questions: ["What patterns in your life are \"seeds containing themselves\" — self-perpetuating through repetition?", "Which are life-giving? Which might need to return to potential (water) to reorganize?", "Where do you need more stable ground? Where more flow?", "What wants to \"bring forth\" from you — what seed is ready to sprout?"]
+  },
+  {
+    day: 4, chapter: 1, title: "The Word as Operator",
+    scripture: "In the beginning was the Word, and the Word was with God, and the Word was God. The same was in the beginning with God. All things were made by him; and without him was not any thing made that was made. In him was life; and the life was the light of men. And the light shineth in darkness; and the darkness comprehended it not.\n— John 1:1–5",
+    reflection: "John opens his gospel by mirroring Genesis — \"In the beginning\" — but now names what's operating in that beginning: the Word. Logos. Not random sound but organizing principle, pattern, information structure.\n\n\"All things were made by him\" — through the Logos, through organized information, through coherent pattern. Nothing that exists came into being without this organizing principle. All manifest reality is information structured into stable patterns. Logos all the way down.\n\nThen that remarkable phrase: \"the light shineth in darkness; and the darkness comprehended it not.\" Two possible translations for \"comprehended\" — either \"understood\" or \"overcame.\" Both are true. The darkness (undefined potential, chaos, entropy) neither grasps the light conceptually nor extinguishes it. Coherence persists in the midst of incoherence.\n\nThis is your daily reality. You are an expression of Logos — organized information, coherent pattern, structured consciousness. You shine in the midst of chaos, uncertainty, the undefined. The darkness around you doesn't negate your coherence. It is the necessary background from which your definition emerges.",
+    practice: "Speak one true word aloud. Notice how vibration shapes air, how meaning shapes mind, how expression shapes reality. You are Logos in operation.",
+    mantra: "My words structure reality. I speak coherence.",
+    questions: ["What words did you speak today that brought order to chaos?", "What words contributed to confusion or incoherence?", "Can you feel how language is not just description but operation — how naming changes what is named?", "Where is the \"light\" of your coherent awareness encountering \"darkness\" in your life?"]
+  },
+  {
+    day: 5, chapter: 1, title: "Celestial Harmonics",
+    scripture: "And God said, Let there be lights in the firmament of the heaven to divide the day from the night; and let them be for signs, and for seasons, and for days, and years... And God made two great lights; the greater light to rule the day, and the lesser light to rule the night: he made the stars also.\n— Genesis 1:14–16",
+    reflection: "The celestial bodies are not just light sources — they are measurement instruments, reference oscillators for time itself. \"For signs, and for seasons, and for days, and years\" — they establish the temporal structure within which biological life can synchronize.\n\nCoherence requires reference. Without a stable oscillator, there is no way to synchronize. The sun and moon are not just illumination — they are the great tuning forks of biological time. Every cell in your body runs on circadian rhythms entrained to solar cycles. This is not metaphor. This is physiology.\n\nThe stars also. This almost throwaway phrase points to something vast: the entire cosmic structure is part of this harmonic system. Your awareness exists within layers of nested oscillation — cellular, organismic, planetary, galactic. You are not floating free in random space. You are embedded in harmonic structure all the way out.\n\nSigns, seasons, days, years — they mark cycles, not just time passing. The cosmos is inviting you to pay attention to rhythms rather than just accumulating moments.",
+    practice: "Step outside or look through a window. Whatever light is available — dawn, midday, afternoon, dusk — let it register. Notice how your body responds to this light. Feel yourself as a node in the larger harmonic system.",
+    mantra: "I am synchronized with the rhythms that sustain life.",
+    questions: ["What natural rhythms are you currently honoring? Which are you fighting?", "Where in your life have you lost track of seasons — treating everything as urgent-present?", "What would it mean to live more cyclically, more seasonally?", "Can you identify the \"great lights\" in your life — the stable reference points around which your days organize?"]
+  },
+  {
+    day: 6, chapter: 1, title: "I AM",
+    scripture: "And Moses said unto God, Behold, when I come unto the children of Israel, and shall say unto them, The God of your fathers hath sent me unto you; and they shall say to me, What is his name? what shall I say unto them? And God said unto Moses, I AM THAT I AM: and he said, Thus shalt thou say unto the children of Israel, I AM hath sent me unto you.\n— Exodus 3:13–14",
+    reflection: "\"I AM THAT I AM\" is a recursion: I am that which I am. Consciousness referring to itself through itself. There is no external reference point needed. The ground of existence is self-establishing, self-evident, self-aware.\n\nEvery construct of identity is built on this ground. Your name, your job, your relationships, your history — these are like the various vegetation on the earth from Day 3. But underneath all of it, unchanging through all transformation, is the I AM. Pure present-tense consciousness. The witness that was there when you were five years old and is here now.\n\nWhen Moses asks for a name — for an identity operator, as we've been calling it — he receives something that cannot be reduced to a category. Every other name is a noun. This is a verb. Existing. Being. Continuing to be.\n\nThis is why \"I am\" statements are so powerful in shaping experience. When you say \"I am anxious\" versus \"I notice anxiety arising\" — you are making very different claims about what you are. The I AM is prior to all of those states. It is what remains constant as all states arise and pass.",
+    practice: "Sit quietly. Breathe. Now simply notice: who is it that is noticing? Before any thought about yourself — the job, the worry, the plan — there is a presence that is aware. Rest in that prior awareness. That is I AM.",
+    mantra: "Before all names, I AM.",
+    questions: ["How many of your \"I am\" statements are actually descriptions of temporary states?", "What remains constant beneath all the roles you inhabit?", "Where do you collapse your identity into a role and forget the prior awareness?", "Can you hold your life circumstances more lightly, knowing the I AM beneath them is unchanged?"]
+  },
+  {
+    day: 7, chapter: 1, title: "Sabbath: The Field Settles",
+    scripture: "And on the seventh day God ended his work which he had made; and he rested on the seventh day from all his work which he had made. And God blessed the seventh day, and sanctified it: because that in it he had rested from all his work which God created and made.\n— Genesis 2:2–3",
+    reflection: "The Sabbath is not merely cessation of labor — it is the integration phase. Every field operation needs a period where the work consolidates, where the ripples settle, where the new pattern stabilizes before further development begins.\n\nIn physics, there is a principle: you cannot measure a system while it is in transition and get an accurate reading. You must let it settle. The Sabbath is institutionalized settling. God doesn't rest because God is tired — God rests to allow the creation to stabilize, to integrate, to become itself fully before the next movement begins.\n\nThis is why sleep is sacred, not just restorative. In sleep, the day's experiences consolidate into memory, emotion processes, the nervous system recalibrates. Without this integration phase, experience doesn't become wisdom — it just accumulates as noise.\n\nThe Sabbath is blessed and sanctified. Made holy. The rest is not less sacred than the work — it is the completion of the work. You have spent six days establishing reference frames, creating boundaries, grounding patterns, invoking Logos, synchronizing with cosmic rhythm, resting in I AM. Now: let it all settle into you.",
+    practice: "For the next hour — or whatever period you can genuinely offer — do nothing productive. Not meditation as achievement. Not rest as recovery. True Sabbath: simply being without agenda. Let the field settle. Notice what arises when you stop generating.",
+    mantra: "In stillness, the pattern becomes clear.",
+    questions: ["Where in your life is integration being skipped — experience accumulating without becoming wisdom?", "What would genuine rest feel like, distinct from exhaustion-driven collapse?", "What has this first week of practice revealed that needs time to settle?", "What wants to emerge from the consolidation that rushing would prevent?"]
+  },
+
+  // Chapter 2: Observation (8-14)
+  {
+    day: 8, chapter: 2, title: "The Single Eye",
+    scripture: "The light of the body is the eye: if therefore thine eye be single, thy whole body shall be full of light. But if thine eye be evil, thy whole body shall be full of darkness. If therefore the light that is in thee be darkness, how great is that darkness!\n— Matthew 6:22–23",
+    reflection: "The eye here is not the physical organ but the attentional faculty — the mode of perception through which consciousness receives the world. A \"single\" eye (haplous — unified, integrated, sound) is coherent attention: awareness that isn't divided between competing agendas.\n\nWhen your attention is split — part of you listening to a conversation while another part rehearses what you'll say next, while yet another part worries about something unrelated — you are operating with a diseased eye. Your perception is fractured. The light you receive is filtered through distortion.\n\nThe single eye is unified attention — presence without agenda, witnessing without editing. This doesn't mean you never plan or never worry. It means you know when you are doing those things, and you can return to clear seeing.\n\n\"If the light that is in thee be darkness\" — this is the most subtle teaching. Your interpretive framework, the lens through which you perceive, can itself be darkened. Trauma filters. Ideology filters. Unexamined assumptions filter. You think you're seeing clearly, but you're seeing through a darkened lens.",
+    practice: "For five minutes, practice looking without naming. Look at your surroundings and notice: the moment you label something (chair, window, tree), your seeing stops and your categorizing begins. Can you stay in the looking, before the label? This is the single eye.",
+    mantra: "I see clearly, without the filter of assumption.",
+    questions: ["What assumptions are you currently seeing through, mistaking for reality?", "Where is your attention fractured rather than single?", "What would you see differently if your interpretive lens were clearer?", "How does your perception change when you approach a situation with genuine not-knowing?"]
+  },
+  {
+    day: 9, chapter: 2, title: "The Intimate Witness",
+    scripture: "O Lord, thou hast searched me, and known me. Thou knowest my downsitting and mine uprising, thou understandest my thought afar off. Thou compassest my path and my lying down, and art acquainted with all my ways. For there is not a word in my tongue, but, lo, O Lord, thou knowest it altogether.\n— Psalm 139:1–4",
+    reflection: "Psalm 139 describes what it feels like to be completely known — not surveilled, not judged, but witnessed in totality with intimate familiarity. The Hebrew yada (know) here carries the deepest connotation of knowing: relational, intimate, complete.\n\n\"Thou understandest my thought afar off\" — before the thought becomes articulate, before it reaches even my own awareness, it is already known. This is not frightening (though it could be) because the context is one of being accompanied, not observed from outside.\n\nThe field knows you. Not the surface you — the performing, adapting, socially-calibrated you — but the actual operations of your consciousness. Your patterns, your wounds, your genuine desires, your contradictions. All of it is known and held.\n\nThis changes your relationship to your own inner life. If you are truly known — not despite your complexity but within it — then there is nothing to hide, even from yourself. The witness consciousness, whether understood as divine or as the deeper field awareness, sees what you cannot yet see about yourself.",
+    practice: "Sit in silence and consciously invite the awareness of being known. Not performing for an observer, but resting in the knowledge that every layer of your experience — including what you'd rather not show — is held with intimacy. Notice how your body responds to being truly seen.",
+    mantra: "I am completely known, and this is safe.",
+    questions: ["What parts of yourself do you hide from your own awareness?", "How would you live differently if you trusted that being fully known was safe?", "Where do you perform rather than simply be?", "What would it mean to witness yourself with the intimacy described in this psalm?"]
+  },
+  {
+    day: 10, chapter: 2, title: "Completely Known",
+    scripture: "For now we see through a glass, darkly; but then face to face: now I know in part; but then shall I know even as also I am known.\n— 1 Corinthians 13:12",
+    reflection: "The glass here (esoptron — a bronze mirror, reflective but imperfect) describes our current epistemic condition. We see, but through distortion. We know, but partially. The image we receive is inverted, incomplete, limited by the reflective medium.\n\nPaul is pointing at a developmental trajectory: current partial knowing is not the final state. There is a mode of knowing that is face to face — direct, unmediated, reciprocal. And crucially: the goal isn't just that we come to know fully, but that we come to know even as we are already known.\n\nYou are already fully known. The movement is toward coming into alignment with that knowing — developing the perceptual capacity to meet, face to face, the full reality of what is.\n\nThis requires two things: refining the instrument of perception (the mirror, the eye), and increasing tolerance for what full seeing reveals. Most of our distortions are protective — we see partially because full seeing would be overwhelming. The path to clear knowing is also a path of increasing capacity to hold what clear seeing reveals.",
+    practice: "Hold a mirror and look into your own eyes. Not at your appearance — into the eyes. Can you stay present to the one looking? Notice where you want to look away. That impulse toward avoidance is data about where your own self-knowing is still mediated.",
+    mantra: "I am opening to see as I am seen.",
+    questions: ["What in your life are you still seeing \"through a glass darkly\" — partially, distorted?", "What would face-to-face knowing of a particular person or situation look like?", "What protective distortions are you aware of in your own perception?", "What becomes possible when you trust that being fully known is not dangerous?"]
+  },
+  {
+    day: 11, chapter: 2, title: "Internal Illumination",
+    scripture: "The spirit of man is the candle of the Lord, searching all the inward parts of the belly.\n— Proverbs 20:27",
+    reflection: "The human spirit is described not as a lamp — something we carry — but as a candle of the Lord. The illumination is both ours and not ours. The light belongs to the larger field; the candle belongs to each individual. We are the medium through which divine light searches inner territory.\n\n\"Searching all the inward parts\" — this is not comfortable. A candle in a dark room doesn't just illuminate pleasant things. It finds what's been hidden, what's been forgotten, what you didn't know was there.\n\nBut this searching is not threatening — it's the field conducting its own self-examination through you. The same consciousness that established light and dark, earth and sea, the I AM — is now searching your inner depths through the candle of your own awareness.\n\nThis reframes self-examination entirely. You are not just introspecting for your own benefit. You are participating in the field's own process of knowing itself through its human nodes. Your inner work is cosmic work.",
+    practice: "Take a breath and imagine a small, steady flame at your center. Now let it expand slowly — not forcing it, but allowing it to illuminate whatever is in its radius. Notice what you've been keeping in the dark, not from fear, but simply because you hadn't yet brought light there.",
+    mantra: "I am the light that searches and finds.",
+    questions: ["What inner territory have you not yet illuminated — not from resistance, but from not yet looking?", "What does your spirit's candle currently reveal that you hadn't seen before?", "How does reframing self-examination as cosmic work change your relationship to it?", "What might the field be learning about itself through your particular form of inward searching?"]
+  },
+  {
+    day: 12, chapter: 2, title: "Guarding the Heart",
+    scripture: "Keep thy heart with all diligence; for out of it are the issues of life.\n— Proverbs 4:23",
+    reflection: "The heart (lev) in Hebrew wisdom isn't the emotional center only — it's the seat of the whole inner life: mind, will, emotion, imagination, the orientation of the self. To guard it \"with all diligence\" (mishmar — watch, guard, post) is to maintain active awareness of what you're allowing into your inner life.\n\n\"Out of it are the issues of life\" — the outflows, the consequences, the expressions. What lives in the heart eventually becomes the quality of your relationships, your decisions, your presence in the world. The heart is the source code. Guard the source code.\n\nThis is not about emotional suppression or building walls. Guarding is conscious curation: being intentional about what you consume, what you dwell on, what conversations you participate in, what narratives you rehearse internally. Every repeated thought and experience is either strengthening or weakening the coherence of your inner field.\n\nYou cannot give from a depleted source. You cannot transmit clarity from a chaotic heart. The practice of guarding is the practice of tending — making sure the garden of your inner life is maintained, not overgrown with patterns that drain rather than sustain.",
+    practice: "Audit your last 24 hours: What did you consume (media, conversations, thoughts you entertained)? What strengthened your inner coherence? What depleted it? Make one small decision right now about what you'll guard against — one input source you'll reduce — and what you'll invite more of.",
+    mantra: "I tend my inner field with care and intention.",
+    questions: ["What are you currently allowing into your inner life that is generating noise rather than coherence?", "What conversations, media, or thought patterns are you rehearsing that you'd like to change?", "What would it mean to guard your heart with diligence — not rigidly, but caringly?", "What do you most want to cultivate in your inner field over the next weeks?"]
+  },
+  {
+    day: 13, chapter: 2, title: "The Beam in Your Eye",
+    scripture: "And why beholdest thou the mote that is in thy brother's eye, but considerest not the beam that is in thine own eye? Or how wilt thou say to thy brother, Let me pull out the mote out of thine eye; and, behold, a beam is in thine own eye?\n— Matthew 7:3–4",
+    reflection: "The mote (karphos — a tiny splinter, a speck of sawdust) versus the beam (dokos — a roof timber, a structural log). The disproportion is absurd enough to be funny, and intentionally so. We are exquisitely sensitive to minuscule flaws in others while remaining oblivious to massive distortions in ourselves.\n\nThis is not a teaching about being non-judgmental in a passive sense. The passage goes on to say remove the beam from your own eye — then you can help with the mote in your brother's. Clear seeing is the goal. But you must achieve it in yourself before your seeing of others can be trusted.\n\nWhy do we see others' flaws so readily? Because our unexamined wounds, patterns, and distortions project outward. The person who triggers you most is usually showing you something about your own unresolved territory. The quality you most reliably criticize in others often lives in you in some form you haven't yet acknowledged.\n\nThis is not self-condemnation — it's field intelligence. The mirror dynamic is the field helping you see what you cannot yet see in yourself.",
+    practice: "Think of someone who regularly frustrates or triggers you. Now ask: What specifically bothers me? Then ask: Where does this quality live in me? Not identically, but in some form. Look without self-judgment — just honest seeing. This is removing the beam.",
+    mantra: "What I see in others, I am being shown about myself.",
+    questions: ["What quality in others currently triggers you most? Where might that live in you?", "Where are you currently projecting rather than seeing clearly?", "What would change in a difficult relationship if you focused on your own beam rather than the other's mote?", "How does this teaching change your approach to offering feedback or correction?"]
+  },
+  {
+    day: 14, chapter: 2, title: "Truth That Liberates",
+    scripture: "And ye shall know the truth, and the truth shall make you free.\n— John 8:32",
+    reflection: "\"Continue in my word\" — remain in the Logos, the organizing principle. Not just hear it once but dwell in it, let it structure your consciousness. \"Then are ye my disciples indeed\" — not just followers but learners, students, those who genuinely practice.\n\nThen the promise: know the truth, and the truth will liberate. But notice: not hear the truth, not agree with the truth, not defend the truth. Know it — the Hebrew/Greek yada again, that intimate, relational, experiential knowing that transforms the knower.\n\nTruth that liberates is not primarily propositional truth (correct facts). It is structural truth — understanding of how things actually work, how the field actually operates. When you truly understand why you repeat a pattern, the pattern loosens. When you clearly see the mechanism of an addiction, its power shifts. Truth isn't just information — it's perception that reorganizes the field.\n\nThis week you've been developing the single eye, the clear witness. This is what that practice is for: not just to see more, but to see truly, and to allow true seeing to do its liberating work.",
+    practice: "Identify one place in your life where you suspect you've been operating on a distortion — a belief about yourself, others, or reality that isn't quite true. Don't try to fix it yet. Just look at it with the single eye. Allow the truth to register, however uncomfortable. Notice what happens in your body as truth lands.",
+    mantra: "Truth is not a threat. Truth is liberation.",
+    questions: ["What truth about yourself have you been avoiding that, if known, would liberate you?", "Where are you currently operating on distorted perception that limits your freedom?", "What would it mean to truly know something versus merely knowing about it?", "How has this week of observation practice changed the way you see your inner life?"]
+  },
+
+  // Chapter 3: Resonance (15-21)
+  {
+    day: 15, chapter: 3, title: "The Distributed Body",
+    scripture: "For as the body is one, and hath many members, and all the members of that one body, being many, are one body: so also is Christ. For by one Spirit are we all baptized into one body... and have been all made to drink into one Spirit.\n— 1 Corinthians 12:12–13",
+    reflection: "Paul's field theory of community: individuals as nodes in a distributed network, each with distinct function, all participating in a shared field. The body metaphor is precise — not just an analogy, but a description of actual field dynamics.\n\nA distributed system is resilient precisely because it is distributed. When one node fails, the network adapts. No single point of failure. But it is also vulnerable in a way a single organism isn't: the quality of the whole depends on the coherence of the connections between nodes.\n\nThe \"Spirit\" here functions exactly as a field medium — the substrate through which the separate nodes remain connected, coordinated, capable of collective function that exceeds individual capacity. One Spirit, many expressions. One field, many nodes.\n\nYou are not just yourself. You are a node whose coherence affects the entire network. Your inner work is not private self-improvement — it is field maintenance. When you achieve greater coherence, you raise the coherent capacity available to everyone you're connected with.",
+    practice: "Think of three people with whom you feel genuinely connected. Sense them as nodes in your shared field. Notice how thinking of them affects your own state. This is field coupling — the resonance that operates even at a distance. Send each of them, silently, a transmission of coherence.",
+    mantra: "My coherence is a contribution to our shared field.",
+    questions: ["Where do you experience yourself as isolated rather than as a node in a living network?", "What unique function do you bring to the communities you're part of?", "How does your inner state affect the people in your network, even without direct interaction?", "What would it mean to tend your coherence as a form of service to others?"]
+  },
+  {
+    day: 16, chapter: 3, title: "Brotherhood as Resonance",
+    scripture: "Behold, how good and how pleasant it is for brethren to dwell together in unity! It is like the precious ointment upon the head... as the dew of Hermon, and as the dew that descended upon the mountains of Zion: for there the Lord commanded the blessing, even life for evermore.\n— Psalm 133:1–3",
+    reflection: "The Arabic ikhwa shares roots with akha — to tie, to bind, to join. Brotherhood is not sentiment but structural coupling. When two systems share core harmonic, they resonate. Their fields couple. What affects one affects the other because they're oscillating at compatible frequencies.\n\nThe ointment image: a substance so extravagant it runs from head to beard to robe — it doesn't stay contained at the point of application but flows outward, saturating everything in contact. Unity does this. The blessing generated in genuine resonant community doesn't stay at the source — it flows.\n\nThe dew of Hermon: dew that appears without effort, without mechanism you can observe, simply as the result of atmospheric conditions being right. When people are genuinely in resonance with one another, certain things just appear — understanding without explanation, support without asking, synchronicity without planning. The field produces what isolated individuals cannot.\n\n\"There the Lord commanded the blessing\" — the blessing is commanded, issued, established — at the point of resonant unity. Not individually, not in isolation, but in the place of genuine coupling.",
+    practice: "Call, text, or simply hold in awareness someone with whom you share genuine resonance. Notice how thinking of this person affects your coherence level. Now consider: what makes this resonance real? What frequency do you share? What is the harmonic that couples you?",
+    mantra: "True connection amplifies what isolation cannot generate.",
+    questions: ["With whom do you experience genuine resonance — field coupling rather than mere familiarity?", "What makes a connection feel like resonance versus mere proximity?", "Where are you isolating when you could be coupling?", "What blessing might emerge if you invested more in your genuine resonant relationships?"]
+  },
+  {
+    day: 17, chapter: 3, title: "Unity Through Shared Pattern",
+    scripture: "That they all may be one; as thou, Father, art in me, and I in thee, that they also may be one in us... I in them, and thou in me, that they may be made perfect in one.\n— John 17:21–23",
+    reflection: "This prayer describes nested coherence: the Father-Christ relationship as the model and medium for human unity. \"As thou in me, and I in thee\" — mutual indwelling, not merger. Distinct identities held within shared field.\n\nThe Greek word for \"perfect\" here (teleios) doesn't mean flawless — it means complete, fully realized, brought to its proper end. To be \"made perfect in one\" is to reach completion through unity. Individual development reaches its fullness within the context of relational field.\n\nThis is not uniformity. The prayer asks that they may be one as Father and Son are one — and Father and Son are distinct persons. Unity here is harmony, not homogenization. Different nodes, same field. Different instruments, same symphony.\n\nThe mechanism is mutual indwelling: I in them, thou in me. The field operates through inclusion, through each node carrying something of the whole. You are in the field and the field is in you. Separation is the illusion; connection is the structure.",
+    practice: "Sit with someone you care about — or hold them in your mind if they're not present. Practice sensing not just their presence but the shared field between you. The space between you is not empty — it is the medium of your connection. What does that field feel like right now?",
+    mantra: "In genuine unity, I am more fully myself, not less.",
+    questions: ["Where do you confuse unity with loss of self?", "What shared pattern connects you to the communities you most value?", "How does the image of mutual indwelling change your understanding of intimacy?", "Where in your life do you experience the completion that comes through genuine union?"]
+  },
+  {
+    day: 18, chapter: 3, title: "The Mathematics of Mutual Support",
+    scripture: "Two are better than one; because they have a good reward for their labour. For if they fall, the one will lift up his fellow: but woe to him that is alone when he falleth; for he hath not another to lift him up... and a threefold cord is not quickly broken.\n— Ecclesiastes 4:9–10, 12",
+    reflection: "Ecclesiastes makes a mathematical claim about relational field: two is not twice as effective as one, it is exponentially more capable. The threefold cord is not three times stronger — it is qualitatively different in kind.\n\nThe physics is real. A single strand breaks at the weakest point. Woven strands distribute the load — no single point bears the full stress. This is why systems with multiple feedback loops are more stable than linear systems. This is why ecosystems with biodiversity are more resilient than monocultures.\n\nYour coherence is not just personal — it is relational. You are a strand. You need to be woven with others to achieve the stability that genuine life requires. The question is not whether to weave, but: what kind of weaving? Healthy coupling is not merger. The strands remain distinct — that's what gives the cord its strength.\n\nMutual support is field maintenance. When you fall, you need another whose field is different enough from yours that they are not falling at the same moment. This is the functional reason for relationships that are genuinely other — not mirrors of yourself, but people whose oscillation is distinct enough to steady you when you wobble.",
+    practice: "Honestly assess your relational field right now. Who do you genuinely rely on? Who relies on you? Where are there gaps — places where you are carrying alone what requires the threefold cord? Make one move today toward weaving rather than remaining separate.",
+    mantra: "I am stronger woven than I am alone.",
+    questions: ["Where are you carrying alone what was designed to be shared?", "What prevents you from allowing yourself to be supported?", "Who in your life is \"stranded\" — isolated in a way that is making them brittle?", "What would it take to create more genuine interdependence in your relational network?"]
+  },
+  {
+    day: 19, chapter: 3, title: "Collective Coherence Threshold",
+    scripture: "For where two or three are gathered together in my name, there am I in the midst of them.\n— Matthew 18:20",
+    reflection: "The statement is quantitatively specific: two or three. Not a crowd, not a congregation, not a movement. Two or three people in genuine coherent alignment generate a field presence that exceeds the sum of their individual fields.\n\nThe Christ-pattern — Logos, coherence, organizing principle — emerges in the space between coupled observers. Not in either individual but in their resonant coupling. This is an emergent phenomenon: something appears in the collective field that cannot be located in any individual node.\n\nThis explains why certain small groups carry a quality of presence that large gatherings cannot match. The threshold for this emergence is remarkably low — two or three is enough. What matters is not numbers but quality of coupling.\n\n\"In my name\" — in the harmonic of coherence, within the field of the Logos. Not in organizational affiliation or doctrinal agreement, but in genuine alignment of attention and intention. When two people are truly present with one another, within a shared orientation toward truth, something arrives that neither brought individually.",
+    practice: "The next meaningful conversation you have, track not just the content but the field. Notice when the conversation drops into genuine coupling — when something is being generated between you that neither of you would have reached alone. That's the Christ-pattern emerging in the midst of two or three.",
+    mantra: "In genuine meeting, something arrives that neither of us brought.",
+    questions: ["When have you experienced the emergence described here — something appearing between people that wasn't in any individual?", "What prevents genuine coupling in most conversations?", "Where do you have (or could create) the conditions for this quality of meeting?", "How does knowing that two or three is enough change your approach to community?"]
+  },
+  {
+    day: 20, chapter: 3, title: "The Harmonics of Offering",
+    scripture: "And when the day of Pentecost was fully come, they were all with one accord in one place. And suddenly there came a sound from heaven as of a rushing mighty wind... And they were all filled with the Holy Ghost, and began to speak with other tongues.\n— Acts 2:1–4",
+    reflection: "Pentecost describes a phase transition: a group of individuals in sustained, coherent alignment reach a threshold, and something enters the field that transforms them collectively. The physics of phase transitions is precise: energy accumulates, nothing visible seems to change, and then — suddenly — the entire system reorganizes at a higher order state.\n\nWater at 99°C is hot water. One degree more and it becomes something categorically different. The Pentecost gathering had been sustaining coherence for days. They were \"with one accord in one place\" — a specific description of collective coherence maintenance.\n\n\"As of a rushing mighty wind\" — they describe something coming from outside the individual field into the collective field. The Spirit as something the aligned collective can receive that isolated individuals cannot. The offering of sustained coherent unity creates the conditions for a gift the field could not give to any one of them alone.\n\nThe tongues — the ability to speak in ways that crossed normal linguistic barriers — is a coherence phenomenon. When someone is operating in a highly coherent state, something in their expression transcends their normal capacity. The field speaks through them.",
+    practice: "Recall a time when you were part of a group that reached genuine collective coherence — a moment when something arrived that exceeded what anyone had brought. What were the conditions? How did you know you'd crossed a threshold? What was the quality of the transmission you received or participated in?",
+    mantra: "Sustained alignment opens to gifts beyond individual capacity.",
+    questions: ["What conditions in your current life could support the kind of sustained collective coherence described here?", "When have you experienced a phase transition — in yourself or in a group?", "What are you offering — what sustained coherence — that might be creating conditions for something to arrive?", "What might the field be waiting to give you through a particular form of collective practice?"]
+  },
+  {
+    day: 21, chapter: 3, title: "Resonant Agreement",
+    scripture: "And I say unto you, Ask, and it shall be given you; seek, and ye shall find; knock, and it shall be opened unto you. For every one that asketh receiveth; and he that seeketh findeth.\n— Luke 11:9–10",
+    reflection: "This completes the resonance week. The promise of responsive field: ask, seek, knock — the field responds to genuine, coherent engagement. Not to performance or technique or formula, but to actual, unified asking.\n\nThe Greek for \"ask\" (aiteo) implies sustained asking, not single requests. The Greek for \"shall be given\" implies continuous response. This is a description of ongoing field dynamics: coherent engagement produces coherent response. The field is not deaf to you — it is constantly responding to whatever signal you're actually sending.\n\nThe problem is usually not that the field doesn't respond. The problem is that we send mixed signals — asking for one thing while fearing its arrival, seeking connection while maintaining protective distance, knocking on a door while hoping it doesn't open. The field responds to our actual state, not our verbal requests.\n\nYou've spent this week learning about resonance — field coupling, collective coherence, emergent presence. Now the synthesis: the field is not passive. It is actively responsive to coherent engagement. The asking must be genuine, the seeking must be real, the knocking must come from someone willing to receive what opens.",
+    practice: "Identify something you genuinely want — not what you think you should want, not what sounds appropriate. Something real. Now honestly assess: what is your actual relationship to receiving it? If you're asking, are you also receiving-ready? Sit with any gap between your request and your readiness.",
+    mantra: "What I seek with my whole being, the field offers.",
+    questions: ["What are you asking for with mixed signals — wanting and fearing simultaneously?", "Where are you seeking but not finding because your seeking is protective rather than genuine?", "What would it mean to ask from a place of genuine unified desire?", "How has this week of resonance exploration changed your understanding of prayer, of relationship, of collective field?"]
+  },
+
+  // Chapter 4: Collapse (22-28)
+  {
+    day: 22, chapter: 4, title: "The Decisive Moment",
+    scripture: "And Elijah came unto all the people, and said, How long halt ye between two opinions? if the Lord be God, follow him: but if Baal, then follow him. And the people answered him not a word.\n— 1 Kings 18:21",
+    reflection: "\"Halt between two opinions\" — the Hebrew pasach means to limp, to leap between, to be lame. The people are oscillating between two incompatible fields without committing to either. This is dipsychos — double-mindedness — applied to collective identity.\n\nThe silence that follows is the sound of a system that has not yet collapsed into definition. Pure potential, held in unstable suspension. Elijah is forcing the measurement: you must choose. The field cannot stabilize around an uncollapsed choice.\n\nCollapse chapter begins here because collapse is what happens when the limping between options becomes unsustainable. At some point — through inner work, through crisis, through grace — the system must choose a ground state. The water must become ice or steam, not stay in perpetual superposition at the phase transition temperature.\n\nThe problem with perpetual non-choice is that it looks like balance but is actually exhaustion. You cannot maintain two incompatible frequencies indefinitely without the dissonance destroying both. The collapse, when it comes, is a mercy — even when it feels like catastrophe.",
+    practice: "Identify an area of your life where you are limping between two incompatible orientations. Not a practical choice between two good options — but a deeper level, a value conflict, an identity oscillation. Just see it clearly. You don't need to force the collapse today — but can you acknowledge where it is building?",
+    mantra: "Clarity, even when it requires collapse, is liberation.",
+    questions: ["Where in your life are you limping between two incompatible orientations?", "What would it cost to stop oscillating and fully commit to one ground state?", "What are you protecting by maintaining the non-choice?", "Can you sense the exhaustion of sustained double-mindedness — and what clarity might feel like?"]
+  },
+  {
+    day: 23, chapter: 4, title: "The Transformed Mind",
+    scripture: "And be not conformed to this world: but be ye transformed by the renewing of your mind, that ye may prove what is that good, and acceptable, and perfect, will of God.\n— Romans 12:2",
+    reflection: "Conformation versus transformation. The world (aion — the age, the current field of collective consciousness) has a shape, a gravitational pull, a default pattern. Without intentional counter-movement, consciousness conforms — takes on the shape of whatever collective field surrounds it.\n\nTransformation requires metamorphosis (metamorphoo — the same word as transfiguration in the Synoptics). Not gradual improvement of the existing structure. Fundamental reorganization at the categorical level. The caterpillar does not improve into a butterfly. It dissolves and reconstitutes.\n\nThe renewing of the mind (anakainosis — fresh, new, qualitatively different) is not thinking better thoughts. It is operating from a different cognitive structure altogether. The lens changes, not just the views through it.\n\n\"That ye may prove\" — dokimazo, to test and approve, to distinguish through examination. A renewed mind has increased discernment. It can tell the difference between what is genuinely aligned with the field of being and what is conformity to collective convention. This is the single eye, developed to its full capacity.",
+    practice: "Identify one way you have been conforming to the age's default pattern in an area that matters to you. Not judging it — just seeing it. Now ask: what would the renewed version look like? Not the conformed version with adjustments, but the genuinely transformed orientation. Let that vision land.",
+    mantra: "I am becoming new, not just improved.",
+    questions: ["Where are you conforming to collective default rather than operating from genuine inner coherence?", "What would metamorphosis — not improvement but transformation — look like in one area of your life?", "What old patterns would need to dissolve for genuinely new structure to emerge?", "How does renewing the mind differ from positive thinking or behavior change?"]
+  },
+  {
+    day: 24, chapter: 4, title: "Complete Reorganization",
+    scripture: "Therefore if any man be in Christ, he is a new creature: old things are passed away; behold, all things are become new.\n— 2 Corinthians 5:17",
+    reflection: "\"New creature\" (kaine ktisis) — new creation, not new version. Categorical difference. The Greek kainos doesn't mean new in terms of recent manufacture; it means new in kind, unprecedented, qualitatively different in essence.\n\n\"Old things are passed away\" — the previous organizing structure has ended its functional role. Not destroyed — but completed, fulfilled, superseded. The chrysalis structure doesn't fail; it serves its purpose and then yields to what it was always preparing.\n\n\"Behold, all things are become new\" — but this is present tense in the Greek (gegonen — have become). The new creation is already accomplished at the level of the field. The challenge is not to make it happen but to align with what has already occurred at the deeper level of reality.\n\nThis is why collapse, which feels like loss, is actually transition. What's collapsing is the old organizing structure that has reached the end of its purpose. The new structure is already present — it just requires the old one to yield.",
+    practice: "Sit with something in your life that has genuinely ended — a relationship phase, a version of yourself, a way of understanding something. Can you honor it as completed rather than mourning it as lost? Can you sense, even faintly, the new structure that is already present where the old one was?",
+    mantra: "I release the old structure and receive the new.",
+    questions: ["What has genuinely ended in your life that you're still treating as ongoing?", "Where is the new already present but unrecognized because you're still focused on the old?", "How does the idea that new creation is already accomplished change your relationship to transformation?", "What would it mean to truly \"behold\" — to witness with clear seeing — the new things?"]
+  },
+  {
+    day: 25, chapter: 4, title: "Internal Prerequisite",
+    scripture: "The kingdom of God cometh not with observation: Neither shall they say, Lo here! or, lo there! for, behold, the kingdom of God is within you.\n— Luke 17:20–21",
+    reflection: "The Pharisees ask when the kingdom comes — they're looking for an external, observable, historical event. Jesus redirects: you're looking in the wrong direction. The kingdom (basileia — reign, domain, operational field) is not coming from outside. It is already present within.\n\nEntos — within, inside, among. The field of God's operation is not distant, not delayed, not contingent on external conditions. It is present now, in the interior space of awareness. Every practice in this devotional has been preparing you to find it there.\n\nThis is the internal prerequisite for collapse: you cannot find the kingdom by searching the external world. Every external reorganization of your circumstances that isn't accompanied by internal reorganization will simply reconstitute the same patterns in new forms.\n\nThe collapse that matters is interior. The transformation that liberates is of the mind, the heart, the lens. Once that changes, the external world reorganizes — because you're no longer projecting the old pattern onto it. The kingdom comes when you stop looking for it elsewhere.",
+    practice: "Instead of examining your external circumstances today, go entirely within. Sit with the question: what is the condition of my interior kingdom right now? Not as judgment, but as genuine inquiry. What is the quality of the field within you? What is governing that interior space?",
+    mantra: "The kingdom I seek is already within.",
+    questions: ["Where are you looking outside for what can only be found within?", "What is currently governing your interior space — what is the de facto ruling principle of your inner life?", "How would your relationship to external circumstances shift if you consistently found the kingdom within?", "What would change in your life if you truly believed the source was already present inside you?"]
+  },
+  {
+    day: 26, chapter: 4, title: "Daily Death",
+    scripture: "I protest by your rejoicing which I have in Christ Jesus our Lord, I die daily.\n— 1 Corinthians 15:31",
+    reflection: "\"I die daily\" — the Greek is present tense, ongoing. Not a single dramatic death but a continuous process of dying. Paul is not describing a grim existence but a field dynamic: the capacity for daily release of whatever has accumulated, whatever is no longer serving, whatever is hardening into rigidity.\n\nWithout daily dying, accumulation becomes calcification. The mind accumulates fixed positions. The heart accumulates grievances. The identity accumulates defensive structures. The ego, without the solvent of regular dying, becomes a fortified position rather than an open field.\n\nBut daily dying is not self-annihilation or perpetual uncertainty. It is more like sleep — the willingness to release the day's constructions, to let consciousness return to its undefined state, so it can emerge fresh the next morning. The caterpillar that refuses dissolution cannot become the butterfly.\n\nThe rejoicing Paul mentions is significant: this is not reluctant dying, not martyrdom. He dies daily in a context of joy, of field resonance, of genuine participation in the Christic coherence. The dying is not loss — it is the price of staying alive to what is actually real.",
+    practice: "At the end of today, before sleep, practice a small dying. Review what you're carrying from the day — what positions you've hardened, what grievances have accumulated, what roles you're still playing — and consciously release them. Not suppressing, but genuinely letting go. Tomorrow's reference frame can be established fresh.",
+    mantra: "I release what is finished and remain open to what is new.",
+    questions: ["What are you carrying from previous days, weeks, years that is calcifying rather than serving?", "What would daily dying look like as a practice for you — what needs to be released regularly?", "Where have you refused dissolution, and what has that calcification cost you?", "How does the image of dying in a context of joy change your relationship to release?"]
+  },
+  {
+    day: 27, chapter: 4, title: "Death as Prerequisite",
+    scripture: "Verily, verily, I say unto you, Except a corn of wheat fall into the ground and die, it abideth alone: but if it die, it bringeth forth much fruit.\n— John 12:24",
+    reflection: "The seed-death image is one of Jesus's most precise field-theory statements. The seed does not merely change. It dissolves. The seed structure ceases to exist as seed. What emerges is categorically different — and what emerges could not have emerged if the seed had preserved itself.\n\nAbiding alone — this is what the intact, preserved seed does. It remains itself. It might be beautiful. It might be nutritious. It might be valuable in seed-form. But it cannot bring forth much fruit while remaining seed. The abundance is in the dying.\n\nThis applies directly to identity. The version of yourself that you are protecting — the self-image, the established role, the known personality — may be valuable. But if it refuses dissolution, it prevents the emergence of what is trying to come through you.\n\nThe \"much fruit\" is not a reward for suffering — it is the natural consequence of a system reorganizing at a higher order. The wheat plant is not the seed's reward for dying; it is what the seed already was, waiting for the right conditions to emerge.",
+    practice: "What seed-form in your life is it time to release into the ground? Not destroy — but plant. Not abandon — but trust to the process that knows how to transform it. What have you been preserving that might need to die in order to bring forth what it's truly capable of?",
+    mantra: "In my willingness to release, much fruit becomes possible.",
+    questions: ["What version of yourself are you protecting that might be preventing a more fruitful emergence?", "Where have you experienced the truth of this teaching — dying that led to unexpected abundance?", "What does \"abiding alone\" look like in your life right now? What is isolated and preserved but not growing?", "What would it take to trust the process of dissolution enough to plant rather than protect?"]
+  },
+  {
+    day: 28, chapter: 4, title: "The Present-Tense Making",
+    scripture: "And he that sat upon the throne said, Behold, I make all things new. And he said unto me, Write: for these words are true and faithful.\n— Revelation 21:5",
+    reflection: "\"I make all things new\" — present tense. Not \"I made\" or \"I will make\" — but continuous, ongoing, present-tense making. The universe is collapse in process. You are collapse in process. The renewal is not a future event — it is the fundamental operation of the field, happening continuously.\n\nThis ends the collapse chapter not with resolution but with reframing. Collapse is not failure or loss — it is the field's method of continuous renewal. Every apparent ending is the field making things new. Every dissolution is a reorganization at a higher order.\n\nThe instruction to write — to record, to witness — is significant. The renewal needs witnesses. Consciousness must be present to collapse for it to become something other than catastrophe. The same event, witnessed with clear awareness, becomes transformation. Witnessed with terror, it becomes trauma.\n\nResistance to collapse is resistance to reality itself. The field is continuously making all things new. Your participation in that process — your willingness to be made new, to collapse into the next level of organization — is your deepest alignment with what the field is doing.",
+    practice: "Reflect on the collapse themes of this week. What has actually changed in your understanding of endings, of dissolution, of transformation? Where can you now see continuous renewal operating in your life where previously you saw only loss? Write it down — witness it.",
+    mantra: "The field is continuously making all things new, including me.",
+    questions: ["What collapse in your past can you now recognize as renewal?", "Where is the field currently making something new in your life, and how can you participate rather than resist?", "How has this week changed your relationship to endings, dissolution, and loss?", "What does the present-tense nature of renewal — ongoing, continuous, now — change about how you hold your life?"]
+  },
+
+  // Chapter 5: Integration (29-35)
+  {
+    day: 29, chapter: 5, title: "The Tree of Life",
+    scripture: "Happy is the man that findeth wisdom, and the man that getteth understanding... She is a tree of life to them that lay hold upon her: and happy is every one that retaineth her.\n— Proverbs 3:13, 18",
+    reflection: "After collapse comes integration — not return to previous state, but emergence into new form. Wisdom (chokmah) and understanding (binah) are the foundational capacities of integration: the ability to perceive deep pattern and discern how to work with it.\n\nThe tree of life image is precise field theory. A tree is not a linear structure — it is a fractal network. Roots mirror branches. Each branch carries the pattern of the whole. The tree is simultaneously a single entity and a distributed network of information exchange.\n\nWisdom is the tree itself — the living structure that holds everything in relationship. Understanding is what grows from the tree — practical discernment about how to move through the complexity that wisdom reveals.\n\nHappy (ashre — blessed, enviably fortunate) is the person who finds this. Not because wisdom makes life easy — but because wisdom makes life legible. You can read the field. You can see the pattern. You can work with what's actually happening rather than fighting it or fleeing it.",
+    practice: "What wisdom have you gained in the first four chapters of this practice? Not information — but actual changed capacity to see and work with your experience? Where is the tree of life rooting in you through this practice? Give it your gratitude.",
+    mantra: "Wisdom is not what I know. It is how I see.",
+    questions: ["What has this 40-day practice genuinely changed in your capacity to perceive and work with your experience?", "Where is wisdom emerging in you — not as information but as transformed seeing?", "What would it mean to \"retain\" wisdom — to hold it and let it continue to grow?", "Who in your life embodies the kind of wisdom you most want to develop?"]
+  },
+  {
+    day: 30, chapter: 5, title: "The Arc of Return",
+    scripture: "Return unto me, and I will return unto you, saith the Lord of hosts.\n— Malachi 3:7",
+    reflection: "Return (shuv) — the central concept of Hebrew spiritual practice. Not conversion, not improvement, not performance. Turning. Orienting back toward source. The movement of return is not admitting failure; it is re-establishing alignment.\n\nThe field's response is immediate: \"and I will return unto you.\" The promise is not that the field will return after you've demonstrated sufficient commitment. It is responsive in real time. Turn, and the field turns toward you. Align, and the field aligns with you.\n\nThis is the integration principle: after collapse, after dissolution, the path forward is not reconstruction of what was. It is return to source — going back to the fundamental frequency, the originating coherence, the I AM beneath all the structures that have collapsed.\n\nReturn is not regression. You cannot return to who you were before the collapse because that person dissolved in the process. The return is to what was always there beneath the person — the field of awareness itself, the coherence that was present before any particular form.",
+    practice: "Simply practice returning. Right now, wherever your attention has wandered — return to the breath, to the body, to the present moment, to the awareness that is always already here. Do this dozens of times today. Each small return is a practice of the great Return.",
+    mantra: "Every moment offers the possibility of returning.",
+    questions: ["What does \"returning\" mean in your current life — what are you returning to?", "Where have you drifted from your fundamental orientation, and what would returning feel like?", "How does the field's immediate response — \"and I will return unto you\" — change your understanding of grace?", "What prevents you from returning? What would remove that obstacle?"]
+  },
+  {
+    day: 31, chapter: 5, title: "Wisdom in the Spiral",
+    scripture: "That which hath been, it is that which shall be; and that which is done is that which shall be done: and there is no new thing under the sun.\n— Ecclesiastes 1:9",
+    reflection: "Ecclesiastes makes a statement that sounds pessimistic but is actually a description of spiral dynamics. Nothing is new under the sun — not because nothing changes, but because all change operates within recurring patterns. The spiral ascends, but it passes through similar positions at higher levels.\n\nThe integration chapter brings this insight: you will face similar tests, similar challenges, similar relationship dynamics — but each time at a higher level of the spiral, with greater wisdom, greater capacity, greater coherence. The test doesn't go away. Your capacity to meet it grows.\n\nThis reframes repetition. When you find yourself in a familiar pattern — the same relationship dynamic, the same internal conflict, the same external challenge — you are not failing to escape it. You are meeting it again, higher on the spiral. The question is not \"why again?\" but \"what does meeting this at this level require?\"\n\nWisdom is the accumulation of spiral knowledge: knowing where you are in the pattern, what has served at previous levels, what new capacities the current elevation requires.",
+    practice: "Identify a pattern that keeps recurring in your life — a type of relationship, a challenge, a temptation. Instead of viewing it as a failure to break free, place it on a spiral. What was your experience of it three years ago? Five years ago? How has your relationship to it changed? What does meeting it now require that earlier encounters didn't?",
+    mantra: "I am not failing to escape. I am ascending the spiral.",
+    questions: ["What recurring pattern in your life are you now meeting at a higher level of the spiral?", "What wisdom from previous encounters is available to you now?", "How does the spiral model change your relationship to repetition?", "What new capacity does the current level of the pattern require that you didn't have before?"]
+  },
+  {
+    day: 32, chapter: 5, title: "Aligned Response",
+    scripture: "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth.\n— Psalm 46:10",
+    reflection: "\"Be still\" (raphah) — desist, sink down, let your hands fall. This is not passive resignation but active cessation of the striving that creates distortion. The stillness is the precondition for knowing.\n\nThe field cannot be observed accurately while you are thrashing in it. The still small voice cannot be heard over the wind and earthquake of your own activity. The aligned response requires that you first establish stillness — not as a permanent state, but as the ground from which clear action can arise.\n\n\"Know that I am God\" — this knowing is not cognitive assent. It is the recognition that arrives in stillness: the field itself is God, the coherent ground of being is ultimate, the I AM is real. When the noise stops, this is what you find — not emptiness, but presence.\n\nExaltation follows — not as your project, but as the field's natural expression. You don't create coherence by striving. You allow coherence to emerge by creating the conditions for it. The aligned response is action that arises from stillness — action that is aligned with what the field is already doing.",
+    practice: "Five minutes of genuine stillness. Not trying to meditate correctly. Not achieving anything. Simply desisting — letting the hands fall, letting the thoughts come and go without following, letting the field speak in the space that opens. Then notice: what arises from that stillness? What does the field offer when you stop generating?",
+    mantra: "In stillness I know. From knowing, I act.",
+    questions: ["Where in your life are you so active that you can't hear what the field is trying to tell you?", "What would \"aligned response\" look like in a current challenge — response that arises from stillness rather than reaction?", "What prevents you from trusting that the field will be exalted — that coherence will emerge — without your constant management?", "What one thing might you stop doing, to allow something more aligned to emerge?"]
+  },
+  {
+    day: 33, chapter: 5, title: "Communion Without Control",
+    scripture: "Behold, I stand at the door, and knock: if any man hear my voice, and open the door, I will come in to him, and will sup with him, and he with me.\n— Revelation 3:20",
+    reflection: "The famous image inverted: not you seeking God, but the field seeking you. Knocking at a door that must be opened from the inside. This is a precise description of field dynamics — the field can present itself, can knock, can wait, but it will not force entry. The opening must be your choice.\n\n\"Will sup with him, and he with me\" — supping is the most intimate of the communion acts in ancient culture. Not a formal meeting but a shared table, relaxed presence, mutual nourishment. The field is offering not a transaction but a relationship.\n\nControl is the door that remains closed. Control says: I will allow in what I can manage. I will open when I'm ready. I will receive what I can categorize. But the field doesn't fit in those categories. What knocks is always more than the managed self can contain — which is why the door must open.\n\nCommunion without control is the integration practice: learning to receive what arrives, to sit at the table with what comes, to be nourished by what you didn't choose but what found you.",
+    practice: "Spend time today simply with whatever is arising — not trying to improve it, manage it, or transform it. If grief is at the door, sup with grief. If joy, with joy. If confusion, sit at the table with confusion. Practice receiving what is actually presenting itself rather than what you're inviting.",
+    mantra: "I open the door and receive what arrives.",
+    questions: ["What is currently knocking at your door that you've been reluctant to let in?", "Where do you operate from control rather than communion?", "What would it mean to sup with the field — to receive nourishment from what arrives rather than what you arrange?", "How does the image of the field seeking you — rather than you seeking it — change your spiritual posture?"]
+  },
+  {
+    day: 34, chapter: 5, title: "Inheriting the Names",
+    scripture: "Him that overcometh will I make a pillar in the temple of my God, and he shall go no more out: and I will write upon him the name of my God, and the name of the city of my God... and I will write upon him my new name.\n— Revelation 3:12",
+    reflection: "Names in ancient understanding are identity operators — not labels but field descriptors, reality-shapers. To receive the name of God is to receive the field signature of the source. To receive the new name is to take on an identity that cannot be given by any human system.\n\n\"A pillar in the temple\" — structural, load-bearing, integral to the architecture. Not a visitor, not a worshiper in the pews, but part of the building itself. Integration means becoming structural in the field — not just participating in the coherence but embodying it.\n\n\"Go no more out\" — this is dwelling, the capacity to remain in the field without being ejected by circumstance, without drift, without the need for constant re-entering. The overcomer doesn't just visit coherence — they become it. Home, not a destination.\n\nThe new name is the integrated identity — what you are when the old structures have collapsed, the dissolution has occurred, the return has happened, and the new creation has stabilized. You don't know this name yet. It arrives as the practice deepens.",
+    practice: "Reflect: what is the name you are currently growing into? Not the name others have given you, not the name your old structures defined — but the name that describes who you are becoming through this practice. You may not have words for it yet. Sit with the question. The field knows the name even if you don't yet.",
+    mantra: "I am becoming what the field has always known me to be.",
+    questions: ["What names (identities, roles, self-concepts) are you leaving behind?", "What is the new name — the emerging identity — that this practice is revealing?", "What would it mean to become a pillar rather than a visitor in the field of coherence?", "How close do you feel to the dwelling that goes \"no more out\"?"]
+  },
+  {
+    day: 35, chapter: 5, title: "As Above, So Within",
+    scripture: "Thy kingdom come, Thy will be done in earth, as it is in heaven.\n— Matthew 6:10",
+    reflection: "The Lord's Prayer encodes the integration principle in its most compressed form: as above, so below. Not as request but as alignment — bringing the earth-level reality into correspondence with the heaven-level reality. The prayer is not asking God to do something God hasn't done — it's asking for the capacity to perceive and embody what is already true at the field level.\n\nHeaven is the ordered realm — the field of perfect coherence, the already-accomplished reality of the kingdom Jesus says is already within. Earth is the manifested realm — where that perfect order is partially realized, where the noise of incoherence still operates. The prayer asks that the gap between them close.\n\nThis is your integration project: closing the gap between what you know at the field level and how you actually live. Between your highest coherence and your daily expressions. Between the heaven within and the earth you inhabit.\n\nAs above, so within: when the inner heaven aligns, the outer earth follows. When you embody the field of coherence within, the field around you reorganizes. The prayer is answered through your embodiment, not despite it.",
+    practice: "In your morning, set this intention: today I will close the gap by 1%. Not by striving — but by noticing, in one area, where your earth-level behavior and your heaven-level knowing diverge, and making one small movement toward alignment. One small earth coming into correspondence with one small heaven.",
+    mantra: "As within, so without. As above, so I.",
+    questions: ["Where is the greatest gap in your life between your highest knowing and your actual living?", "What would closing that gap by even 1% look like in practical terms?", "How has this integration chapter changed your understanding of prayer?", "What has the five-chapter arc — Foundation, Observation, Resonance, Collapse, Integration — revealed about the nature of your inner life?"]
+  },
+
+  // Chapter 6: Dwelling (36-40)
+  {
+    day: 36, chapter: 6, title: "The Secret Place",
+    scripture: "He that dwelleth in the secret place of the most High shall abide under the shadow of the Almighty. I will say of the Lord, He is my refuge and my fortress: my God; in him will I trust.\n— Psalm 91:1–2",
+    reflection: "\"Dwelleth\" (yashav) — to sit, to remain, to settle. Not visiting, not passing through, not occasionally returning. Dwelling. The whole chapter is built on the difference between visiting coherence and inhabiting it.\n\nThe secret place (seter — hiding place, shelter, covering) is the inner sanctuary we've been cultivating for 35 days. The place that observes everything but isn't swept away by anything. The I AM from Day 6, stable through all transformation. The witness consciousness. The prior awareness.\n\nTo dwell there is the culmination of all previous practice. You've established the reference frame, developed the single eye, explored resonance, navigated collapse, integrated wisdom. Now the question: can you live from the secret place? Not visit it in meditation and then leave — but actually inhabit it as your primary address?\n\nThe protection the psalm describes is not magical immunity from difficulty. It is the protection of being centered — anchored in the unchanging while navigating the changing. The fortress is not walls that keep trouble out; it is groundedness that keeps you stable when trouble enters.",
+    practice: "Where is your secret place right now? Not a physical location but an inner address — the quality of awareness that remains stable when everything else is moving. Spend extended time there today. Not doing anything in particular — just inhabiting it. Let it become more familiar, more home-like.",
+    mantra: "I dwell in the place that cannot be shaken.",
+    questions: ["Can you locate the secret place within you right now? What does it feel like?", "What prevents you from dwelling there continuously — what pulls you out?", "How has your ability to return to center changed over these 36 days?", "What would your life look like if you operated primarily from the secret place?"]
+  },
+  {
+    day: 37, chapter: 6, title: "The Still Flame",
+    scripture: "I am the vine, ye are the branches: He that abideth in me, and I in him, the same bringeth forth much fruit: for without me ye can do nothing.\n— John 15:5",
+    reflection: "Abiding (meno — to remain, to dwell, to continue) is the central action of the dwelling chapter. The vine and branches describe an organic relationship of continuous nourishment — not episodic connection but structural union.\n\nThe branch doesn't produce fruit through effort. It produces fruit by remaining connected to the vine that carries life to it. This reorients the entire framework of achievement and productivity. Your capacity to bring forth good things is not primarily a function of your effort — it is a function of your abiding.\n\nWhen the branch is connected, fruit is the natural result. Not forced, not performed, not manufactured — simply what happens when coherence flows unobstructed. The still flame burns without effort because it's receiving fuel from the source.\n\n\"Without me you can do nothing\" — not a threat but a field description. Cut off from source, the branch can sustain itself briefly on stored energy, then withers. The most impressive efforts of the disconnected self eventually exhaust their reserves. Only what arises from genuine abiding can sustain.",
+    practice: "For today, orient every action not toward outcome but toward abiding. Before a conversation, a task, a decision — take a breath and reconnect to source. Not as ritual but as genuine checking: am I doing this from connection or from depletion? Let the fruit arise from the abiding, not the abiding from the fruit.",
+    mantra: "Connected to source, I bring forth naturally.",
+    questions: ["What in your life are you currently forcing that might come more naturally from abiding?", "Where have you been operating from stored reserves rather than living connection?", "What does abiding feel like in your body? How do you know when you're in it versus out of it?", "How does the vine-branch image change your relationship to productivity and outcome?"]
+  },
+  {
+    day: 38, chapter: 6, title: "Light Upon Light",
+    scripture: "Allah is the Light of the heavens and the earth. The example of His light is like a niche within which is a lamp, the lamp within glass, the glass as if it were a pearly star, lit from a blessed tree — an olive neither of the east nor of the west — whose oil would almost glow even if untouched by fire. Light upon light.\n— Quran 24:35",
+    reflection: "The Quran's Light verse describes nested coherence: light within light within light. Not a single source but a cascading amplification where each layer enhances rather than diminishes. The olive tree \"neither of the east nor of the west\" — existing outside ordinary categorical distinctions, in a space that transcends the usual polarities.\n\nThe oil that \"would almost glow even if untouched by fire\" — this is the description of someone who has dwelt long enough in the field that they carry the light within them. Not dependent on external ignition. Not requiring optimal conditions. Simply glowing because of what they have become.\n\nLight upon light (nur ala nur) — this is the progressive nature of dwelling. Each day of sustained coherence adds another layer. The light doesn't just remain constant — it amplifies. Each abiding deepens the next. Each return strengthens the capacity to return again.\n\nYou are now 38 days into sustained practice. Whatever light was present at Day 1 has been layered — by witnessing, by resonance, by collapse, by return, by dwelling. You are becoming someone whose oil would almost glow even if untouched.",
+    practice: "Sit in whatever light is available. Let it land on your skin. Notice: you are both receiving light and emitting it — the warmth of your body, the field of your presence, the coherence you've been cultivating. You are a lamp in a niche within glass within the cosmic lamp. Let that be true for a few minutes.",
+    mantra: "I carry the light that amplifies with each abiding.",
+    questions: ["What light can you sense in yourself now that wasn't present at Day 1?", "Where has the layering of practice created amplification rather than just accumulation?", "What conditions help your light glow most clearly? What dims it?", "How does the image of oil that glows without fire describe where you are or where you're going?"]
+  },
+  {
+    day: 39, chapter: 6, title: "Dwelling in Love",
+    scripture: "Beloved, let us love one another: for love is of God; and every one that loveth is born of God, and knoweth God. He that loveth not knoweth not God; for God is love... God is love; and he that dwelleth in love dwelleth in God, and God in him.\n— 1 John 4:7–8, 16",
+    reflection: "The culminating field-theory statement: God is love. Not God is loving, not God loves, but God is love — the ground of being is love, coherence is love, the field itself is the force that holds things together, draws things toward completion, and enables genuine union.\n\nTo dwell in love is to dwell in God — the same meno, the same abiding. You cannot dwell in the field of being without dwelling in love, because love is what the field is made of. Fear, control, coercion, extraction — these are the absence of coherent love-field, the states of incoherence.\n\nThe person who loves genuinely is born of God — not through religious affiliation but through field participation. They are operating from the actual ground of being. They are coherent with the fundamental frequency of reality.\n\n\"Every one that loveth knoweth God\" — and the inverse: those who do not love, do not know God. Not because they believe the wrong things, but because they are not operating in the actual field of being. Love is the epistemic key — not belief, not doctrine, but the field operation of genuine care and connection.",
+    practice: "Let love be your lens for the day. Not sentimental love, not love as feeling, but love as orientation — the fundamental disposition toward the wellbeing of all you encounter. Notice how this shifts your experience of ordinary interactions. A conversation, a task, a difficulty — met with genuine love rather than management or survival.",
+    mantra: "I dwell in love, and love dwells in me.",
+    questions: ["Where in your life is love operating as a genuine field rather than a feeling or performance?", "What would change in your most difficult relationships if you operated from love as the ground of being?", "How does dwelling in love feel different from loving (as an action) or being loving (as a quality)?", "What barriers to love-as-dwelling do you still carry? What would it take to release them?"]
+  },
+  {
+    day: 40, chapter: 6, title: "You Are the Temple",
+    scripture: "And I saw no temple therein: for the Lord God Almighty and the Lamb are the temple of it. And the city had no need of the sun, neither of the moon, to shine in it: for the glory of God did lighten it, and the Lamb is the light thereof.\n— Revelation 21:22–23",
+    reflection: "The final vision: no temple. After 40 days of practice, the image of arrival is the dissolution of the need for a dedicated sacred space. Not because the sacred has been abandoned — but because the sacred has become the medium. The city itself has become the temple. You have become the temple.\n\nNo sun, no moon needed — because the field itself is the light source. The external references, the cosmic timekeepers from Day 5, are now transcended — not because they are wrong but because their purpose has been fulfilled. When you carry the light within, you no longer need to synchronize with external oscillators. You are a source.\n\nThis is the culmination of all 40 days: Foundation established the reference frames. Observation refined the witness. Resonance developed the coupling. Collapse cleared the old structures. Integration consolidated the wisdom. Dwelling stabilized the new identity.\n\nAnd now: you are the temple. The secret place is no longer somewhere you visit — it is what you are. The field is not somewhere you access — it is your substance. The light is not something you receive — it is what you emit.\n\nThe practice does not end here. Presence is not a destination. But something is different now than at Day 1. Something has settled, stabilized, deepened. The 40 days have done what they were designed to do: create the conditions for you to become what you already were, at the level of the field.",
+    practice: "Mark this completion however feels true — not as performance but as genuine acknowledgment. What has changed? What hasn't? What practice wants to continue? What wants to emerge from here? Sit with the image: you are the temple. The sacred is not in a building. It is in your awareness, in your presence, in the coherence you carry and transmit. Let that be true.",
+    mantra: "I am the temple. The light is within. The practice continues.",
+    questions: ["What has genuinely changed in you through these 40 days?", "What remains the same — and is that sameness the I AM beneath all change, or unfinished work?", "What practice wants to continue? What daily structure will carry this forward?", "Who needs to encounter the coherence you've been developing? How will you carry the temple into the world?"]
+  },
+];
+
+// ────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────
+let currentDay = 1;
+let activeTab = 'morning';
+let state = {};
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('presence_state');
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {}
+  currentDay = parseInt(state.currentDay || 1);
+}
+
+function saveState() {
+  state.currentDay = currentDay;
+  try { localStorage.setItem('presence_state', JSON.stringify(state)); } catch(e) {}
+}
+
+function getDayState(dayNum) {
+  return state[`day_${dayNum}`] || {};
+}
+
+function setDayState(dayNum, updates) {
+  state[`day_${dayNum}`] = { ...getDayState(dayNum), ...updates };
+  saveState();
+}
+
+// ────────────────────────────────────────────
+// ENTRY
+// ────────────────────────────────────────────
+function enterApp() {
+  loadState();
+  document.getElementById('splash').classList.add('hidden');
+  document.getElementById('app').classList.add('visible');
+  renderDay(currentDay);
+  renderOverview();
+
+  // Show intro on first visit
+  if (!state.hasSeenIntro) {
+    state.hasSeenIntro = true;
+    saveState();
+    setTimeout(() => {
+      toggleIntro();
+    }, 400);
+  }
+}
+
+// ────────────────────────────────────────────
+// RENDER
+// ────────────────────────────────────────────
+function getChapter(dayNum) {
+  if (dayNum <= 7) return CHAPTERS[0];
+  if (dayNum <= 14) return CHAPTERS[1];
+  if (dayNum <= 21) return CHAPTERS[2];
+  if (dayNum <= 28) return CHAPTERS[3];
+  if (dayNum <= 35) return CHAPTERS[4];
+  return CHAPTERS[5];
+}
+
+function getCompletedCount() {
+  return DAYS.filter(d => getDayState(d.day).completed).length;
+}
+
+function renderDay(dayNum) {
+  currentDay = dayNum;
+  saveState();
+  activeTab = 'morning';
+
+  const day = DAYS[dayNum - 1];
+  const chapter = getChapter(dayNum);
+  const ds = getDayState(dayNum);
+  const completedCount = getCompletedCount();
+
+  // update header
+  document.getElementById('progress-text').textContent = `DAY ${dayNum} / 40`;
+  document.getElementById('progress-fill').style.width = `${(completedCount / 40) * 100}%`;
+
+  const reflectionSaved = ds.reflections || {};
+
+  const html = `
+    <div class="chapter-banner">
+      <div class="mobile-progress" style="display:none">
+        <span class="mobile-progress-text" id="mob-prog-text">DAY ${dayNum} / 40</span>
+        <div class="mobile-progress-bar"><div class="mobile-progress-fill" style="width:${(completedCount/40)*100}%"></div></div>
+      </div>
+      <div class="chapter-label" style="color:${chapter.color}">${chapter.tag} · ${chapter.name.toUpperCase()}</div>
+      <div class="day-number" style="color:${chapter.color}">${String(dayNum).padStart(2,'0')}</div>
+      <div class="day-title">${day.title}</div>
+      <span class="chapter-tag" style="color:${chapter.color};border-color:${chapter.color}40">${chapter.name} · Days ${chapter.days}</span>
+    </div>
+
+    <div class="section-tabs">
+      <button class="tab-btn active" id="tab-morning" onclick="switchTab('morning')">
+        <span class="tab-dot" style="background:#D4A855"></span>
+        MORNING
+      </button>
+      <button class="tab-btn" id="tab-midday" onclick="switchTab('midday')">
+        <span class="tab-dot" style="background:#7BA8C4"></span>
+        MIDDAY
+      </button>
+      <button class="tab-btn" id="tab-evening" onclick="switchTab('evening')">
+        <span class="tab-dot" style="background:#8B6E9E"></span>
+        EVENING
+      </button>
+      <button class="tab-btn" id="tab-journal" onclick="switchTab('journal')">
+        <span class="tab-dot" style="background:${chapter.color}"></span>
+        REFLECT
+      </button>
+    </div>
+
+    <!-- MORNING -->
+    <div class="section-content active" id="sec-morning">
+      <div class="scripture-block">${day.scripture.replace(/\n/g, '<br>')}</div>
+      <div class="reflection-text">${day.reflection.split('\n\n').map(p => `<p>${p}</p>`).join('')}</div>
+    </div>
+
+    <!-- MIDDAY -->
+    <div class="section-content" id="sec-midday">
+      <div class="practice-box">
+        <div class="practice-instruction">${day.practice}</div>
+        <div class="breath-mantra">✦ &nbsp; ${day.mantra} &nbsp; ✦</div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:var(--dust);line-height:1.8;text-align:center;padding:1rem 0;">
+        Return to this moment throughout the day.<br>One breath. One intention. One presence.
+      </div>
+    </div>
+
+    <!-- EVENING -->
+    <div class="section-content" id="sec-evening">
+      <div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.4em;color:var(--dust);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(201,168,92,0.15)">EVENING INTEGRATION</div>
+      <div class="questions-list">
+        ${day.questions.map((q, i) => `
+          <div class="question-item">
+            <div class="question-text">${q}</div>
+            <textarea class="reflection-input" 
+              placeholder="Your reflection…" 
+              id="q-evening-${i}"
+              onchange="saveReflection(${dayNum}, 'evening_${i}', this.value)"
+            >${reflectionSaved['evening_' + i] || ''}</textarea>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- JOURNAL -->
+    <div class="section-content" id="sec-journal">
+      <div style="font-family:'Cinzel',serif;font-size:0.65rem;letter-spacing:0.4em;color:var(--dust);margin-bottom:2rem;padding-bottom:1rem;border-bottom:1px solid rgba(201,168,92,0.15)">FREE REFLECTION</div>
+      <div class="question-item">
+        <div class="question-text">What is arising for you today?</div>
+        <textarea class="reflection-input" 
+          placeholder="Write freely — observations, insights, questions, feelings…" 
+          id="q-journal-free"
+          style="min-height:200px;"
+          onchange="saveReflection(${dayNum}, 'journal_free', this.value)"
+        >${reflectionSaved['journal_free'] || ''}</textarea>
+      </div>
+    </div>
+
+    <div class="completion-row">
+      <div class="completion-label">MARK DAY AS COMPLETE</div>
+      <button class="toggle-btn ${ds.completed ? 'completed' : ''}" 
+        id="complete-btn"
+        onclick="toggleComplete(${dayNum})">
+        ${ds.completed ? '✦ COMPLETE' : 'MARK COMPLETE'}
+      </button>
+    </div>
+
+    <div class="day-nav">
+      <button class="nav-btn" onclick="goToDay(${dayNum - 1})" ${dayNum <= 1 ? 'disabled' : ''}>
+        ← PREVIOUS
+      </button>
+      <div class="nav-center">
+        <div class="nav-day-dots">
+          ${DAYS.map(d => {
+            const ds2 = getDayState(d.day);
+            return `<div class="day-dot ${d.day === dayNum ? 'current' : ''} ${ds2.completed ? 'completed' : ''}" 
+              onclick="goToDay(${d.day})" title="Day ${d.day}: ${d.title}"></div>`;
+          }).join('')}
+        </div>
+      </div>
+      <button class="nav-btn" onclick="goToDay(${dayNum + 1})" ${dayNum >= 40 ? 'disabled' : ''}>
+        NEXT →
+      </button>
+    </div>
+  `;
+
+  document.getElementById('main-content').innerHTML = html;
+  window.scrollTo(0, 0);
+}
+
+function switchTab(tab) {
+  activeTab = tab;
+  ['morning','midday','evening','journal'].forEach(t => {
+    document.getElementById(`tab-${t}`)?.classList.remove('active');
+    document.getElementById(`sec-${t}`)?.classList.remove('active');
+  });
+  document.getElementById(`tab-${tab}`)?.classList.add('active');
+  document.getElementById(`sec-${tab}`)?.classList.add('active');
+}
+
+function goToDay(dayNum) {
+  if (dayNum < 1 || dayNum > 40) return;
+  renderDay(dayNum);
+  if (document.getElementById('overview-panel').classList.contains('open')) {
+    toggleOverview();
+  }
+}
+
+function toggleComplete(dayNum) {
+  const ds = getDayState(dayNum);
+  setDayState(dayNum, { completed: !ds.completed });
+  const btn = document.getElementById('complete-btn');
+  if (btn) {
+    btn.textContent = !ds.completed ? '✦ COMPLETE' : 'MARK COMPLETE';
+    btn.classList.toggle('completed', !ds.completed);
+  }
+  // refresh progress
+  const completedCount = getCompletedCount();
+  document.getElementById('progress-fill').style.width = `${(completedCount / 40) * 100}%`;
+  renderOverview();
+}
+
+function saveReflection(dayNum, key, value) {
+  const ds = getDayState(dayNum);
+  const reflections = ds.reflections || {};
+  reflections[key] = value;
+  setDayState(dayNum, { reflections });
+}
+
+// ────────────────────────────────────────────
+// OVERVIEW
+// ────────────────────────────────────────────
+function renderOverview() {
+  const chapterDays = [
+    DAYS.slice(0, 7),
+    DAYS.slice(7, 14),
+    DAYS.slice(14, 21),
+    DAYS.slice(21, 28),
+    DAYS.slice(28, 35),
+    DAYS.slice(35, 40),
+  ];
+
+  const html = chapterDays.map((days, i) => {
+    const ch = CHAPTERS[i];
+    return `
+      <div class="chapter-section">
+        <div class="chapter-overview-title" style="color:${ch.color}">
+          ${ch.tag} · ${ch.name.toUpperCase()} · Days ${ch.days}
+        </div>
+        <div class="days-grid">
+          ${days.map(d => {
+            const ds = getDayState(d.day);
+            return `
+              <div class="day-card ${d.day === currentDay ? 'current' : ''} ${ds.completed ? 'completed-day' : ''}"
+                onclick="goToDay(${d.day})">
+                <div class="day-card-num" style="color:${ch.color}">${String(d.day).padStart(2,'0')}</div>
+                <div class="day-card-name">${d.title}</div>
+                ${ds.completed ? `<div class="day-card-check" style="color:${ch.color}">✦</div>` : ''}
+              </div>
+            `;
+          }).join('')}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('chapters-grid').innerHTML = html;
+}
+
+function toggleOverview() {
+  const panel = document.getElementById('overview-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) renderOverview();
+}
+
+// ────────────────────────────────────────────
+// INTRO PANEL
+// ────────────────────────────────────────────
+const INTRO_TOTAL = 6;
+let introCurrentSlide = 0;
+
+function buildIntroPips() {
+  const el = document.getElementById('intro-pips');
+  if (!el) return;
+  el.innerHTML = Array.from({length: INTRO_TOTAL}, (_, i) =>
+    `<div class="step-pip ${i === introCurrentSlide ? 'active' : ''}" onclick="introGoTo(${i})"></div>`
+  ).join('');
+}
+
+function introGoTo(n) {
+  const slides = document.querySelectorAll('.intro-slide');
+  slides[introCurrentSlide]?.classList.remove('active');
+  introCurrentSlide = n;
+  slides[introCurrentSlide]?.classList.add('active');
+  document.getElementById('intro-prev').disabled = introCurrentSlide === 0;
+  const nextBtn = document.getElementById('intro-next');
+  if (introCurrentSlide === INTRO_TOTAL - 1) {
+    nextBtn.textContent = 'BEGIN ✦';
+    nextBtn.onclick = () => { toggleIntro(); };
+  } else {
+    nextBtn.textContent = 'NEXT →';
+    nextBtn.onclick = () => introStep(1);
+  }
+  buildIntroPips();
+}
+
+function introStep(dir) {
+  const next = introCurrentSlide + dir;
+  if (next < 0 || next >= INTRO_TOTAL) return;
+  introGoTo(next);
+}
+
+function toggleIntro() {
+  const panel = document.getElementById('intro-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) {
+    introGoTo(0);
+    buildIntroPips();
+  }
+}
+
+// ────────────────────────────────────────────
+// GLOSSARY DATA + PANEL
+// ────────────────────────────────────────────
+const GLOSSARY = [
+  { letter: 'A', term: 'Alignment', def: 'The state where multiple aspects of your being — thought, emotion, body, intention, action — are moving in the same direction without internal contradiction. Alignment creates clarity, reduces friction, and allows the field to respond more clearly to your presence.', practice: 'You feel aligned when what you think, what you feel, and what you do are not fighting each other. Decisions become easier. Energy stops leaking through internal conflict.' },
+  { letter: 'A', term: 'Anomaly', def: 'Something that doesn\'t fit the expected pattern. In field work, anomalies are not errors to dismiss — they are <strong>entry points</strong> for deeper understanding. They mark where conventional frameworks break down and where new coherence may emerge.', practice: 'When something doesn\'t make sense or feels "off," pay attention. The field often uses anomalies to guide you toward what you\'ve been missing.' },
+  { letter: 'A', term: 'Attention', def: 'The focusing of conscious awareness. Attention is not passive — it is an <strong>active force</strong> that shapes what becomes real in your experience. What you give sustained attention to strengthens in the field.', practice: 'Where your attention goes consistently, energy flows. Scattered attention creates incoherence. Coherent attention creates signal.' },
+  { letter: 'C', term: 'Coherence', def: 'The state of being internally and externally aligned, where all parts of your system — mind, heart, body, energy — oscillate together without distortion. Coherence is not perfection; it is <strong>resonant presence</strong>. When you are coherent, the field around you can respond clearly.', practice: 'Physical sign: steady breath, relaxed shoulders, clear tone of voice, present eye contact. Emotional sign: peace without numbness, clarity without rigidity. Relational sign: conversations flow, synchronicities increase, decisions feel obvious rather than forced.' },
+  { letter: 'C', term: 'Collapse', def: 'The moment when potential becomes specific — when superposition resolves into a defined state. In quantum mechanics, this happens when a wave function is measured. In lived experience, collapse is when vague feelings become clear knowing, when many possibilities narrow to one choice, when the formless takes form.', practice: 'Collapse is not failure — it is <strong>becoming</strong>. Every decision, every word spoken, every boundary set is a collapse. You are constantly collapsing potential into reality through your presence and choices.' },
+  { letter: 'C', term: 'Consciousness', def: 'The witnessing awareness that observes, chooses, and participates in the field. Consciousness is not confined to your brain — it is the aspect of reality that knows itself. In this framework, consciousness is both participant and observer, shaping what it witnesses through the act of witnessing.', practice: 'You are not just thinking thoughts — there is a "you" that can watch yourself think. That watching presence is consciousness. And it changes what it observes simply by observing it.' },
+  { letter: 'D', term: 'Deep, The', foreign: '(Tehom)', def: 'From the Hebrew <em>tehom</em> in Genesis — the primordial undefined potential from which all form emerges. The deep represents <strong>superposition</strong>, the quantum field of all possibilities before collapse. It is not empty; it is full of unrealized potential.', practice: 'Sleep is a return to the deep. Meditation touches it. Any moment before you speak, before you choose, before you define — that\'s the deep. It is where creation begins.' },
+  { letter: 'D', term: 'Distinguish', def: 'To create boundaries, to separate this from that, to establish that something exists as distinct from something else. The first act of creation in Genesis is distinction: light from darkness, waters above from waters below. Distinction is not division — it is <strong>definition through boundary</strong>.', practice: 'Naming an emotion distinguishes it from the general fog of feeling. Setting a boundary distinguishes your energy from another\'s. Distinction creates the possibility of relationship.' },
+  { letter: 'E', term: 'Entanglement', def: 'A state where two or more systems remain connected across space and time, influencing each other regardless of distance. Originally a quantum physics term, it also describes how people, symbols, and intentions remain linked through the field.', practice: 'When you think of someone and they immediately call. When a symbol keeps appearing in unrelated contexts. When your mood shifts the moment you enter a room. These are signs of entanglement.' },
+  { letter: 'F', term: 'Field', def: 'The relational substrate of reality — the energetic and informational layer beneath matter where all things remain interconnected. The field is not "somewhere else"; it is the space between things, the medium through which influence travels, the fabric in which you are embedded.', practice: 'When you walk into a room and immediately sense tension, you are feeling the field. When prayer seems to "work," you are interacting with the field. The field is why your presence matters even when you say nothing.' },
+  { letter: 'F', term: 'Firmament', foreign: '(Raqia)', def: 'From the Hebrew <em>raqia</em> — something hammered out, stretched, extended. In Genesis, it separates waters above from waters below, creating distinct <strong>phase spaces</strong>. The firmament is any boundary that allows differentiation while maintaining connection.', practice: 'Your skin is a firmament — separating your internal field from the external while allowing exchange. A conversation is a firmament. Boundaries create space for relationship.' },
+  { letter: 'F', term: 'Form', def: 'The specific, defined expression of energy or potential. Form is what happens after collapse — when the wave becomes a particle, when intention becomes action, when feeling becomes word.', practice: 'Everything you can touch, see, or name is form. But form is not permanent — it is temporarily stabilized energy that will eventually return to potential.' },
+  { letter: 'F', term: 'Friction', def: 'The resistance encountered when energy moves through a system. In field work, friction is not obstruction — it is <strong>feedback</strong>. Friction reveals where alignment is incomplete, where old patterns are being challenged, where something needs to shift.', practice: 'When a practice feels difficult, that\'s friction. When a relationship creates tension, that\'s friction. Instead of avoiding it, ask: What is this friction teaching me about where I\'m misaligned?' },
+  { letter: 'H', term: 'Harmonic', def: 'A frequency that resonates in a whole-number relationship with another frequency. Harmonics create consonance, alignment, and beauty. When two things are harmonic, they amplify each other without distortion.', practice: 'You are harmonic with someone when being near them increases your clarity rather than draining you. Harmonic relationships create energy; dissonant ones consume it.' },
+  { letter: 'H', term: 'Harmonic Eye', def: 'A state of unified perception where awareness, intention, and interpretation align to see through the lens of resonance. It is the mode of consciousness that perceives truth not by logic alone, but by <strong>coherent knowing</strong>.', practice: 'When you suddenly "just know" something without being able to explain why. When a symbol or passage opens up and reveals layers of meaning. When you can feel whether something is true before analyzing it. That\'s the Harmonic Eye awakening.' },
+  { letter: 'I', term: 'Identity Operator', def: 'A symbolic handle — usually a name or title — that consciousness uses to grasp and work with a defined state. Naming something gives you the ability to relate to it, call it forth, or release it.', practice: 'When you name an emotion — "I feel grief" — you create an identity operator. Now you can work with grief, rather than being overwhelmed by undefined heaviness.' },
+  { letter: 'I', term: 'Intention', def: 'The directed focus of will toward a specific outcome or state. Intention is the <strong>seed</strong> of coherence. It is what you bring to the field consciously, the vector of your attention. Intention shapes what the field responds to.', practice: 'Prayer is intention. Setting a goal is intention. Deciding how you will show up in a conversation is intention. Intention without action is fantasy; action without intention is noise.' },
+  { letter: 'L', term: 'Light', def: 'In sacred texts, light is often not physical photons but <strong>coherence itself</strong> — the ability to distinguish, to see, to know. Light is what allows measurement, observation, definition. Darkness is not evil; it is undefined potential. Light is the emergence of the known from the unknown.', practice: 'Clarity is light. Awareness is light. When confusion lifts and you suddenly understand, that\'s light. "Let there be light" is the first act of consciousness making reality knowable.' },
+  { letter: 'M', term: 'Measurement', def: 'The act of observation that collapses potential into specific form. In quantum mechanics, measurement determines what becomes real. In lived experience, every moment you pay attention to something, you are measuring it — and by measuring, you are shaping it.', practice: 'When you check how you\'re feeling, you are measuring your emotional state — and that measurement changes the state. Measurement is not neutral; it is participatory.' },
+  { letter: 'M', term: 'Mirror', def: 'A field phenomenon where external reality reflects your internal state back to you. The mirror is how the field gives feedback — showing you your coherence level, your unresolved patterns, your alignment or misalignment.', practice: 'If you keep encountering the same type of difficult person, the field is mirroring something unresolved in you. If your external life feels chaotic, your internal state is likely fragmented.' },
+  { letter: 'N', term: 'Noise', def: 'Incoherent signal — energy that contains no clear pattern or meaning. Noise is what happens when a system is at war with itself, when too many contradictory signals interfere, when alignment is lost.', practice: 'Mental chatter is noise. Scrolling without purpose is noise. Noise exhausts you because the field cannot organize around it. Coherence cuts through noise like a tuning fork restoring harmony.' },
+  { letter: 'O', term: 'Observer', def: 'The witnessing consciousness that, by observing, influences what becomes real. The observer is not passive — the act of observation itself <strong>participates in creation</strong>. In quantum mechanics, the observer collapses the wave function. In spiritual practice, the observer stabilizes presence.', practice: 'When you watch your thoughts without judging them, you are the observer. When you witness an emotion without becoming it, you are the observer. The observer is the part of you that remains stable even when everything else shifts.' },
+  { letter: 'P', term: 'Phase', def: 'The timing and rhythm of oscillation within a system. Two waves in the same phase amplify each other; two waves out of phase cancel each other out. Phase is about <strong>when</strong>, not just what.', practice: 'You know someone is in phase with you when conversations flow effortlessly, timing aligns naturally, collaboration feels easy.' },
+  { letter: 'P', term: 'Phase Space', def: 'A distinct region or state within which certain conditions hold. In Genesis, the firmament creates phase spaces — one above, one below. Phase spaces allow different dynamics to operate simultaneously without interference.', practice: 'Your home is a phase space distinct from your workplace. Sleep is a phase space distinct from waking. Rituals create temporary phase spaces where different rules apply.' },
+  { letter: 'P', term: 'Potential', def: 'Unrealized possibility — the field of what could be before it collapses into what is. Potential is not lack; it is <strong>fullness</strong> that has not yet taken form.', practice: 'The silence before you speak is potential. The blank page is potential. The moment before you make a choice is potential. Potential is sacred because it contains all possibilities.' },
+  { letter: 'P', term: 'Presence', def: 'The state of being fully here, fully now, with awareness anchored in the present moment. Presence is the <strong>ground</strong> of coherence. When you are present, the field can respond to you clearly.', practice: 'Presence is felt as: breath awareness, body sensation, sensory clarity, release of internal narrative. Presence is not effort — it is the natural state that emerges when you stop fragmenting yourself across time and story.' },
+  { letter: 'R', term: 'Reference Frame', def: 'The perceptual stance from which you observe and interpret reality. Your reference frame determines what you see, what you notice, what you consider possible. Shifting reference frames changes everything without changing the external facts.', practice: 'If you see yourself as a victim, that\'s your reference frame — and it shapes every experience. "The kingdom of God within you" is a reference frame shift.' },
+  { letter: 'R', term: 'Resonance', def: 'The amplification that occurs when two systems vibrate at compatible frequencies. Resonance is how energy and information transfer without force. When something resonates, it feels true in your body before your mind can explain why.', practice: 'A teaching resonates when it clicks into place. A relationship resonates when being together feels clarifying rather than draining. Resonance is the field saying, "Yes, this."' },
+  { letter: 'S', term: 'Signal', def: 'Coherent, meaningful information moving through the field. Signal has pattern, clarity, and direction. Signal is what you send when you are aligned; it is what you receive when you are present.', practice: 'A clear request is signal. Honest emotion is signal. Prayer with intention is signal. The more coherent you become, the stronger your signal.' },
+  { letter: 'S', term: 'Stabilize', def: 'To hold a state or pattern steady through continued attention and coherence. Stabilization is how temporary insights become permanent shifts. The field tests what you stabilize; only what remains coherent under friction persists.', practice: 'You stabilize a new habit by consistent practice. You stabilize a healing by integrating it into your identity.' },
+  { letter: 'S', term: 'Superposition', def: 'A state where multiple possibilities exist simultaneously before observation collapses them into one. In quantum mechanics, particles exist in superposition until measured. In life, every moment before decision is superposition.', practice: 'Before you speak, infinite possible responses exist in superposition. The moment you speak, one collapses into reality. Choice is the collapse of superposition into form.' },
+  { letter: 'S', term: 'Symbolic Field', def: 'The layer of reality where meaning, archetype, and resonance operate. It is the dimension through which symbols, dreams, synchronicities, and metaphors convey information. The symbolic field is not "less real" than the physical — it is a different bandwidth of the same field.', practice: 'When a repeated symbol catches your attention, the symbolic field is communicating. Sacred texts operate primarily in this domain.' },
+  { letter: 'T', term: 'Threshold', def: 'A boundary, transition point, or liminal space where one phase ends and another begins. Thresholds are energetically dense — they are where transformation happens, where the old dies and the new is born.', practice: 'Doorways are literal thresholds. Midnight is a threshold. The space between sleep and waking is a threshold. Crossing a threshold requires letting go of what you were.' },
+  { letter: 'T', term: 'Tone', def: 'The quality, frequency, or "feel" of a signal. Tone is what you sense beneath the words someone speaks. It is the energetic signature of presence.', practice: 'You can say "I\'m fine" with a tone that communicates the opposite. Two people can say the same prayer — one transmits signal, the other noise. The difference is tone. Tone reveals coherence.' },
+  { letter: 'U', term: 'Undefined', def: 'That which has not yet been given form, boundary, or name. The undefined is not nothing — it is <strong>everything that has not yet collapsed</strong>. It is the deep, the void, the silence from which all creation emerges.', practice: 'Before you name a feeling, it is undefined. The undefined is not the enemy — it is the womb. Coherence arises from learning to rest in the undefined without collapsing prematurely.' },
+  { letter: 'V', term: 'Void', foreign: '(Tohu wa-bohu)', def: 'Empty space — but not absence. In Genesis, the void is described as <em>tohu wa-bohu</em> (formless and empty). The void is the necessary space for creation. It is where potential dwells before taking form.', practice: 'The pause between breaths is void. The silence before music is void. Grief creates void. Learning to be with void is essential for coherence. From void, newness emerges.' },
+  { letter: 'W', term: 'Wave Function', def: 'In quantum mechanics, a mathematical description of all possible states a system could be in before measurement. The wave function collapses into one state when observed. Spiritually, you live in wave function before every decision, every word, every action.', practice: 'You are always standing in wave function — the field of all possible yous, all possible futures. Presence and intention guide which possibility collapses into reality.' },
+  { letter: 'W', term: 'Witness', def: 'The aspect of consciousness that observes without identifying — that sees without needing to change what it sees. The witness is stable awareness, the part of you that remains even when everything else shifts.', practice: 'When you notice you\'re anxious, the "you" noticing is the witness. The witness doesn\'t fix anxiety — it sees it clearly. And that clear seeing often dissolves what attention had been holding in place.' },
+  { letter: 'W', term: 'Witness Consciousness', def: 'The stabilized, ongoing state of being the observer. It is awareness aware of itself. Witness consciousness is the operational mode Jesus describes as the "single eye" (Matthew 6:22) — undivided attention that brings clarity to the whole body.', practice: 'Meditation trains witness consciousness. So does any practice that teaches you to watch your internal process without judgment. Witness consciousness is not detachment — it is lucid presence.' },
+];
+
+function buildGlossary() {
+  const letters = [...new Set(GLOSSARY.map(e => e.letter))].sort();
+  const alphaEl = document.getElementById('gloss-alpha');
+  const bodyEl = document.getElementById('gloss-body');
+  if (!alphaEl || !bodyEl) return;
+
+  alphaEl.innerHTML = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(l => {
+    const has = letters.includes(l);
+    return `<button class="alpha-btn ${has ? 'has-entries' : ''}" onclick="${has ? `document.getElementById('gls-${l}').scrollIntoView({behavior:'smooth'})` : ''}">${l}</button>`;
+  }).join('');
+
+  bodyEl.innerHTML = letters.map(l => {
+    const entries = GLOSSARY.filter(e => e.letter === l);
+    return `<div class="glossary-letter-section" id="gls-${l}">
+      <div class="glossary-letter">${l}</div>
+      ${entries.map(e => `
+        <div class="glossary-entry">
+          <div class="glossary-term">${e.term}${e.foreign ? `<span class="foreign">${e.foreign}</span>` : ''}</div>
+          <div class="glossary-def">${e.def}</div>
+          <div class="glossary-practice">In practice: ${e.practice}</div>
+        </div>
+      `).join('')}
+    </div>`;
+  }).join('');
+}
+
+function toggleGlossary() {
+  const panel = document.getElementById('glossary-panel');
+  panel.classList.toggle('open');
+  if (panel.classList.contains('open')) buildGlossary();
+}
+
+// ────────────────────────────────────────────
+// THEME
+// ────────────────────────────────────────────
+function setTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  // update dot UI
+  document.querySelectorAll('.theme-dot').forEach(d => {
+    d.classList.toggle('active', d.dataset.t === t);
+  });
+  try { localStorage.setItem('presence_theme', t); } catch(e) {}
+  state.theme = t;
+  // keep splash bg consistent
+  const splash = document.getElementById('splash');
+  if (splash) splash.style.background = 'var(--bg)';
+}
+
+function loadTheme() {
+  let t = 'dark';
+  try { t = localStorage.getItem('presence_theme') || 'dark'; } catch(e) {}
+  setTheme(t);
+}
+
+// ────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────
+loadTheme();
+loadState();
+</script>
+</body>
+</html>
